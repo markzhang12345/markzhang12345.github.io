@@ -157,6 +157,7 @@
 <h2 id="模块初始化"><a href="#模块初始化" class="headerlink" title="模块初始化"></a>模块初始化</h2><p>若一个模块在一段JS代码中被反复的<code>require</code>,其只在第一次载入时进行一次初始化。之后无论导入出的对象或者函数名是否变化，其中的变量不再进行初始化。</p>
 <h3 id="二进制模块-暂时不重要"><a href="#二进制模块-暂时不重要" class="headerlink" title="二进制模块(暂时不重要)"></a>二进制模块(暂时不重要)</h3><p>虽然一般我们使用JS编写模块，但NodeJS也支持使用C&#x2F;C++编写二进制模块。编译好的二进制模块除了文件扩展名是.node外，和JS模块的使用方式相同。虽然二进制模块能使用操作系统提供的所有功能，拥有无限的潜能，但对于前端同学而言编写过于困难，并且难以跨平台使用，因此不在本教程的覆盖范围内。</p>
 <h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>学习链接：<a target="_blank" rel="noopener" href="https://nqdeng.github.io/7-days-nodejs/#1.5">七天学会NodeJS</a></p>
+<div class="aplayer-box" data-url='https://qiniu.sukoshi.xyz/public/music/鹿乃 - アイロニ.mp3' data-name='アイロニ' data-artist='鹿乃' data-cover='https://qiniu.sukoshi.xyz/public/music/鹿乃 - アイロニ.jpg' data-lrc='https://qiniu.sukoshi.xyz/public/music/鹿乃 - アイロニ.lrc' data-lrcType='3' ></div>
 
       </section>
 
@@ -341,6 +342,34 @@
 
   
   <!-- aplayer -->
+
+
+  <!-- aplayer 音频 start -->
+  <link rel="stylesheet" href="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.css">
+  <script type="text/javascript" src="https://unpkg.com/aplayer@1.10.1/dist/APlayer.min.js"></script>
+  <script type="text/javascript">
+    const aplayer = document.querySelectorAll(".aplayer-box");
+    aplayer && initaplayer(aplayer);
+    function initaplayer(els) {
+      let elsArr = Array.from(els);
+      elsArr.forEach(el => {
+        let params = {
+          container: el,
+          audio: { ...el.dataset },
+          theme: "#b7daff",
+          autoplay: false,
+          loop: all,
+          mutex: true,
+        }
+        if (el.dataset.lrc) {
+          params['lrcType'] = 3
+        }
+        new APlayer(params);
+      });
+    }
+  </script>
+  <!-- aplayer 音频 end -->
+  
 
 
 <!-- dplayer -->
