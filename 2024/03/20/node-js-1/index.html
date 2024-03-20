@@ -22,7 +22,7 @@
 
   
 
-  <title>关于 | kpmark的博客</title>
+  <title>Node.js基础 | kpmark的博客</title>
 
   
 
@@ -46,9 +46,9 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://www.dmoe.cc/random.php)"></div>
+    <div class="post-image" style="background-image: url(https://api.r10086.com/%E5%9B%BE%E5%8C%85webp/%E5%8A%A8%E6%BC%AB%E7%BB%BC%E5%90%882/75049436_p0.webp)"></div>
   
 
   <!-- navbar -->
@@ -96,42 +96,106 @@
 
   
   
-
-  
-  
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">关于</h1>
-        
-          <h2 class="title-sub-wrap">想知道些啥？</h2>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">Node.js基础</h1>
+          <h2 class="title-sub-wrap">
+            <strong>kpmark</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2024-03-20T10:45:43.000Z" itemprop="datePublished">2024-03-20</time>
+          </h2>
+          
+          
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E7%AC%94%E8%AE%B0/">📒 笔记</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/web/">🏷️ web</a></li>
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
       
+      
+      
+      
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="作者"><a href="#作者" class="headerlink" title="作者"></a>作者</h1><p>大连理工大学开发区校区软件学院2023级在读</p>
-<p>OurEDA实验室Web方向</p>
-<h1 id="本站"><a href="#本站" class="headerlink" title="本站"></a>本站</h1><p>基于github page 与 hexo ，低技术力。</p>
-<p>知乎<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/60578464" title="使用 Hexo+GitHub 搭建个人免费博客教程（小白向）">傻瓜教程</a></p>
+        <h1 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h1><p>在Node.js中一般将代码合理拆分到不同的文件中，每一个文件就是一个模块，文件路径就是模块名。</p>
+<p>在编写每个模块时，都有<code>require</code>、<code>exports</code>、<code>module</code>三个预先定义好的变量可供使用。</p>
+<h2 id="require"><a href="#require" class="headerlink" title="require"></a>require</h2><p><code>require</code><strong>函数</strong>用于在当前模块中加载别的模块，传入一个模块名，即可返回一个模块作为到处对象。相对路径(<code>./</code>开头)和绝对路径(<code>/</code>开头)均可以作为模块名。</p>
+<p>模块名中的.js可以省略。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let foo1 = require(&#x27;./foo&#x27;);</span><br><span class="line">let foo2 = require(&#x27;./foo.js&#x27;);</span><br><span class="line">let foo3 = require(&#x27;/home/user/foo&#x27;);</span><br><span class="line">let foo4 = require(&#x27;/home/user/foo.js&#x27;);</span><br><span class="line"></span><br><span class="line">// foo1至foo4中保存的是同一个模块的导出对象。</span><br></pre></td></tr></table></figure>
+
+<p>也可以使用<code>require </code>来加载JSON文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let data = require(&#x27;./data.json&#x27;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="exports"><a href="#exports" class="headerlink" title="exports"></a>exports</h2><p><code>exports</code><strong>对象</strong>时当前模块所导出的对象，用来导出公有方法和属性。<code>require</code><strong>函数</strong>载入的就是该模块的<code>exports</code><strong>对象</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">exports.hello = function () &#123;</span><br><span class="line">    console.log(&#x27;Hello World!&#x27;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="module"><a href="#module" class="headerlink" title="module"></a>module</h2><p>通过<code>module</code><strong>对象</strong>可以访问当前对象的相关信息，但是其一般用来替换当前模块的导出对象。例如，一模块导出了一个对象，可以将其替换成一个函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module.exports = function () &#123;</span><br><span class="line">    console.log(&#x27;Hello World!&#x27;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在以上代码中，模块的默认导出被替换成了一个函数。</p>
+<h2 id="模块初始化"><a href="#模块初始化" class="headerlink" title="模块初始化"></a>模块初始化</h2><p>若一个模块在一段JS代码中被反复的<code>require</code>,其只在第一次载入时进行一次初始化。之后无论导入出的对象或者函数名是否变化，其中的变量不再进行初始化。</p>
+<h3 id="二进制模块-暂时不重要"><a href="#二进制模块-暂时不重要" class="headerlink" title="二进制模块(暂时不重要)"></a>二进制模块(暂时不重要)</h3><p>虽然一般我们使用JS编写模块，但NodeJS也支持使用C&#x2F;C++编写二进制模块。编译好的二进制模块除了文件扩展名是.node外，和JS模块的使用方式相同。虽然二进制模块能使用操作系统提供的所有功能，拥有无限的潜能，但对于前端同学而言编写过于困难，并且难以跨平台使用，因此不在本教程的覆盖范围内。</p>
+<h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>学习链接：<a target="_blank" rel="noopener" href="https://nqdeng.github.io/7-days-nodejs/#1.5">七天学会NodeJS</a></p>
 
       </section>
 
       
       
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://api.r10086.com/%E5%9B%BE%E5%8C%85webp/%E8%B5%9B%E9%A9%AC%E5%A8%98%E6%A8%AA%E5%B1%8F%E7%B3%BB%E5%88%971/wallhaven-57ew95.webp"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2024/03/20/homework-week1/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[OurEDA]web-intro</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
 
-      
-      
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+
+  
+  
+
+
+      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -168,6 +232,8 @@
     </div>
   </div>
 </section>
+
+      
 
       
 <section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -225,7 +291,6 @@
     </div>
   </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">
