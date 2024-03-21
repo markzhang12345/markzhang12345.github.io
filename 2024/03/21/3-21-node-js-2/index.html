@@ -172,7 +172,7 @@
 <p>其中部分文件如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/* bin/node-echo */</span><br><span class="line">let argv = require(&#x27;argv&#x27;),</span><br><span class="line">    echo = require(&#x27;../lib/echo&#x27;);</span><br><span class="line">console.log(echo(argv.join(&#x27; &#x27;)));</span><br><span class="line"></span><br><span class="line">/* lib/echo.js */</span><br><span class="line">module.exports = function (message) &#123;</span><br><span class="line">    return message;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/* package.json */</span><br><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;node-echo&quot;,</span><br><span class="line">    &quot;main&quot;: &quot;./lib/echo.js&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>使用<code>node_modules</code>目录直接使用第三方包名加载模块。定义<code>package.json</code>后，将<code>node_echo</code>当作一个包使用。</p>
-<h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>学习链接：<a target="_blank" rel="noopener" href="https://nqdeng.github.io/7-days-nodejs/#1.5">七天学会NodeJS</a></p>
+<h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><p>学习链接：<a target="_blank" rel="noopener" href="https://nqdeng.github.io/7-days-nodejs/#1.5">七天学会NodeJS</a></p>
 
       </section>
 
@@ -231,7 +231,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>5</span>
+        <span>6</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -258,7 +258,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%99%E8%A7%A3%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">模块路径规则解析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8C%85"><span class="toc-number">2.</span> <span class="toc-text">包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#index-js"><span class="toc-number">2.1.</span> <span class="toc-text">index.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#package-json"><span class="toc-number">2.2.</span> <span class="toc-text">package.json</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">命令行程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux"><span class="toc-number">3.1.</span> <span class="toc-text">Linux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#windows"><span class="toc-number">3.2.</span> <span class="toc-text">windows</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E7%9B%AE%E5%BD%95"><span class="toc-number">4.</span> <span class="toc-text">工程目录</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text"></span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%99%E8%A7%A3%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">模块路径规则解析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8C%85"><span class="toc-number">2.</span> <span class="toc-text">包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#index-js"><span class="toc-number">2.1.</span> <span class="toc-text">index.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#package-json"><span class="toc-number">2.2.</span> <span class="toc-text">package.json</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">命令行程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux"><span class="toc-number">3.1.</span> <span class="toc-text">Linux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#windows"><span class="toc-number">3.2.</span> <span class="toc-text">windows</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E7%9B%AE%E5%BD%95"><span class="toc-number">4.</span> <span class="toc-text">工程目录</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5"><span class="toc-number">5.</span> <span class="toc-text">链接</span></a></li></ol>
   </div>
 </section>
 
@@ -289,7 +289,7 @@
       
         <li class="categorys-list-item">
           <a href="/categories/%E6%9D%82%E8%B0%88/">
-            杂谈 (2)
+            杂谈 (3)
           </a>
         </li>
       
@@ -318,7 +318,7 @@
   </div>
   <div class="widget-body">
     <div class="tags-cloud">
-      <a href="/tags/NodeJS/" style="font-size: 15px;" class="tags-cloud-5">NodeJS</a> <a href="/tags/eda/" style="font-size: 10px;" class="tags-cloud-0">eda</a> <a href="/tags/music/" style="font-size: 15px;" class="tags-cloud-5">music</a> <a href="/tags/web/" style="font-size: 20px;" class="tags-cloud-10">web</a>
+      <a href="/tags/NodeJS/" style="font-size: 15px;" class="tags-cloud-5">NodeJS</a> <a href="/tags/eda/" style="font-size: 10px;" class="tags-cloud-0">eda</a> <a href="/tags/music/" style="font-size: 20px;" class="tags-cloud-10">music</a> <a href="/tags/web/" style="font-size: 20px;" class="tags-cloud-10">web</a>
     </div>
   </div>
 </section>
