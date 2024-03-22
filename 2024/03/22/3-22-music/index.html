@@ -22,7 +22,7 @@
 
   
 
-  <title>[NodeJS]Node.js基础 | kpmark</title>
+  <title>[音乐]Ember-haju:harmonics | kpmark</title>
 
   
 
@@ -42,6 +42,9 @@
 <link rel="stylesheet" href="/css/style.css">
 
 
+<link rel="stylesheet" href="\assets\css\APlayer.min.css" class="aplayer-style-marker">
+<script src="\assets\js\APlayer.min.js" class="aplayer-script-marker"></script>
+<script src="\assets\js\Meting.min.js" class="meting-script-marker"></script>
 </head>
 <body>
   <div class="root-container">
@@ -49,7 +52,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://api.r10086.com/%E5%9B%BE%E5%8C%85webp/%E5%8A%A8%E6%BC%AB%E7%BB%BC%E5%90%882/75049436_p0.webp)"></div>
+    <div class="post-image" style="background-image: url(https://images.dmzj.com/resource/news/2022/07/17/1658051617965191.jpg)"></div>
   
 
   <!-- navbar -->
@@ -100,29 +103,22 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">[NodeJS]Node.js基础</h1>
+          <h1 class="title-wrap">[音乐]Ember-haju:harmonics</h1>
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-03-20T10:45:43.000Z" itemprop="datePublished">2024-03-20</time>
+            <time  class="article-date" datetime="2024-03-22T04:04:11.000Z" itemprop="datePublished">2024-03-22</time>
           </h2>
-          
-            <h2 class="last-time">
-              <span>最后更新于</span>
-              <time  class="article-updated" datetime="2024-03-21T13:35:07.316Z" itemprop="dateUpdated">2024-03-21</time>
-            </h2>
           
           
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/%E7%AC%94%E8%AE%B0/">📒 笔记</a></li>
+    <li><a href="/categories/%E6%9D%82%E8%B0%88/">📒 杂谈</a></li>
   
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/web/">🏷️ web</a></li>
-  
-    <li><a href="/tags/NodeJS/">🏷️ NodeJS</a></li>
+    <li><a href="/tags/music/">🏷️ music</a></li>
   
 </ul>
         </div>
@@ -146,25 +142,49 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h1><p>在Node.js中一般将代码合理拆分到不同的文件中，每一个文件就是一个模块，文件路径就是模块名。</p>
-<p>在编写每个模块时，都有<code>require</code>、<code>exports</code>、<code>module</code>三个预先定义好的变量可供使用。</p>
-<h2 id="require"><a href="#require" class="headerlink" title="require"></a>require</h2><p><code>require</code><strong>函数</strong>用于在当前模块中加载别的模块，传入一个模块名，即可返回一个模块作为到处对象。相对路径(<code>./</code>开头)和绝对路径(<code>/</code>开头)均可以作为模块名。</p>
-<p>模块名中的.js可以省略。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let foo1 = require(&#x27;./foo&#x27;);</span><br><span class="line">let foo2 = require(&#x27;./foo.js&#x27;);</span><br><span class="line">let foo3 = require(&#x27;/home/user/foo&#x27;);</span><br><span class="line">let foo4 = require(&#x27;/home/user/foo.js&#x27;);</span><br><span class="line"></span><br><span class="line">// foo1至foo4中保存的是同一个模块的导出对象。</span><br></pre></td></tr></table></figure>
-
-<p>也可以使用<code>require </code>来加载JSON文件。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let data = require(&#x27;./data.json&#x27;)</span><br></pre></td></tr></table></figure>
-
-<h2 id="exports"><a href="#exports" class="headerlink" title="exports"></a>exports</h2><p><code>exports</code><strong>对象</strong>时当前模块所导出的对象，用来导出公有方法和属性。<code>require</code><strong>函数</strong>载入的就是该模块的<code>exports</code><strong>对象</strong>。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">exports.hello = function () &#123;</span><br><span class="line">    console.log(&#x27;Hello World!&#x27;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h2 id="module"><a href="#module" class="headerlink" title="module"></a>module</h2><p>通过<code>module</code><strong>对象</strong>可以访问当前对象的相关信息，但是其一般用来替换当前模块的导出对象。例如，一模块导出了一个对象，可以将其替换成一个函数：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module.exports = function () &#123;</span><br><span class="line">    console.log(&#x27;Hello World!&#x27;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>在以上代码中，模块的默认导出被替换成了一个函数。</p>
-<h2 id="模块初始化"><a href="#模块初始化" class="headerlink" title="模块初始化"></a>模块初始化</h2><p>若一个模块在一段JS代码中被反复的<code>require</code>,其只在第一次载入时进行一次初始化。之后无论导入出的对象或者函数名是否变化，其中的变量不再进行初始化。</p>
-<h3 id="二进制模块-暂时不重要"><a href="#二进制模块-暂时不重要" class="headerlink" title="二进制模块(暂时不重要)"></a>二进制模块(暂时不重要)</h3><p>虽然一般我们使用JS编写模块，但NodeJS也支持使用C&#x2F;C++编写二进制模块。编译好的二进制模块除了文件扩展名是.node外，和JS模块的使用方式相同。虽然二进制模块能使用操作系统提供的所有功能，拥有无限的潜能，但对于前端同学而言编写过于困难，并且难以跨平台使用，因此不在本教程的覆盖范围内。</p>
-<h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><p>学习链接：<a target="_blank" rel="noopener" href="https://nqdeng.github.io/7-days-nodejs/#1.5">七天学会NodeJS</a></p>
+        
+    <div id="aplayer-qHKJdSgb" class="aplayer aplayer-tag-marker meting-tag-marker"
+         data-id="2036581671" data-server="netease" data-type="song" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#ad7a86"
+    ></div>
+<h1 id="歌曲信息"><a href="#歌曲信息" class="headerlink" title="歌曲信息"></a>歌曲信息</h1><p>《Ember》是动画《海盗战记》第二季的ED2，由haju:harmonics演唱，收录在该组合的出道同名专辑中，发售于2023年6月14日</p>
+<h1 id="歌词"><a href="#歌词" class="headerlink" title="歌词"></a>歌词</h1><p>从那遥远之处</p>
+<p>一首陌生歌谣 我听出欢声笑语</p>
+<p>诅咒之重 我无法背负</p>
+<p>我祈祷这将熄的光芒</p>
+<p>要我撒手人寰还为时尚早</p>
+<p>重重暗影后尚有慰藉</p>
+<p>时光仍如洪水奔流不息</p>
+<p>向这无尽世界  穿越无数黑暗</p>
+<p>只想找到我自己的归宿</p>
+<p>若要归宿 想必是在那遥远天堂</p>
+<p>在此 薪火将永不熄灭</p>
+<p>夜幕已然消失</p>
+<p>剩余游星在暗中无所依靠 屈指可数</p>
+<p>高举那一束光</p>
+<p>此刻生存 只为某日能到那遥远乐土</p>
+<p>依旧向上高攀</p>
+<p>从那阴暗记忆 我听出了哭喊声</p>
+<p>恐惧之威 我尚可承受</p>
+<p>我依旧呼吸 为那将熄光芒</p>
+<p>要我撒手人寰还为时尚早</p>
+<p>明日太阳升起 仁爱必将到来</p>
+<p>时光荏苒 为我标明道路</p>
+<p>快快前去 莫等覆水难收</p>
+<p>向这无尽世界 穿越无数黑暗</p>
+<p>只想找到我自己的归宿……</p>
+<p>我们歌声回响 直至终结</p>
+<p>不论这世界还要如何变幻</p>
+<p>我们终要找到自己的归宿</p>
+<p>若要归宿 想必是在那遥远天堂</p>
+<p>在此 薪火将永不熄灭</p>
+<p>不管还有多远</p>
+<p>不管路途多长</p>
+<p>天堂就在此处</p>
+<p>在此圣火不熄</p>
+<p>不管还有多远</p>
+<p>不管路途多长</p>
+<p>只为某日能到那遥远乐土</p>
+<p>阅读更多：[萌娘百科]<a href="%22ttps://moegirl.icu/Ember(%E6%B5%B7%E7%9B%97%E6%88%98%E8%AE%B0">Ember(海盗战记)</a></p>
 
       </section>
 
@@ -172,32 +192,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="https://api.r10086.com/%E5%9B%BE%E5%8C%85webp/%E4%B8%9C%E6%96%B9project1/a1c0e12d354ada84015c9bfc99350814.webp"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2024/03/21/3-18-music/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[音乐]桜風-森罗万象</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://api.r10086.com/%E5%9B%BE%E5%8C%85webp/%E8%B5%9B%E9%A9%AC%E5%A8%98%E6%A8%AA%E5%B1%8F%E7%B3%BB%E5%88%971/wallhaven-57ew95.webp"></div>
+      <div class="card-cover" background-image-lazy data-img="https://api.r10086.com/%E5%9B%BE%E5%8C%85webp/%E5%8A%A8%E6%BC%AB%E7%BB%BC%E5%90%882/75049436_p0.webp"></div>
     
     <div class="card-text">
       
-        <a href="/2024/03/20/homework-week1/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[OurEDA]web-intro</h2>
+        <a href="/2024/03/21/3-21-node-js-2/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[NodeJS]代码的组织和部署</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -258,18 +262,6 @@
 </section>
 
       
-<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
-  <div class="widget-title">
-    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
-  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
-</svg>
-    <span>TOC</span>
-  </div>
-  <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97"><span class="toc-number">1.</span> <span class="toc-text">模块</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#require"><span class="toc-number">1.1.</span> <span class="toc-text">require</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exports"><span class="toc-number">1.2.</span> <span class="toc-text">exports</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#module"><span class="toc-number">1.3.</span> <span class="toc-text">module</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.4.</span> <span class="toc-text">模块初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%A8%A1%E5%9D%97-%E6%9A%82%E6%97%B6%E4%B8%8D%E9%87%8D%E8%A6%81"><span class="toc-number">1.4.1.</span> <span class="toc-text">二进制模块(暂时不重要)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5"><span class="toc-number">2.</span> <span class="toc-text">链接</span></a></li></ol>
-  </div>
-</section>
-
 
       
 <section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
