@@ -22,7 +22,7 @@
 
   
 
-  <title>[NodeJS]代码的组织和部署 | kpmark</title>
+  <title>[JS]关于异步JavaScript | kpmark</title>
 
   
 
@@ -49,7 +49,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://th.bing.com/th/id/OIP.aqk7aOsCh5urrV00hAbbEQHaEc?rs=1&amp;pid=ImgDetMain)"></div>
+    <div class="post-image" style="background-image: url(https://radicalhub.com/wp-content/uploads/2018/07/javascript.jpg)"></div>
   
 
   <!-- navbar -->
@@ -100,17 +100,12 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">[NodeJS]代码的组织和部署</h1>
+          <h1 class="title-wrap">[JS]关于异步JavaScript</h1>
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-03-21T11:38:23.000Z" itemprop="datePublished">2024-03-21</time>
+            <time  class="article-date" datetime="2024-03-22T11:27:43.000Z" itemprop="datePublished">2024-03-22</time>
           </h2>
-          
-            <h2 class="last-time">
-              <span>最后更新于</span>
-              <time  class="article-updated" datetime="2024-03-22T13:15:02.906Z" itemprop="dateUpdated">2024-03-22</time>
-            </h2>
           
           
           <ul class="wrap-list dark">
@@ -121,8 +116,6 @@
           <ul class="wrap-list dark">
   
     <li><a href="/tags/web/">🏷️ web</a></li>
-  
-    <li><a href="/tags/NodeJS/">🏷️ NodeJS</a></li>
   
 </ul>
         </div>
@@ -146,44 +139,64 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>使用NodeJS编写程序，需要对代码的目录结构和部署方式有个提前的了解，在编写代码时才能做到心中有数。好比修建房子，要先将脚手架搭好。</p>
-<h1 id="模块路径规则解析"><a href="#模块路径规则解析" class="headerlink" title="模块路径规则解析"></a>模块路径规则解析</h1><p>在<em>NodeJS基础</em>中，我们知道<code>require</code>中的模块路径有相对路径（&#x2F;开头）和绝对路径（盘符开头）两种写法，在时若一个模块的位置改变，其他的模块代码也需要调整，极不方便。因此，这里有第三种路径形式。<br>1.<strong>内置模块</strong><br>    若传入的模块时内置模块，则直接传入模块名称，无需路径。<br>    <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require(&#x27;fs&#x27;);</span><br></pre></td></tr></table></figure><br>2.<strong>node_modules目录</strong><br>    NodeJS定义了一个特殊的<code>node_modules</code>目录用于存放模块。例如某个模块的绝对路径是<code>/home/user/hello.js</code>，在该模块中使用<code>require(&#39;foo/bar&#39;)</code>方式加载模块时，则NodeJS依次尝试使用以下路径。<br>    <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/home/user/node_modules/foo/bar</span><br><span class="line">/home/node_modules/foo/bar</span><br><span class="line">/node_modules/foo/bar</span><br></pre></td></tr></table></figure><br>3.<strong>NODE_PATH环境变量</strong><br>    与PATH环境变量类似，NodeJS允许通过NODE_PATH环境变量来指定额外的模块搜索路径。</p>
-<h1 id="包"><a href="#包" class="headerlink" title="包"></a>包</h1><p>模块的基本单位是单个的JS文件，默写复杂的模块可能由多个子模块组成。我们将多个子模块组成的大模块叫做<strong>包</strong>。</p>
-<p>一个包中，需要一个入口模块来进行该模块的导入，入口模块的到处对象就是包的导出对象。例如由包为<code>cat</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-/home/user/lib/</span><br><span class="line">    -cat/</span><br><span class="line">        head.js</span><br><span class="line">        body.js</span><br><span class="line">        main.js</span><br></pre></td></tr></table></figure>
-<p>这个包由三个子模块，<code>main.js</code>作为入口模块：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">let head = require(&#x27;./head&#x27;);</span><br><span class="line">let body = require(&#x27;./body&#x27;);</span><br><span class="line"></span><br><span class="line">exports.creats = funtion(name) &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        name: name,</span><br><span class="line">        head: head.creats(),</span><br><span class="line">        body: body.creats()</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>在其他模块使用它时，加载<code>main.js</code>，即<code>require(&#39;/home/user/lib/cat/main&#39;)</code>。然而，入口模块的名字(<code>main.js</code>)出现在路径中显然不具有良好的可读性。</p>
-<h2 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h2><p>若某个模块的名称时<code>index.js</code>，在加载模块时路径中可省略该模块名，即<code>index.js</code>作为<code>cat</code>的入口模块时，下面两个语句等价：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let cat = require(&#x27;/home/user/lib/cat);</span><br><span class="line">let cat = require(&#x27;/home/user/lib/cat/index);</span><br></pre></td></tr></table></figure>
-<h2 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h2><p>开发者可以自定义入口米快的文件名和存放位置，在<code>pacjage.json</code>中指定即可：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;cat&quot;,</span><br><span class="line">    &quot;main&quot;: &quot;./lib/main.js&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>这样，使用<code>require(&#39;/home/user/lib/cat&#39;)</code>，NodeJS一样可以根据<code>package,json</code>中的信息找到入口模块的位置。</p>
-<h1 id="命令行程序"><a href="#命令行程序" class="headerlink" title="命令行程序"></a>命令行程序</h1><p>使用NodeJS编写的东西，要么是包，要么是命令行程序，前者的目的也是用于后者的开发。</p>
-<p>因此，我们在部署代码时需要使用一些技巧来帮助用户觉得自己在使用一个命令行程序。</p>
-<p>例如我们写了个程序，可以输出你在命令行输入的话。我们在主模块实现了所有功能，并将模块部署在<code>/home/user/bin/node-echo.js</code>这个位置。如果我们要在任何目录下使用这个程序，我们需要使用以下终端命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ node /home/user/bin/node-echo.js Hello World</span><br><span class="line">Hello World</span><br></pre></td></tr></table></figure>
-<p>这种方式麻烦，而且不像一个命令行程序。我们期望的使用方式如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ node-echo Hello World</span><br></pre></td></tr></table></figure>
+        <h1 id="异步JavaScript简介"><a href="#异步JavaScript简介" class="headerlink" title="异步JavaScript简介"></a>异步JavaScript简介</h1><p>异步编程是我们在等待一个长期任务完成得同时可以执行其他命令，不必等待长期任务的完成。<strong>同时，你的程序将在任务完成后显示成果。</strong></p>
+<p>浏览器有许多功能需要很长时间来完成，因此，异步编程是必要的，例如：</p>
+<ul>
+<li>使用<code>fetch()</code>发起HTTP请求</li>
+<li>使用<code>getUserMedia</code>访问用户的摄像头和麦克风</li>
+<li>使用<code>showOpenFilePicker</code>请求用户选择文件以供访问</li>
+</ul>
+<h2 id="事件处理程序"><a href="#事件处理程序" class="headerlink" title="事件处理程序"></a>事件处理程序</h2><p>事件处理程序实际上就是异步编程的一种形式：你提供的函数将在事件发生时被调用，而不是立刻被调用。若“事件”是<strong>异步操作已经完成</strong>，那么异步操作的调用结果就会被事件传递给调用者。</p>
+<p>一些早期的异步API，如<code>XMLHttpRequest</code>API就是以这种方式来使用事件的。<code>XMLHttpRequest</code>可以让你用<code>JavaScript</code>向远程服务器发起HTTP请求。这样的操作通常需要很长时间，所以它被设计成异步API。我们可以给<code>XMLHttpRequest</code>对象附加时间监听器来让程序在请求进展和最终完成时获得通知。</p>
+<h2 id="回调"><a href="#回调" class="headerlink" title="回调"></a>回调</h2><p>时间处理程序时一种特殊的回调函数。回调函数，即<strong>一个被传递到另一个函数中的会在适当的时候被调用的函数</strong>。回调函数曾是JavaScript中实现异步函数的主要方式。</p>
+<p>然而，当回调函数本身需要调用其他同样接受回调函数的函数时，基于回调的代码会非常难以理解。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">function doStep1(init, callback) &#123;</span><br><span class="line">  const result = init + 1;</span><br><span class="line">  callback(result);</span><br><span class="line">&#125;</span><br><span class="line">function doStep2(init, callback) &#123;</span><br><span class="line">  const result = init + 2;</span><br><span class="line">  callback(result);</span><br><span class="line">&#125;</span><br><span class="line">function doStep3(init, callback) &#123;</span><br><span class="line">  const result = init + 3;</span><br><span class="line">  callback(result);</span><br><span class="line">&#125;</span><br><span class="line">function doOperation() &#123;</span><br><span class="line">  doStep1(0, (result1) =&gt; &#123;</span><br><span class="line">    doStep2(result1, (result2) =&gt; &#123;</span><br><span class="line">      doStep3(result2, (result3) =&gt; &#123;</span><br><span class="line">        console.log(`结果：$&#123;result3&#125;`);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">doOperation();</span><br></pre></td></tr></table></figure>
+<p>该函数深度嵌套，非常难以阅读和调试。事实上，JavaScript中异步编程的基础是<code>Promise</code>。</p>
+<h1 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h1><p><code>Promise</code>是现代JavaScript中异步编程的基础，是一个由异步函数返回的可以向我们只是当前操作所处状态的<strong>对象</strong>。在<code>Promise</code>返回给调用者时，操作往往没有完成，但<code>Promise</code><strong>对象</strong>可以让我们在操作最终完成时对其进行处理。下面，我们以<code>fetch</code>API为例：</p>
+<h2 id="fetch-API"><a href="#fetch-API" class="headerlink" title="fetch() API"></a>fetch() API</h2><p><code>fetch()</code>是一个现代的，基于<code>Promise</code>的，用于替代<code>XMLHttpRequest</code>的<strong>方法</strong>。</p>
+<p>由如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const fetchPromise = fetch(</span><br><span class="line">  &quot;https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json&quot;,</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">console.log(fetchPromise);</span><br><span class="line"></span><br><span class="line">fetchPromise.then((response) =&gt; &#123;</span><br><span class="line">  console.log(`已收到响应：$&#123;response.status&#125;`);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(&quot;已发送请求……&quot;);</span><br></pre></td></tr></table></figure>
 
-<p>这里pnpm,vite,hexo等包都是以命令行程序的形式呈现的。</p>
-<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><p>将JS文件当作shell脚本来运行，从而达到上述目的。(不会，以后再看😟)</p>
-<h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><p>可以使用<code>.cmd</code>文件解决问题。我们需要将<code>C:\User\user\bin</code>*(假设<code>node-echo.js</code>存放在<code>C:\Users\user\bin</code>目录)添加至环境变量，再在该目录下创建一个<code>node-echo.cmd</code>的文件，内容如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@node &quot;C:\User\user\bin\node-echo.js&quot; %*</span><br></pre></td></tr></table></figure>
-<p>目的达成。</p>
-<h1 id="工程目录"><a href="#工程目录" class="headerlink" title="工程目录"></a>工程目录</h1><p>以编写一个命令行程序为例，我们一般要提供命令行模式和API模式两种使用方式，并使用第三方包来编写代码。</p>
-<p>除了代码，一个完整的程序应该有自己的文档和测试用例。所以，一个完整的工程文件应该看起来像下面这样：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- /home/user/workspace/node-echo/   # 工程目录</span><br><span class="line">    - bin/                          # 存放命令行相关代码</span><br><span class="line">        node-echo</span><br><span class="line">    + doc/                          # 存放文档</span><br><span class="line">    - lib/                          # 存放API相关代码</span><br><span class="line">        echo.js</span><br><span class="line">    - node_modules/                 # 存放三方包</span><br><span class="line">        + argv/</span><br><span class="line">    + tests/                        # 存放测试用例</span><br><span class="line">    package.json                    # 元数据文件</span><br><span class="line">    README.md                       # 说明文件</span><br></pre></td></tr></table></figure>
-<p>其中部分文件如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/* bin/node-echo */</span><br><span class="line">let argv = require(&#x27;argv&#x27;),</span><br><span class="line">    echo = require(&#x27;../lib/echo&#x27;);</span><br><span class="line">console.log(echo(argv.join(&#x27; &#x27;)));</span><br><span class="line"></span><br><span class="line">/* lib/echo.js */</span><br><span class="line">module.exports = function (message) &#123;</span><br><span class="line">    return message;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/* package.json */</span><br><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;node-echo&quot;,</span><br><span class="line">    &quot;main&quot;: &quot;./lib/echo.js&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用<code>node_modules</code>目录直接使用第三方包名加载模块。定义<code>package.json</code>后，将<code>node_echo</code>当作一个包使用。</p>
-<h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><p>学习链接：<a target="_blank" rel="noopener" href="https://nqdeng.github.io/7-days-nodejs/#1.5">七天学会NodeJS</a></p>
+<p>这里：</p>
+<ol>
+<li>调用<code>fetch()</code>API,并将返回值赋值给<code>fetchPromise</code>变量。</li>
+<li>输出<code>fetchPromise</code>变量，输出结果为<code>Promise &#123;&lt;state&gt;: &quot;pending&quot;&#125;</code>。这里输出的是<code>Promise</code><strong>对象</strong>的信息：它有一个<code>state</code>属性，值为<code>&quot;pending&quot;</code>。<code>&quot;pending&quot;</code>状态意味着操作仍在进行。</li>
+<li>将一个处理函数传递给<code>Promise</code>的<code>then</code>方法，若操作成功，<code>Promise</code>将调用我们的处理函数，传去一个包含服务器响应的<code>Response</code><strong>对象</strong>。</li>
+<li>输出一条成功信息。</li>
+</ol>
+<p>完整的输出如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Promise &#123; &lt;state&gt;: &quot;pending&quot; &#125;</span><br><span class="line">已发送请求……</span><br><span class="line">已收到响应：200</span><br></pre></td></tr></table></figure>
+
+<h2 id="链式使用Promise"><a href="#链式使用Promise" class="headerlink" title="链式使用Promise"></a>链式使用Promise</h2><p>在我们通过<code>fetch()</code>API得到一个<code>Respose</code><strong>对象</strong>时，我们需要调用另外一个函数来获取响应数据。若我们向获取<code>json</code>格式，我们可以调用<code>Response</code><strong>对象</strong>的<code>json()</code>方法。事实上，<code>json()</code>也是异步的，所以我们要调用两个异步函数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const fetchPromise = fetch(</span><br><span class="line">  &quot;https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json&quot;,</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">fetchPromise.then((response) =&gt; &#123;</span><br><span class="line">    const jsonPromise = response.json();</span><br><span class="line">    jsonPromise.then((response) =&gt; &#123;</span><br><span class="line">        console.log(json[0].name);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们给<code>fetch()</code>返回的<code>Promise</code><strong>对象</strong>中添加了一个<code>then()</code>处理程序。在这个处理程序中，我们调用了<code>json()</code><strong>方法</strong>(该方法返回一个<code>Promise</code>对象)，然后将新的<code>then()</code>处理程序传递到<code>response.json()</code>返回的<code>Promise</code>中。</p>
+<p><code>Promise</code>的优雅之处在于<code>then()</code>本身也可以返回一个<code>Promise</code>，这个<code>Promise</code>将指示<code>then()</code>中调用的异步函数的完成状态。(即将<code>then()</code>内调用的异步函数返回的<code>Promise</code>显式的作为<code>then()</code>的返回值，看作then()为一个异步函数).</p>
+<p>改写上方代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const fetchPromise = fetch(</span><br><span class="line">  &quot;https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json&quot;,</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">fetchPromise</span><br><span class="line">  .then((response) =&gt; &#123;</span><br><span class="line">    return response.json();</span><br><span class="line">  &#125;)</span><br><span class="line">  .then((json) =&gt; &#123;</span><br><span class="line">    console.log(json[0].name);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>当然，<code>Promise</code>的状态不总是程序成功执行。若其状态码不是<strong>OK</strong>，我们就抛出一个错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">const fetchPromise = fetch(</span><br><span class="line">  &quot;https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json&quot;,</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">fetchPromise</span><br><span class="line">  .then((response) =&gt; &#123;</span><br><span class="line">    if (!response.ok) &#123;</span><br><span class="line">      throw new Error(`HTTP error: $&#123;response.status&#125;`);</span><br><span class="line">    &#125;</span><br><span class="line">    return response.json();</span><br><span class="line">  &#125;)</span><br><span class="line">  .then((json) =&gt; &#123;</span><br><span class="line">    console.log(json[0].name);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<h1 id="错误捕获"><a href="#错误捕获" class="headerlink" title="错误捕获"></a>错误捕获</h1><p><code>Promise</code>提供了一个<code>catch()</code>方法来支持错误处理。异步操作成功时，参数被传入<code>then()</code>，若失败，则将错误信息传入<code>catch()</code>。</p>
+<p>如果将 catch() 添加到 Promise 链的末尾，它就可以在任何异步函数失败时被调用。于是，我们就可以将一个操作实现为几个连续的异步函数调用，并在一个地方处理所有错误。、</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">const fetchPromise = fetch(</span><br><span class="line">  &quot;bad-scheme://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json&quot;,</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">fetchPromise</span><br><span class="line">  .then((response) =&gt; &#123;</span><br><span class="line">    if (!response.ok) &#123;</span><br><span class="line">      throw new Error(`HTTP 请求错误：$&#123;response.status&#125;`);</span><br><span class="line">    &#125;</span><br><span class="line">    return response.json();</span><br><span class="line">  &#125;)</span><br><span class="line">  .then((json) =&gt; &#123;</span><br><span class="line">    console.log(json[0].name);</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch((error) =&gt; &#123;</span><br><span class="line">    console.error(`无法获取产品列表：$&#123;error&#125;`);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+<h1 id="Promise术语"><a href="#Promise术语" class="headerlink" title="Promise术语"></a>Promise术语</h1><p>Promise 有三种状态：</p>
+<ul>
+<li>待定(pending)：初始状态，既没有被兑现，也没有被拒绝。这是调用 fetch() 返回 Promise 时的状态，此时请求还在进行中。</li>
+<li>已兑现(fulfilled)：意味着操作成功完成。当 Promise 完成时，它的 then() 处理函数被调用。</li>
+<li>已拒绝(rejected)：意味着操作失败。当一个 Promise 失败时，它的 catch() 处理函数被调用。</li>
+</ul>
+<p>有时我们用<strong>已敲定（settled）</strong>这个词来同时表示<strong>已兑现（fulfilled）</strong>和<strong>已拒绝（rejected）</strong>两种情况。</p>
+<p>如果一个<code>Promise</code>处于<strong>resolved</strong>状态，或者它被“锁定”以跟随另一个<code>Promise</code>的状态，那么它就是<strong>fulfilled</strong>。</p>
+<h1 id="学习链接"><a href="#学习链接" class="headerlink" title="学习链接"></a>学习链接</h1><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript/Asynchronous">MDN</a></p>
 
       </section>
 
       
       
         <nav class="article-nav">
+          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
@@ -194,23 +207,6 @@
       
         <a href="/2024/03/22/3-22-music/" itemprop="url">
           <h2 class="card-text--title text-ellipsis">[音乐]Ember-haju:harmonics</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
-          
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="https://api.r10086.com/%E5%9B%BE%E5%8C%85webp/%E4%B8%9C%E6%96%B9project1/201007cf5cee07ee9bc57618f431fae2.webp"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2024/03/21/3-21-music-1/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[音乐]Samsara-GET IN THE RING</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -279,7 +275,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%99%E8%A7%A3%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">模块路径规则解析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8C%85"><span class="toc-number">2.</span> <span class="toc-text">包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#index-js"><span class="toc-number">2.1.</span> <span class="toc-text">index.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#package-json"><span class="toc-number">2.2.</span> <span class="toc-text">package.json</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">命令行程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux"><span class="toc-number">3.1.</span> <span class="toc-text">Linux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#windows"><span class="toc-number">3.2.</span> <span class="toc-text">windows</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E7%9B%AE%E5%BD%95"><span class="toc-number">4.</span> <span class="toc-text">工程目录</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5"><span class="toc-number">5.</span> <span class="toc-text">链接</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%82%E6%AD%A5JavaScript%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">异步JavaScript简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F"><span class="toc-number">1.1.</span> <span class="toc-text">事件处理程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83"><span class="toc-number">1.2.</span> <span class="toc-text">回调</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Promise"><span class="toc-number">2.</span> <span class="toc-text">Promise</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#fetch-API"><span class="toc-number">2.1.</span> <span class="toc-text">fetch() API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E5%BC%8F%E4%BD%BF%E7%94%A8Promise"><span class="toc-number">2.2.</span> <span class="toc-text">链式使用Promise</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E6%8D%95%E8%8E%B7"><span class="toc-number">3.</span> <span class="toc-text">错误捕获</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Promise%E6%9C%AF%E8%AF%AD"><span class="toc-number">4.</span> <span class="toc-text">Promise术语</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E9%93%BE%E6%8E%A5"><span class="toc-number">5.</span> <span class="toc-text">学习链接</span></a></li></ol>
   </div>
 </section>
 
