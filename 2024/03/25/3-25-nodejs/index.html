@@ -22,7 +22,7 @@
 
   
 
-  <title>你想去哪呢？ | kpmark</title>
+  <title>[NodeJS]文件操作-(1) | kpmark</title>
 
   
 
@@ -47,9 +47,9 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/images/alice.jpg)"></div>
+    <div class="post-image" style="background-image: url(https://pplware.sapo.pt/wp-content/uploads/2019/10/nodejs_capa.jpg)"></div>
   
 
   <!-- navbar -->
@@ -97,56 +97,129 @@
 
   
   
-
-  
-  
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">你想去哪呢？</h1>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">[NodeJS]文件操作-(1)</h1>
+          <h2 class="title-sub-wrap">
+            <strong>kpmark</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2024-03-25T13:11:10.000Z" itemprop="datePublished">2024-03-25</time>
+          </h2>
+          
+          
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E7%AC%94%E8%AE%B0/">📒 笔记</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/web/">🏷️ web</a></li>
+  
+    <li><a href="/tags/NodeJS/">🏷️ NodeJS</a></li>
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
       
+      
+      
+      
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>苍崎青子是TYPE-MOON发行的游戏《月姬》《魔法使之夜》系列中的角色。现存活着的少数几位魔法使之一，苍崎橙子的妹妹。使用第五魔法，别名“魔法·青”。被魔术师们以“Magic Gunner”、“Miss Blue”等名来称呼。身为魔法使加上是破坏高手，而且还有点人格失常，因此而被魔术协会看待成麻烦人。现在是以一个行李箱作伙伴，随心所欲地旅行生活中。无法将她置于控制下，这个事实成了魔术协会的烦恼。<br>是同世界观下黑桐鲜花、远野秋叶、远坂凛等角色的原型。</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>欢迎交换友链😊<br>邮箱：<a href="mailto:&#x32;&#x35;&#56;&#x35;&#48;&#53;&#x30;&#x37;&#x36;&#53;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;">&#x32;&#x35;&#56;&#x35;&#48;&#53;&#x30;&#x37;&#x36;&#53;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;</a></p>
+        <h1 id="有啥API"><a href="#有啥API" class="headerlink" title="有啥API"></a>有啥API</h1><h2 id="Buffer-数据块"><a href="#Buffer-数据块" class="headerlink" title="Buffer(数据块)"></a>Buffer(数据块)</h2><p><a target="_blank" rel="noopener" href="http://nodejs.org/api/buffer.html">官方文档</a></p>
+<p>JS中只有字符串数据类型，而没有二进制类型，所以NodeJS提供了一个和<code>String</code>对等的全局构造函数<code>Buffer</code>来提供对二进制数据的操作。我们可以通过读取文件得到<code>Buffer</code>的实例，也可以直接构造。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let bin = new Buffer([0x68, 0x65, 0x6c, 0x6f ]);`</span><br></pre></td></tr></table></figure>
 
+<p><code>Buffer</code>和字符串类似，可以使用<code>.length</code>属性得到字节长度。也可以使用<code>[index]</code>方式读取指定位置的字节。</p>
+<p><code>Buffer</code>可以与字符串相互转化，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let str = bin.toString(&#x27;utf-8&#x27;); // =&gt; &quot;hello&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let bin = new Buffer(&#x27;hello&#x27;, &#x27;utf-8&#x27;); // =&gt; &lt;Buffer 68 65 6c 6c 6f&gt;</span><br></pre></td></tr></table></figure>
+
+<p>但是，<code>Buffer</code>和<code>String</code>类型有一个重要区别。字符串是只读的，并且对字符串进行任何修改得到的都将是一个新的字符串，原本的字符串保持不变。<code>Buffer</code>更像是C语言中的数组，可以通过<code>[index]</code>的方式直接修改某个位置的字节。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin[0] = 0x48;</span><br></pre></td></tr></table></figure>
+
+<p><code>.slice</code><strong>方法</strong>也不是返回一个副本，而是返回了指向原<code>Buffer</code>中，某个位置的指针。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[ 0x68, 0x65, 0x6c, 0x6c, 0x6f ]</span><br><span class="line">    ^           ^</span><br><span class="line">    |           |</span><br><span class="line">   bin     bin.slice(2)</span><br></pre></td></tr></table></figure>
+
+<p>所以，若想拷贝一份<code>Buffer</code>，首先要创建一份新的<code>Buffer</code>，然后使用<code>.copy</code><strong>方法</strong>将原来的数据赋值过去：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let bin = new Buffer([ 0x68, 0x65, 0x6c, 0x6c, 0x6f ]);</span><br><span class="line">let dup = new Buffer(bin.length);</span><br><span class="line"></span><br><span class="line">bin.copy(dup);</span><br><span class="line">dup[0] = 0x48;</span><br><span class="line">console.log(bin); // =&gt; &lt;Buffer 68 65 6c 6c 6f&gt;</span><br><span class="line">console.log(dup); // =&gt; &lt;Buffer 48 65 65 6c 6f&gt;</span><br></pre></td></tr></table></figure>
+<p>总之，Buffer将JS的数据处理能力从字符串扩展到了任意二进制数据。</p>
+<h2 id="Stream-数据流"><a href="#Stream-数据流" class="headerlink" title="Stream(数据流)"></a>Stream(数据流)</h2><p><a target="_blank" rel="noopener" href="http://nodejs.org/api/stream.html">官方文档</a></p>
+<p>当内存中无一次性装下所有需要处理的数据时，一边读取一边处理更加高效。这里，我们使用数据流，NodeJS中通过各种<code>Stream</code>来提供对于数据流的操作。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let rs = fs.createReadStream(pathname);</span><br><span class="line"></span><br><span class="line">rs.on(&#x27;data&#x27;, function (chunk) &#123;</span><br><span class="line">    doSomething(chunk);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">rs.on(&#x27;end&#x27;, function () &#123;</span><br><span class="line">    cleanUp();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>上述代码中<code>data</code>事件会源源不断的触发，不管<code>doSomething</code>函数是否处理得过来。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">let rs = fs.createReadStream(src);</span><br><span class="line"></span><br><span class="line">rs.on(&#x27;data&#x27;, function (chunk) &#123;</span><br><span class="line">    rs.pause();</span><br><span class="line">    doSomething(chunk, function () &#123;</span><br><span class="line">        rs.resume();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">rs.on(&#x27;end&#x27;, function () &#123;</span><br><span class="line">    cleanUp();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这里为<code>doSomething</code>加上了回调函数，因此我们可以在处理数据前暂停数据读取，并在处理数据后继续读取数据。</p>
+<h3 id="tip"><a href="#tip" class="headerlink" title="tip"></a>tip</h3><p><code>Stream</code>基于事件机制工作，所有<code>Stream</code>的实例都继承于NodeJS提供的EventEmitter。</p>
+<h2 id="File-System（文件系统）"><a href="#File-System（文件系统）" class="headerlink" title="File System（文件系统）"></a>File System（文件系统）</h2><p><a target="_blank" rel="noopener" href="http://nodejs.org/api/fs.html">官方文档</a></p>
+<p>NodeJS通过<code>fs</code>内置模块提供对文件的操作。，其API基本分为三类：</p>
+<ul>
+<li><p>文件属性读写<br>  其中常用的有<code>fs.stat</code>、<code>fs.chomd</code>、<code>fs.chowmn</code></p>
+</li>
+<li><p>文件内容读写<br>  其中常用的有<code>fs.readfile</code>、<code>fs.readdir</code>、 <code>fs.mkdir</code></p>
+</li>
+<li><p>底层文件操作<br>  其中常用的有<code>fs.open</code>、<code>fs.read</code>、<code>fs.close</code></p>
+</li>
+</ul>
+<p>NodeJS最精华的异步IO模型在<code>fs</code>模块里有着充分的体现，例如上边提到的这些API都通过回调函数传递结果。</p>
+<p>几乎所有的<code>fs</code>模块API的回调参数都存在两个，第一个在错误发生时等于异常对象，第二个参数始终用于返回API方法的执行结果。</p>
+<p>而且，基本所有的<code>fs</code>模块都有异步进而同步版本。同步API除了方法名的末尾多了一个<code>Sync</code>之外，异常对象与执行结果的传递方式也有相应变化。</p>
+<p>fs模块提供的API很多，这里不一一介绍，需要时请自行查阅官方文档。</p>
+<h1 id="遍历目录"><a href="#遍历目录" class="headerlink" title="遍历目录"></a>遍历目录</h1>
       </section>
 
       
       
-        <section class="page-link-container">
+        <nav class="article-nav">
           
-            <div class="link-item layout-padding">
-              <a href="https://markzhang12345.github.io" title="kpmark" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://pic2.zhimg.com/50/v2-4b84d8c432526bcd62b97b0f04605378_hd.jpg?source=1940ef5c" alt="kpmark" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">kpmark</h4>
-                  
-                  <p class="text-ellipsis">如密传如密</p>
-                  
-                </div>
-              </a>
-            </div>
           
-        </section>
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://api.r10086.com/%E5%9B%BE%E5%8C%85webp/%E4%B8%9C%E6%96%B9project1/1547e8322a20af1366c285635fccd1f1.webp"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2024/03/25/3-25-music/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[音乐]ヨスズメロディハート(夜雀旋律)-森羅万象</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
       
 
-      
-      
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+
+  
+  
+
+
+      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -183,6 +256,20 @@
     </div>
   </div>
 </section>
+
+      
+<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
+</svg>
+    <span>TOC</span>
+  </div>
+  <div class="widget-body">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%89%E5%95%A5API"><span class="toc-number">1.</span> <span class="toc-text">有啥API</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer-%E6%95%B0%E6%8D%AE%E5%9D%97"><span class="toc-number">1.1.</span> <span class="toc-text">Buffer(数据块)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Stream-%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="toc-number">1.2.</span> <span class="toc-text">Stream(数据流)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tip"><span class="toc-number">1.2.1.</span> <span class="toc-text">tip</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#File-System%EF%BC%88%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">File System（文件系统）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%81%8D%E5%8E%86%E7%9B%AE%E5%BD%95"><span class="toc-number">2.</span> <span class="toc-text">遍历目录</span></a></li></ol>
+  </div>
+</section>
+
 
       
 <section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -240,7 +327,6 @@
     </div>
   </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">
