@@ -22,7 +22,7 @@
 
   
 
-  <title>你想去哪呢？ | kpmark</title>
+  <title>初识TypeScript | kpmark</title>
 
   
 
@@ -47,9 +47,9 @@
   <div class="root-container">
     
 <!-- header container -->
-<header class="header-container">
+<header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/images/alice.jpg)"></div>
+    <div class="post-image" style="background-image: url(https://cdn.thenewstack.io/media/2022/01/10b88c68-typescript-logo.png)"></div>
   
 
   <!-- navbar -->
@@ -97,56 +97,112 @@
 
   
   
-
-  
-  
     <div class="header-content">
-      <div class="post-text layout-block layout-padding">
-        <h1 class="title-wrap">你想去哪呢？</h1>
-        
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">初识TypeScript</h1>
+          <h2 class="title-sub-wrap">
+            <strong>kpmark</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2024-03-27T05:46:47.000Z" itemprop="datePublished">2024-03-27</time>
+          </h2>
+          
+          
+          <ul class="wrap-list dark">
+  
+    <li><a href="/categories/%E7%AC%94%E8%AE%B0/">📒 笔记</a></li>
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/web/">🏷️ web</a></li>
+  
+</ul>
+        </div>
       </div>
     </div>
+  
+
+  
   
   
 </header>
 
-    <!-- 分页(其他自定义页面) -->
+    <!-- 文章 -->
 
-<!-- 自定义页面 -->
-
+<!-- 文章内容 -->
 <div class="body-container">
   <article class="content-container layout-block post-container">
     <div class="article-info">
       
+      
+      
+      
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>苍崎青子是TYPE-MOON发行的游戏《月姬》《魔法使之夜》系列中的角色。现存活着的少数几位魔法使之一，苍崎橙子的妹妹。使用第五魔法，别名“魔法·青”。被魔术师们以“Magic Gunner”、“Miss Blue”等名来称呼。身为魔法使加上是破坏高手，而且还有点人格失常，因此而被魔术协会看待成麻烦人。现在是以一个行李箱作伙伴，随心所欲地旅行生活中。无法将她置于控制下，这个事实成了魔术协会的烦恼。<br>是同世界观下黑桐鲜花、远野秋叶、远坂凛等角色的原型。</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>欢迎交换友链😊<br>邮箱：<a href="mailto:&#x32;&#x35;&#x38;&#x35;&#48;&#53;&#x30;&#x37;&#54;&#x35;&#x40;&#x71;&#113;&#46;&#99;&#x6f;&#x6d;">&#x32;&#x35;&#x38;&#x35;&#48;&#53;&#x30;&#x37;&#54;&#x35;&#x40;&#x71;&#113;&#46;&#99;&#x6f;&#x6d;</a></p>
+        <h1 id="关于TypeScript"><a href="#关于TypeScript" class="headerlink" title="关于TypeScript"></a>关于TypeScript</h1><p>TypeScript是JavaScript的一个超集，就像C++是C的超集一样。其支持ES6标准。</p>
+<p>TypeScript由微软开发的自由和开源的编程语言。</p>
+<p>TypeScript 设计目标是开发大型应用，它可以编译成纯JavaScript，编译出来的JavaScript可以运行在任何浏览器上。</p>
+<h1 id="语言特性"><a href="#语言特性" class="headerlink" title="语言特性"></a>语言特性</h1><p>TypeScript是一种给JavaScript添加特性的语言扩展。其增加的功能包括：</p>
+<ul>
+<li>类型批注和编译时类型检查</li>
+<li>类型推断</li>
+<li>类型擦除</li>
+<li>接口</li>
+<li>枚举</li>
+<li>Mixin</li>
+<li>泛型编译</li>
+<li>命名空间</li>
+<li>元组</li>
+<li>Await</li>
+</ul>
+<h1 id="JavaScript和TypeScript的区别"><a href="#JavaScript和TypeScript的区别" class="headerlink" title="JavaScript和TypeScript的区别"></a>JavaScript和TypeScript的区别</h1><p>现有的JavaScript代码可以与TypeScript一并工作时无需任何修改，TypeScript只是通过类型注解提供编译时的静态类型检查。TypeScript可处理已有的JavaScript代码，并只对其中的TypeScript代码进行编译。</p>
+<h1 id="TypeScript安装"><a href="#TypeScript安装" class="headerlink" title="TypeScript安装"></a>TypeScript安装</h1><p>推荐使用npm(pnpm)安装TypeScript环境。</p>
+<p>全局安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm install -g typescript</span><br></pre></td></tr></table></figure>
+<p>安装后即可使用<code>tsc</code>命令</p>
+<p>本地安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pnpm install typescript --save-dev  //本地安装开发时依赖</span><br></pre></td></tr></table></figure>
+
+<p>安装后使用<code>npx tsc</code>命令，(<code>npx</code>会在项目中自动查找本地安装的TypeScript，并执行编译)。</p>
 
       </section>
 
       
       
-        <section class="page-link-container">
+        <nav class="article-nav">
           
-            <div class="link-item layout-padding">
-              <a href="https://markzhang12345.github.io" title="kpmark" class="content-padding--primary soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
-                
-                <img src="https://pic2.zhimg.com/50/v2-4b84d8c432526bcd62b97b0f04605378_hd.jpg?source=1940ef5c" alt="kpmark" class="soft-size--round soft-style--box">
-                
-                <div>
-                  <h4 class="text-ellipsis">kpmark</h4>
-                  
-                  <p class="text-ellipsis">如密传如密</p>
-                  
-                </div>
-              </a>
-            </div>
           
-        </section>
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://pplware.sapo.pt/wp-content/uploads/2019/10/nodejs_capa.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2024/03/25/3-25-nodejs/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[NodeJS]文件操作</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
       
 
-      
-      
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+
+  
+  
+
+
+      </section>
     </div>
     <div class="widget-info">
       <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -183,6 +239,8 @@
     </div>
   </div>
 </section>
+
+      
 
       
 <section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
@@ -240,7 +298,6 @@
     </div>
   </article>
 </div>
-
 
     <!-- footer container -->
 <footer id="footer" class="footer">
