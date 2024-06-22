@@ -22,7 +22,7 @@
 
   
 
-  <title>[NodeJS]代码的组织和部署 | kpmark</title>
+  <title>服务器编程概述 | kpmark</title>
 
   
 
@@ -49,7 +49,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://pplware.sapo.pt/wp-content/uploads/2019/10/nodejs_capa.jpg)"></div>
+    <div class="post-image" style="background-image: url(/images/qingzi.jpg)"></div>
   
 
   <!-- navbar -->
@@ -100,17 +100,12 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">[NodeJS]代码的组织和部署</h1>
+          <h1 class="title-wrap">服务器编程概述</h1>
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-03-21T11:38:23.000Z" itemprop="datePublished">2024-03-21</time>
+            <time  class="article-date" datetime="2024-06-22T02:16:46.000Z" itemprop="datePublished">2024-06-22</time>
           </h2>
-          
-            <h2 class="last-time">
-              <span>最后更新于</span>
-              <time  class="article-updated" datetime="2024-03-24T08:15:14.202Z" itemprop="dateUpdated">2024-03-24</time>
-            </h2>
           
           
           <ul class="wrap-list dark">
@@ -120,9 +115,7 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/web/">🏷️ web</a></li>
-  
-    <li><a href="/tags/NodeJS/">🏷️ NodeJS</a></li>
+    <li><a href="/tags/web%EF%BC%8CBackend/">🏷️ web，Backend</a></li>
   
 </ul>
         </div>
@@ -146,38 +139,55 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>使用NodeJS编写程序，需要对代码的目录结构和部署方式有个提前的了解，在编写代码时才能做到心中有数。好比修建房子，要先将脚手架搭好。</p>
-<h1 id="模块路径规则解析"><a href="#模块路径规则解析" class="headerlink" title="模块路径规则解析"></a>模块路径规则解析</h1><p>在<em>NodeJS基础</em>中，我们知道<code>require</code>中的模块路径有相对路径（&#x2F;开头）和绝对路径（盘符开头）两种写法，在时若一个模块的位置改变，其他的模块代码也需要调整，极不方便。因此，这里有第三种路径形式。<br>1.<strong>内置模块</strong><br>    若传入的模块时内置模块，则直接传入模块名称，无需路径。<br>    <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require(&#x27;fs&#x27;);</span><br></pre></td></tr></table></figure><br>2.<strong>node_modules目录</strong><br>    NodeJS定义了一个特殊的<code>node_modules</code>目录用于存放模块。例如某个模块的绝对路径是<code>/home/user/hello.js</code>，在该模块中使用<code>require(&#39;foo/bar&#39;)</code>方式加载模块时，则NodeJS依次尝试使用以下路径。<br>    <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/home/user/node_modules/foo/bar</span><br><span class="line">/home/node_modules/foo/bar</span><br><span class="line">/node_modules/foo/bar</span><br></pre></td></tr></table></figure><br>3.<strong>NODE_PATH环境变量</strong><br>    与PATH环境变量类似，NodeJS允许通过NODE_PATH环境变量来指定额外的模块搜索路径。</p>
-<h1 id="包"><a href="#包" class="headerlink" title="包"></a>包</h1><p>模块的基本单位是单个的JS文件，默写复杂的模块可能由多个子模块组成。我们将多个子模块组成的大模块叫做<strong>包</strong>。</p>
-<p>一个包中，需要一个入口模块来进行该模块的导入，入口模块的到处对象就是包的导出对象。例如由包为<code>cat</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-/home/user/lib/</span><br><span class="line">    -cat/</span><br><span class="line">        head.js</span><br><span class="line">        body.js</span><br><span class="line">        main.js</span><br></pre></td></tr></table></figure>
-<p>这个包由三个子模块，<code>main.js</code>作为入口模块：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">let head = require(&#x27;./head&#x27;);</span><br><span class="line">let body = require(&#x27;./body&#x27;);</span><br><span class="line"></span><br><span class="line">exports.creats = funtion(name) &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        name: name,</span><br><span class="line">        head: head.creats(),</span><br><span class="line">        body: body.creats()</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>在其他模块使用它时，加载<code>main.js</code>，即<code>require(&#39;/home/user/lib/cat/main&#39;)</code>。然而，入口模块的名字(<code>main.js</code>)出现在路径中显然不具有良好的可读性。</p>
-<h2 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h2><p>若某个模块的名称时<code>index.js</code>，在加载模块时路径中可省略该模块名，即<code>index.js</code>作为<code>cat</code>的入口模块时，下面两个语句等价：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let cat = require(&#x27;/home/user/lib/cat);</span><br><span class="line">let cat = require(&#x27;/home/user/lib/cat/index);</span><br></pre></td></tr></table></figure>
-<h2 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h2><p>开发者可以自定义入口米快的文件名和存放位置，在<code>pacjage.json</code>中指定即可：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;cat&quot;,</span><br><span class="line">    &quot;main&quot;: &quot;./lib/main.js&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>这样，使用<code>require(&#39;/home/user/lib/cat&#39;)</code>，NodeJS一样可以根据<code>package,json</code>中的信息找到入口模块的位置。</p>
-<h1 id="命令行程序"><a href="#命令行程序" class="headerlink" title="命令行程序"></a>命令行程序</h1><p>使用NodeJS编写的东西，要么是包，要么是命令行程序，前者的目的也是用于后者的开发。</p>
-<p>因此，我们在部署代码时需要使用一些技巧来帮助用户觉得自己在使用一个命令行程序。</p>
-<p>例如我们写了个程序，可以输出你在命令行输入的话。我们在主模块实现了所有功能，并将模块部署在<code>/home/user/bin/node-echo.js</code>这个位置。如果我们要在任何目录下使用这个程序，我们需要使用以下终端命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ node /home/user/bin/node-echo.js Hello World</span><br><span class="line">Hello World</span><br></pre></td></tr></table></figure>
-<p>这种方式麻烦，而且不像一个命令行程序。我们期望的使用方式如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ node-echo Hello World</span><br></pre></td></tr></table></figure>
-
-<p>这里pnpm,vite,hexo等包都是以命令行程序的形式呈现的。</p>
-<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><p>将JS文件当作shell脚本来运行，从而达到上述目的。(不会，以后再看😟)</p>
-<h2 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h2><p>可以使用<code>.cmd</code>文件解决问题。我们需要将<code>C:\User\user\bin</code>*(假设<code>node-echo.js</code>存放在<code>C:\Users\user\bin</code>目录)添加至环境变量，再在该目录下创建一个<code>node-echo.cmd</code>的文件，内容如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@node &quot;C:\User\user\bin\node-echo.js&quot; %*</span><br></pre></td></tr></table></figure>
-<p>目的达成。</p>
-<h1 id="工程目录"><a href="#工程目录" class="headerlink" title="工程目录"></a>工程目录</h1><p>以编写一个命令行程序为例，我们一般要提供命令行模式和API模式两种使用方式，并使用第三方包来编写代码。</p>
-<p>除了代码，一个完整的程序应该有自己的文档和测试用例。所以，一个完整的工程文件应该看起来像下面这样：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- /home/user/workspace/node-echo/   # 工程目录</span><br><span class="line">    - bin/                          # 存放命令行相关代码</span><br><span class="line">        node-echo</span><br><span class="line">    + doc/                          # 存放文档</span><br><span class="line">    - lib/                          # 存放API相关代码</span><br><span class="line">        echo.js</span><br><span class="line">    - node_modules/                 # 存放三方包</span><br><span class="line">        + argv/</span><br><span class="line">    + tests/                        # 存放测试用例</span><br><span class="line">    package.json                    # 元数据文件</span><br><span class="line">    README.md                       # 说明文件</span><br></pre></td></tr></table></figure>
-<p>其中部分文件如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/* bin/node-echo */</span><br><span class="line">let argv = require(&#x27;argv&#x27;),</span><br><span class="line">    echo = require(&#x27;../lib/echo&#x27;);</span><br><span class="line">console.log(echo(argv.join(&#x27; &#x27;)));</span><br><span class="line"></span><br><span class="line">/* lib/echo.js */</span><br><span class="line">module.exports = function (message) &#123;</span><br><span class="line">    return message;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/* package.json */</span><br><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;node-echo&quot;,</span><br><span class="line">    &quot;main&quot;: &quot;./lib/echo.js&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用<code>node_modules</code>目录直接使用第三方包名加载模块。定义<code>package.json</code>后，将<code>node_echo</code>当作一个包使用。</p>
-<h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><p>学习链接：<a target="_blank" rel="noopener" href="https://nqdeng.github.io/7-days-nodejs/#1.5">七天学会NodeJS</a></p>
+        <h1 id="互联网是如何工作的"><a href="#互联网是如何工作的" class="headerlink" title="互联网是如何工作的"></a>互联网是如何工作的</h1><p>当两台电脑需要工作的时候，我们必须以有线或无线的方式将其连接(两重方式本质上并无不同)</p>
+<p>通常一个网络不限于两个电脑，所以我们可以将所有电脑连接只一个叫<strong>路由器</strong>的特殊小电脑上。由<strong>路由器</strong>来接受并转发信息。</p>
+<p><img src="/images/Router.png" alt="图片" title="路由器"></p>
+<h2 id="构成网络"><a href="#构成网络" class="headerlink" title="构成网络"></a>构成网络</h2><p>我们将路由器之间再相互连接，规模会不断的扩大，越来越接近我们脑海中<strong>互联网</strong>的规模。</p>
+<p>然而，在现实中为每个家庭每个人架设专用的电缆将不同的网络连接起来是不可能的，那么我们改怎么处理这件事？</p>
+<p>电话基础设施已将每家每户进行覆盖了，我们可以使用<strong>调制解调器</strong>将网络信息转变为电话设施可处理的信息来利用这些设备。</p>
+<p><img src="/images/Modem.png" alt="图片" title="所谓的‘猫’"></p>
+<p><em>(由于科技的发展，很多地区已经实现光纤入户)</em></p>
+<p>我们将自己的网络连接至互联网服务提供商(ISP)—-一家可以管理一些特殊的路由器的公司。这些路由器连接至其他<strong>ISP</strong>的路由器，进而实现信息的交互。</p>
+<p><img src="/images/ISP.png" alt="图片" title="ISP"></p>
+<p><em>(国内的电信、移动、联通均为ISP供应商)</em></p>
+<h1 id="什么是web服务器"><a href="#什么是web服务器" class="headerlink" title="什么是web服务器"></a>什么是web服务器</h1><p>硬件部分，web 服务器是一台存储了 web 服务器软件以及网站的组成文件的计算机。</p>
+<p>软件部分，web 服务器包括控制网络用户如何访问托管文件的几个部分，至少是一台 HTTP 服务器。</p>
+<h2 id="文件托管"><a href="#文件托管" class="headerlink" title="文件托管"></a>文件托管</h2><p>严格来说，你可以在你自己的计算机上托管所有的这些文件，但是在一个专用的 web 服务器上存储它们会方便得多。</p>
+<ul>
+<li>专用 web 服务器可用性更强（会一直启动和运行）</li>
+<li>除去停机时间和系统故障，专用 web 服务器总是连接到互联网。</li>
+<li>专用 web 服务器可以一直拥有一样的 IP 地址，这也称为专有 IP 地址（不是所有的 ISP 都会为家庭线提供一个固定的 IP 地址）</li>
+<li>专用 web 服务器往往由第三方提供者维护</li>
+</ul>
+<h2 id="通过HTTPS交流"><a href="#通过HTTPS交流" class="headerlink" title="通过HTTPS交流"></a>通过HTTPS交流</h2><p>web通过**超文本传输协议(http)**来和web服务器进行交流。当你在网页上点击一个链接，或提交一个表单，再或进行一次搜索时，一个 HTTP 请求就从你的浏览器发送到了目标服务器。</p>
+<p><strong>一个HTTP请求</strong>包含所请求资源的<strong>URL</strong>，定义所需操作的<strong>方法</strong>，编码在URL参数的<strong>附加信息</strong>。</p>
+<p>Web 服务器等待客户端的请求信息，在它们到达的时候处理它们，并且回复 Web 浏览器一个 HTTP 响应信息。</p>
+<p><strong>一个HTTP相应</strong>包含一个显示请求是否成功的<strong>状态行</strong>(比如404 not found)。</p>
+<p>相应一个请求的成功回应包含被请求的资源，然后这些会被展示在客户端的 Web 浏览器上。</p>
+<h2 id="动态网站"><a href="#动态网站" class="headerlink" title="动态网站"></a>动态网站</h2><p>一些相应内容只有在被需要的时候才会在网站中生成，在一个动态网站中，页面通常是通过将数据库的数据植入到HTML模板中的占位符而产生的。</p>
+<p>大多数支持动态网站的代码必须运行在服务器上。编写这些代码就是所谓的<strong>服务器端编程</strong>(有些时候也称<strong>后端脚本编写</strong>)。</p>
+<p><img src="/images/server.png" alt="图片" title="ISP"></p>
+<p>对于动态资源的请求则会指向(2)<strong>服务器端代码</strong> (在图中显示为Web Application)。在处理<strong>动态请求</strong>时，服务器会首先解释请求，从数据库中读取被请求的信息，然后将这些被检索的信息组合到<strong>HTML模板</strong>中(4),最后返回一个包含所生成的<strong>HTML 页面</strong>的回应(5,6)。</p>
+<h1 id="web服务器编程"><a href="#web服务器编程" class="headerlink" title="web服务器编程"></a>web服务器编程</h1><p>服务器端的代码可以使用任何一种语言编程，比较受欢迎的包括PHP(<strong>狗都不用</strong>)、Python、Ruby和C#。服务器端代码有充分的权限访问服务器的操作系统。</p>
+<p>开发者通常使用web框架来编写代码。</p>
+<p>客户端web框架主要简化布局和演示任务，服务器web框架提供大量的普通Web服务功能，比如支持会话、支持用户和身份验证、简单的数据访问、模板库等。</p>
+<p>客户端框架通常被用来帮助加速客户端代码的开发，但是你也可以选择手写所有的代码；事实上，如果你只需要一个小型的、简单的网站UI，手写自己的代码可能更快并且更高效。</p>
+<p>相反的，你应该从来没有考虑过不使用框架而直接编写 web 应用程序的服务器端组件——实现一个重要的功能比如 HTTP 服务器真的很难直接从头开始用 、Python语言构建，但是一些用Python语言写的web框架，比如Django提供了开箱即用的功能，同时还包含其他很多有用的工具。</p>
+<h2 id="web服务器端可以做什么？"><a href="#web服务器端可以做什么？" class="headerlink" title="web服务器端可以做什么？"></a>web服务器端可以做什么？</h2><ul>
+<li><p>信息的高效存储和传输</p>
+</li>
+<li><p>定制用户体验</p>
+</li>
+<li><p>控制对内容的访问</p>
+</li>
+<li><p>存储会话和状态信息</p>
+</li>
+<li><p>通知和通讯</p>
+</li>
+<li><p>数据分析</p>
+</li>
+</ul>
+<p>详见<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Learn/Server-side/First_steps/Introduction">MDN服务端编程介绍</a></p>
 
       </section>
 
@@ -185,32 +195,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="https://images.dmzj.com/resource/news/2022/07/17/1658051617965191.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2024/03/22/3-22-music/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[音乐]Ember-haju:harmonics</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://i.ytimg.com/vi/C45TBOMP1GY/maxresdefault.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="https://www.soundproofbrosaudio.com/uploads/images/2312271847129miW.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2024/03/21/3-21-music-1/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[音乐]Samsara-GET IN THE RING</h2>
+        <a href="/2024/05/20/5-20/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">随缘更新-看看monk a1</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -279,7 +273,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E8%B7%AF%E5%BE%84%E8%A7%84%E5%88%99%E8%A7%A3%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">模块路径规则解析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8C%85"><span class="toc-number">2.</span> <span class="toc-text">包</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#index-js"><span class="toc-number">2.1.</span> <span class="toc-text">index.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#package-json"><span class="toc-number">2.2.</span> <span class="toc-text">package.json</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%A8%8B%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">命令行程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux"><span class="toc-number">3.1.</span> <span class="toc-text">Linux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#windows"><span class="toc-number">3.2.</span> <span class="toc-text">windows</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E7%A8%8B%E7%9B%AE%E5%BD%95"><span class="toc-number">4.</span> <span class="toc-text">工程目录</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%93%BE%E6%8E%A5"><span class="toc-number">5.</span> <span class="toc-text">链接</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%92%E8%81%94%E7%BD%91%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84"><span class="toc-number">1.</span> <span class="toc-text">互联网是如何工作的</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E6%88%90%E7%BD%91%E7%BB%9C"><span class="toc-number">1.1.</span> <span class="toc-text">构成网络</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFweb%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">什么是web服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%89%98%E7%AE%A1"><span class="toc-number">2.1.</span> <span class="toc-text">文件托管</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87HTTPS%E4%BA%A4%E6%B5%81"><span class="toc-number">2.2.</span> <span class="toc-text">通过HTTPS交流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E7%BD%91%E7%AB%99"><span class="toc-number">2.3.</span> <span class="toc-text">动态网站</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#web%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%BC%96%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">web服务器编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#web%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%8F%AF%E4%BB%A5%E5%81%9A%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">3.1.</span> <span class="toc-text">web服务器端可以做什么？</span></a></li></ol></li></ol>
   </div>
 </section>
 
