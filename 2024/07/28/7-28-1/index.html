@@ -22,7 +22,7 @@
 
   
 
-  <title>[算法]全排列STL-next_permutation | kpmark</title>
+  <title>[算法]搜索 | kpmark</title>
 
   
 
@@ -49,7 +49,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://tse1-mm.cn.bing.net/th/id/OIP-C.cguPHWIeh1rf23UZLCC3nwHaHT?rs=1&amp;pid=ImgDetMain)"></div>
+    <div class="post-image" style="background-image: url(/images/7-28.jpg)"></div>
   
 
   <!-- navbar -->
@@ -100,11 +100,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">[算法]全排列STL-next_permutation</h1>
+          <h1 class="title-wrap">[算法]搜索</h1>
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-07-27T08:20:44.000Z" itemprop="datePublished">2024-07-27</time>
+            <time  class="article-date" datetime="2024-07-28T13:15:44.000Z" itemprop="datePublished">2024-07-28</time>
           </h2>
           
           
@@ -139,23 +139,16 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="next-permutation-prev-permutation"><a href="#next-permutation-prev-permutation" class="headerlink" title="next_permutation(prev_permutation)"></a>next_permutation(prev_permutation)</h1><p>有全排列函数两个：</p>
-<ul>
-<li>next_permutation(start,end)</li>
-<li>prev_permutation(start,end)</li>
-</ul>
-<p>前者求的是当前排列的<strong>下一个</strong>排列，后者求的是当前排列的<strong>上一个</strong>排列。(前后顺序为字典序)</p>
-<p>有<code>next_permutation</code>的函数原型：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;algorithm&gt;</span><br><span class="line">bool next_permutation(iterator start,iterator end)</span><br></pre></td></tr></table></figure>
+        <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>通过进行递归操作或者通过队列的特殊性质进行解题的一种算法，分为<strong>深度优先搜索(dfs)</strong>和<strong>广度优先搜索(bfs)</strong>。</p>
+<p>递归+枚举？</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><h2 id="深度优先搜索"><a href="#深度优先搜索" class="headerlink" title="深度优先搜索"></a>深度优先搜索</h2><p>在树状结构<em>可以数组实现</em>中以深度优先的方式遍历每一结点，但是因为递归比较占空间，所以只有在数据量较少的时候可以使用。</p>
+<p>给个模板：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">void dfs(按照题目要求传入参数)&#123;</span><br><span class="line">	if(判断结束条件)&#123;</span><br><span class="line">	****</span><br><span class="line">	return ;</span><br><span class="line">	&#125;</span><br><span class="line">	for(继续处理)&#123;</span><br><span class="line">	dfs(进行递归);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>有如下例子：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;algorithm&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    int num[3]=&#123;1,2,3&#125;;</span><br><span class="line">    do</span><br><span class="line">    &#123;</span><br><span class="line">        cout&lt;&lt;num[0]&lt;&lt;&quot; &quot;&lt;&lt;num[1]&lt;&lt;&quot; &quot;&lt;&lt;num[2]&lt;&lt;endl;</span><br><span class="line">    &#125;while(next_permutation(num,num+3));</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果为：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1 2 3</span><br><span class="line">1 3 2</span><br><span class="line">2 1 3</span><br><span class="line">2 3 1</span><br><span class="line">3 1 2</span><br><span class="line">3 2 1</span><br></pre></td></tr></table></figure>
-
-<p>总结：<code>next_permutation(num,num+n)</code>对数组中前 n 个元素进行全排列。</p>
-<p>此外，有<code>next_permutation(node,node+n,cmp)</code>,可以对结构特(或其他规则)按照自定义的排序方式进行排序。</p>
+<h2 id="广度优先搜索"><a href="#广度优先搜索" class="headerlink" title="广度优先搜索"></a>广度优先搜索</h2><p>顾名思义，以广度优先的方式遍历每一个节点，即先遍历完上层的再遍历下层的。</p>
+<p>似乎大多数使用队列实现？</p>
+<p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">void bfs()&#123;</span><br><span class="line">	push//入队</span><br><span class="line">	while(empty)&#123;</span><br><span class="line">		front//取出队首元素</span><br><span class="line">		pop出队</span><br><span class="line">		for(循环处理)&#123;</span><br><span class="line">			if(判断不符合题意条件) continue;</span><br><span class="line">			push//入队新元素</span><br><span class="line">			if（判断结束条件）&#123;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
       </section>
 
@@ -163,32 +156,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="https://tse1-mm.cn.bing.net/th/id/OIP-C.cguPHWIeh1rf23UZLCC3nwHaHT?rs=1&amp;pid=ImgDetMain"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2024/07/27/7-27-1/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]高精度计算</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://tse1-mm.cn.bing.net/th/id/OIP-C.cguPHWIeh1rf23UZLCC3nwHaHT?rs=1&amp;pid=ImgDetMain"></div>
+      <div class="card-cover" background-image-lazy data-img="/images/7-28.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2024/07/27/7-27-4/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]背包算法</h2>
+        <a href="/2024/07/28/7-28-2/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法]二分答案+前缀和</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -257,7 +234,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#next-permutation-prev-permutation"><span class="toc-number">1.</span> <span class="toc-text">next_permutation(prev_permutation)</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">2.1.</span> <span class="toc-text">深度优先搜索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">2.2.</span> <span class="toc-text">广度优先搜索</span></a></li></ol></li></ol>
   </div>
 </section>
 

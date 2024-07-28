@@ -22,7 +22,7 @@
 
   
 
-  <title>[算法]记忆化搜索 | kpmark</title>
+  <title>[算法]二分答案+前缀和 | kpmark</title>
 
   
 
@@ -49,7 +49,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://tse1-mm.cn.bing.net/th/id/OIP-C.cguPHWIeh1rf23UZLCC3nwHaHT?rs=1&amp;pid=ImgDetMain)"></div>
+    <div class="post-image" style="background-image: url(/images/7-28.jpg)"></div>
   
 
   <!-- navbar -->
@@ -100,11 +100,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">[算法]记忆化搜索</h1>
+          <h1 class="title-wrap">[算法]二分答案+前缀和</h1>
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-07-27T08:20:44.000Z" itemprop="datePublished">2024-07-27</time>
+            <time  class="article-date" datetime="2024-07-28T12:15:44.000Z" itemprop="datePublished">2024-07-28</time>
           </h2>
           
           
@@ -139,12 +139,22 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="你好，STL-自带二分算法"><a href="#你好，STL-自带二分算法" class="headerlink" title="你好，STL 自带二分算法"></a>你好，STL 自带二分算法</h1><p>在<strong>从小到大</strong>的排序数组中</p>
-<ul>
-<li><code>lower_bound(begin, end, num)</code>：从数组的 begin 位置到 end-1 位置二分查找第一个大于等于 num 的数字，找到并返回该数字的下标，不存在则返回 end。</li>
-<li><code>upper_bound(begin, end, num)</code>：从数字的 begin 位置到 end-1 位置二分查找第一个大于 num 的数字，找到并返回该数字的下标，不存在则返回 end。</li>
+        <h1 id="什么是二分答案"><a href="#什么是二分答案" class="headerlink" title="什么是二分答案"></a>什么是二分答案</h1><p>我们对于二分查找很熟悉，即在一个有序数据集上集中进行二分查找，换言之是在有序数组中快速查找某一个数。</p>
+<p>而二分答案，则是已知答案在某一区间中，在这个区间中进行二分查找需要的答案。</p>
+<p>欸 🤓☝️，这个时候我们还不知道答案是什么，于是我们需要为所有二分出来的数据点编写一个<code>check</code>函数，根据该函数返回的值，我们再来确定下一次二分的区间。</p>
+<p>可以理解为更高效的枚举方式。</p>
+<p><strong>所以二分答案的难点与考点，就是如何确定答案范围，以及如何编写<code>check</code>函数</strong></p>
+<h1 id="前缀和定义"><a href="#前缀和定义" class="headerlink" title="前缀和定义"></a>前缀和定义</h1><p>前缀和就是从第一个数到当前数之间的<strong>区间</strong>的和。</p>
+<p>？大概可以类比和函数的概念(<em>S(x)</em>)。</p>
+<p>这里给出在读取数据时直接计算前缀和的代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for (int i = 1; i &lt;= n; i++) &#123;</span><br><span class="line">        cin &gt;&gt; a[i];</span><br><span class="line">        s[i] = s[i - 1] + a[i];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>大致如此，这里 a[1]和是 s[1]需要在具体代码中确定</em></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><ul>
+<li>以 o(1)的时间复杂度得到某块区间的总和</li>
 </ul>
-<h2 id="反之亦然"><a href="#反之亦然" class="headerlink" title="反之亦然"></a>反之亦然</h2><p>以下略</p>
+<p>…</p>
+<p>没了，<br>具体使用还是得在题目中体现，在一些需要快速计算子数组和、简化代码、区间查询的地方疑似很有用。</p>
 
       </section>
 
@@ -155,12 +165,12 @@
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://tse1-mm.cn.bing.net/th/id/OIP-C.cguPHWIeh1rf23UZLCC3nwHaHT?rs=1&amp;pid=ImgDetMain"></div>
+      <div class="card-cover" background-image-lazy data-img="/images/7-28.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2024/07/27/7-27-5/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]递推与递归与高精度</h2>
+        <a href="/2024/07/28/7-28-1/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法]搜索</h2>
         </a>
       
       <div class="card-text--row">Newer</div>
@@ -176,8 +186,8 @@
     
     <div class="card-text">
       
-        <a href="/2024/07/27/7-27-6/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]记忆化搜索</h2>
+        <a href="/2024/07/27/7-27-3/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法]priority_queue</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -219,7 +229,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>23</span>
+        <span>25</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -246,7 +256,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%A0%E5%A5%BD%EF%BC%8CSTL-%E8%87%AA%E5%B8%A6%E4%BA%8C%E5%88%86%E7%AE%97%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">你好，STL 自带二分算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E4%B9%8B%E4%BA%A6%E7%84%B6"><span class="toc-number">1.1.</span> <span class="toc-text">反之亦然</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BA%8C%E5%88%86%E7%AD%94%E6%A1%88"><span class="toc-number">1.</span> <span class="toc-text">什么是二分答案</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E7%BC%80%E5%92%8C%E5%AE%9A%E4%B9%89"><span class="toc-number">2.</span> <span class="toc-text">前缀和定义</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">2.1.</span> <span class="toc-text">使用</span></a></li></ol></li></ol>
   </div>
 </section>
 
@@ -283,7 +293,7 @@
       
         <li class="categorys-list-item">
           <a href="/categories/%E7%AC%94%E8%AE%B0/">
-            笔记 (16)
+            笔记 (18)
           </a>
         </li>
       
@@ -300,7 +310,7 @@
   </div>
   <div class="widget-body">
     <div class="tags-cloud">
-      <a href="/tags/NodeJS/" style="font-size: 13.33px;" class="tags-cloud-3">NodeJS</a> <a href="/tags/eda/" style="font-size: 10px;" class="tags-cloud-0">eda</a> <a href="/tags/music/" style="font-size: 20px;" class="tags-cloud-10">music</a> <a href="/tags/web/" style="font-size: 16.67px;" class="tags-cloud-7">web</a> <a href="/tags/web%EF%BC%8CBackend/" style="font-size: 10px;" class="tags-cloud-0">web，Backend</a> <a href="/tags/web%EF%BC%8CTypeScript/" style="font-size: 13.33px;" class="tags-cloud-3">web，TypeScript</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 20px;" class="tags-cloud-10">算法</a>
+      <a href="/tags/NodeJS/" style="font-size: 12.5px;" class="tags-cloud-3">NodeJS</a> <a href="/tags/eda/" style="font-size: 10px;" class="tags-cloud-0">eda</a> <a href="/tags/music/" style="font-size: 17.5px;" class="tags-cloud-8">music</a> <a href="/tags/web/" style="font-size: 15px;" class="tags-cloud-5">web</a> <a href="/tags/web%EF%BC%8CBackend/" style="font-size: 10px;" class="tags-cloud-0">web，Backend</a> <a href="/tags/web%EF%BC%8CTypeScript/" style="font-size: 12.5px;" class="tags-cloud-3">web，TypeScript</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 20px;" class="tags-cloud-10">算法</a>
     </div>
   </div>
 </section>
