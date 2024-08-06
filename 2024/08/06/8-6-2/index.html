@@ -22,7 +22,7 @@
 
   
 
-  <title>随缘更新-看看monk a1 | kpmark</title>
+  <title>[算法]STL map 与 set | kpmark</title>
 
   
 
@@ -42,9 +42,6 @@
 <link rel="stylesheet" href="/css/style.css">
 
 
-<link rel="stylesheet" href="\assets\css\APlayer.min.css" class="aplayer-style-marker">
-<script src="\assets\js\APlayer.min.js" class="aplayer-script-marker"></script>
-<script src="\assets\js\Meting.min.js" class="meting-script-marker"></script>
 </head>
 <body>
   <div class="root-container">
@@ -52,7 +49,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://www.soundproofbrosaudio.com/uploads/images/2312271847129miW.jpg)"></div>
+    <div class="post-image" style="background-image: url(/images/thumb.jpeg)"></div>
   
 
   <!-- navbar -->
@@ -103,22 +100,22 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">随缘更新-看看monk a1</h1>
+          <h1 class="title-wrap">[算法]STL map 与 set</h1>
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-05-20T07:51:28.000Z" itemprop="datePublished">2024-05-20</time>
+            <time  class="article-date" datetime="2024-08-06T12:15:44.000Z" itemprop="datePublished">2024-08-06</time>
           </h2>
           
           
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/%E6%9D%82%E8%B0%88/">📒 杂谈</a></li>
+    <li><a href="/categories/%E7%AC%94%E8%AE%B0/">📒 笔记</a></li>
   
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/music/">🏷️ music</a></li>
+    <li><a href="/tags/%E7%AE%97%E6%B3%95/">🏷️ 算法</a></li>
   
 </ul>
         </div>
@@ -142,20 +139,26 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        
-    <div id="aplayer-qlKvkMZd" class="aplayer aplayer-tag-marker meting-tag-marker"
-         data-id="29241073" data-server="netease" data-type="song" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#ad7a86"
-    ></div>
-<p>520没人陪我过，干脆更篇博客算了</p>
-<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>手边有条aria2，好听是好听，戴久了耳朵太酸，9500听音乐又实在一言难尽， 于是入了个便宜的平头塞。想着这玩意要是能比原道的9.9好听就行。结果那天插上电脑， 打开玉置浩二，差点把悔恨之泪干出来。<strong>真tm好听</strong></p>
-<h2 id="价格"><a href="#价格" class="headerlink" title="价格"></a>价格</h2><p>ve monk a1，某宝的官店40r一条。比原道的9.9和浅25都要贵一点，不过仍然算性价比很高的一款平头。再贵点好听的基本都是百元款了。有钱建议直接乐图铁菊花就是</p>
-<h2 id="声音"><a href="#声音" class="headerlink" title="声音"></a>声音</h2><p>三频均衡，高中低表现都不错，尤其是在中频的调音相当有感觉，让我想起来以前老式收音机的味道。</p>
-<p>比较暖，有一点点糊糊的感觉，不过不是贬义，这种感觉反而很适合玉置浩二这种风格的男声歌曲。人声突出不刺耳，音乐清晰也不会喧宾夺主，确实相当好听。</p>
-<p>在acg音乐的表现就一般，毕竟这个价格的耳机，解析力确实不能有太高要求。基本上底下的鼓点和吉他就糊成一片了，声场也不大，听上去扁扁的。不过在听某些有点吵的轻摇滚(mygo)的时候效果出乎意料的好，把鼓点和吉他压下去的时候人声反而干净了很多。</p>
-<p>在流行的表现不错，我试了下泰勒的歌，还是三频均衡，不惊艳，但是很耐听。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>像万青、玉置浩二这种人声比较干净的男声 monk a1 的表现可以说惊艳，流行和大部分acg的效果也还不错。你要是硬把他和 aria2 甚至 ie800 这种几百甚至上千的塞子比那确实是抬举这个40r的小东西了，但是这玩意确实物超所值。</p>
-<p>主要平头塞佩戴确实舒服，可以在床上听asmr。</p>
-<p>写于2024.5.20(悲，用着入门的 ds1 和 aria2 划水。</p>
+        <h1 id="树上倍增"><a href="#树上倍增" class="headerlink" title="树上倍增"></a>树上倍增</h1><ul>
+<li>建立每个节点的深度表、deep 数组</li>
+<li>建立每个节点往上跳 1、2、4、8 步能达到的节点编号，ST 表</li>
+<li>给定任意节点 i, 可以快速查询，从 i 节点往上走的路径中位于 s 层的节点编号，单次查询时间复杂度 O(log n)</li>
+</ul>
+<p>实际上就是在建立树之后用 dfs 遍历，在统计每个节点对应的深度的同时使用递推公式计算出 ST 表。</p>
+<p>最后通过 ST 表的特性向上查找共同根节点就是树上倍增的 lca 应用。</p>
+<h2 id="ST-表"><a href="#ST-表" class="headerlink" title="ST 表"></a>ST 表</h2><p>ST[i][p]，实际上就是 i 节点向上走 (1 &lt;&lt; p) 步所到达的节点。这里给出递推公式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ST[i][p] = ST[ST[i][p-1]][p-1]; // 很容易理解，根据之前节点统计过的结果推出该节点的结果</span><br></pre></td></tr></table></figure>
+
+<p>在 dfs 中，已知 i 节点的父节点全部计算过，所以可以直接使用递推公式。</p>
+<h1 id="lca-过程"><a href="#lca-过程" class="headerlink" title="lca 过程"></a>lca 过程</h1><p>lca 可以解决树中的最短路径问题。这里使用 ST 表向上查找时，可以很快速的确定两个节点共同的最近父亲节点。</p>
+<p>我也不知道咋证明，这里给出查找代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">int lca(int a, int b) &#123;</span><br><span class="line">    if (dep[a] &lt; dep[b]) &#123;</span><br><span class="line">        int temp = a;</span><br><span class="line">        a = b;</span><br><span class="line">        b = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    for (int p = power; p &gt;= 0; p--) &#123;</span><br><span class="line">        if (dep[stjump[a][p]] &gt;= dep[b]) &#123;</span><br><span class="line">            a = stjump[a][p]; // 这里使要查询的两个节点处于同一深度</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if (a == b)</span><br><span class="line">        return a;</span><br><span class="line"></span><br><span class="line">    for (int p = power; p &gt;= 0; p--) &#123;</span><br><span class="line">        if (stjump[a][p] != stjump[b][p]) &#123;</span><br><span class="line">            a = stjump[a][p];</span><br><span class="line">            b = stjump[b][p]; // 使二者的深度与目标深度相差一</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return stjump[a][0];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="建图"><a href="#建图" class="headerlink" title="建图"></a>建图</h1><p>这里推荐的建图方法是<strong>链式前向星</strong>，其使用三个数组来查找每个节点延伸出去的边。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void add(int u, int v, int w) &#123;</span><br><span class="line">    // u -&gt; v, 权重是w</span><br><span class="line">    next[cnt] = head[u];  // 现在这条边的上一条边是出发点的头部边</span><br><span class="line">    to[cnt] = v;</span><br><span class="line">    weight[cnt] = w;</span><br><span class="line">    head[u] = cnt;  // 出发点的头部边更新为现在的边</span><br><span class="line">    cnt++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 无向图要add两次</span><br><span class="line"></span><br><span class="line">for (int i = 1; i &lt;= n; i++) &#123;                       // i是节点号</span><br><span class="line">    for (int ei = head[i]; ei &gt; 0; ei = next[ei]) &#123;  // ei是边号</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>把二叉树当成一个有向图来看。</p>
+<p>这里使用的是 dfs，根据递归来进行深度的移动，所以不需要使用无向图。</p>
 
       </section>
 
@@ -163,32 +166,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="https://cdn.mgig.fr/2022/05/mga-493cea98-w375-w1500-w750_accroche.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2024/06/22/6-22/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">服务器编程概述</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://pic1.zhimg.com/v2-a1d940db08998bfaffd1e0a6c8de8de6.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="/images/thumb.jpeg"></div>
     
     <div class="card-text">
       
-        <a href="/2024/03/31/3-31-music/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[音乐]OCTOPATH TRAVELER-西木康智</h2>
+        <a href="/2024/08/06/8-6-3/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法]STL map 与 set</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -257,7 +244,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%B7%E6%A0%BC"><span class="toc-number">2.</span> <span class="toc-text">价格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E9%9F%B3"><span class="toc-number">3.</span> <span class="toc-text">声音</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%91%E4%B8%8A%E5%80%8D%E5%A2%9E"><span class="toc-number">1.</span> <span class="toc-text">树上倍增</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ST-%E8%A1%A8"><span class="toc-number">1.1.</span> <span class="toc-text">ST 表</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#lca-%E8%BF%87%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">lca 过程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BB%BA%E5%9B%BE"><span class="toc-number">3.</span> <span class="toc-text">建图</span></a></li></ol>
   </div>
 </section>
 

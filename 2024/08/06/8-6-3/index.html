@@ -22,7 +22,7 @@
 
   
 
-  <title>随缘更新-看看monk a1 | kpmark</title>
+  <title>[算法]STL map 与 set | kpmark</title>
 
   
 
@@ -42,9 +42,6 @@
 <link rel="stylesheet" href="/css/style.css">
 
 
-<link rel="stylesheet" href="\assets\css\APlayer.min.css" class="aplayer-style-marker">
-<script src="\assets\js\APlayer.min.js" class="aplayer-script-marker"></script>
-<script src="\assets\js\Meting.min.js" class="meting-script-marker"></script>
 </head>
 <body>
   <div class="root-container">
@@ -52,7 +49,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://www.soundproofbrosaudio.com/uploads/images/2312271847129miW.jpg)"></div>
+    <div class="post-image" style="background-image: url(/images/thumb.jpeg)"></div>
   
 
   <!-- navbar -->
@@ -103,22 +100,22 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">随缘更新-看看monk a1</h1>
+          <h1 class="title-wrap">[算法]STL map 与 set</h1>
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-05-20T07:51:28.000Z" itemprop="datePublished">2024-05-20</time>
+            <time  class="article-date" datetime="2024-08-06T12:15:44.000Z" itemprop="datePublished">2024-08-06</time>
           </h2>
           
           
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/%E6%9D%82%E8%B0%88/">📒 杂谈</a></li>
+    <li><a href="/categories/%E7%AC%94%E8%AE%B0/">📒 笔记</a></li>
   
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/music/">🏷️ music</a></li>
+    <li><a href="/tags/%E7%AE%97%E6%B3%95/">🏷️ 算法</a></li>
   
 </ul>
         </div>
@@ -142,20 +139,56 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        
-    <div id="aplayer-qlKvkMZd" class="aplayer aplayer-tag-marker meting-tag-marker"
-         data-id="29241073" data-server="netease" data-type="song" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#ad7a86"
-    ></div>
-<p>520没人陪我过，干脆更篇博客算了</p>
-<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>手边有条aria2，好听是好听，戴久了耳朵太酸，9500听音乐又实在一言难尽， 于是入了个便宜的平头塞。想着这玩意要是能比原道的9.9好听就行。结果那天插上电脑， 打开玉置浩二，差点把悔恨之泪干出来。<strong>真tm好听</strong></p>
-<h2 id="价格"><a href="#价格" class="headerlink" title="价格"></a>价格</h2><p>ve monk a1，某宝的官店40r一条。比原道的9.9和浅25都要贵一点，不过仍然算性价比很高的一款平头。再贵点好听的基本都是百元款了。有钱建议直接乐图铁菊花就是</p>
-<h2 id="声音"><a href="#声音" class="headerlink" title="声音"></a>声音</h2><p>三频均衡，高中低表现都不错，尤其是在中频的调音相当有感觉，让我想起来以前老式收音机的味道。</p>
-<p>比较暖，有一点点糊糊的感觉，不过不是贬义，这种感觉反而很适合玉置浩二这种风格的男声歌曲。人声突出不刺耳，音乐清晰也不会喧宾夺主，确实相当好听。</p>
-<p>在acg音乐的表现就一般，毕竟这个价格的耳机，解析力确实不能有太高要求。基本上底下的鼓点和吉他就糊成一片了，声场也不大，听上去扁扁的。不过在听某些有点吵的轻摇滚(mygo)的时候效果出乎意料的好，把鼓点和吉他压下去的时候人声反而干净了很多。</p>
-<p>在流行的表现不错，我试了下泰勒的歌，还是三频均衡，不惊艳，但是很耐听。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>像万青、玉置浩二这种人声比较干净的男声 monk a1 的表现可以说惊艳，流行和大部分acg的效果也还不错。你要是硬把他和 aria2 甚至 ie800 这种几百甚至上千的塞子比那确实是抬举这个40r的小东西了，但是这玩意确实物超所值。</p>
-<p>主要平头塞佩戴确实舒服，可以在床上听asmr。</p>
-<p>写于2024.5.20(悲，用着入门的 ds1 和 aria2 划水。</p>
+        <h1 id="map-底层"><a href="#map-底层" class="headerlink" title="map 底层"></a>map 底层</h1><p>map 的底层和 set 一样，都是红黑树，即一种平衡的二叉搜索树。</p>
+<p>map 中存储的数据类型类似 pair，即存储<strong>键值对</strong> (key,value).</p>
+<p>与 unordered_map 不同，map 不仅建立了键值对之间的 hash 映射关系，还在其内部对于每个键值对以 <strong>key</strong> 的字典序进行了排列，在进行某些处理的时候相对方便。</p>
+<p>相对的，map 的搜索效率没有 unordered_map 高。</p>
+<h1 id="map-方法"><a href="#map-方法" class="headerlink" title="map 方法"></a>map 方法</h1><h2 id="增删查改"><a href="#增删查改" class="headerlink" title="增删查改"></a>增删查改</h2><h3 id="插入元素"><a href="#插入元素" class="headerlink" title="插入元素"></a>插入元素</h3><ul>
+<li><code>insert(pair/make_pair/(key, value))</code></li>
+<li><code>m[&quot;new key&quot;] = &quot;new value&quot;</code></li>
+</ul>
+<h3 id="修改元素"><a href="#修改元素" class="headerlink" title="修改元素"></a>修改元素</h3><ul>
+<li>下标操作符[]</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m[3] = &quot;new value&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>若 key 存在，则更新其映射的 value，若不存在，则创建新的键值对。</p>
+<ul>
+<li>使用 find 方法和迭代器</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m.find(key)-&gt;second = &quot;new value&quot;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除元素"><a href="#删除元素" class="headerlink" title="删除元素"></a>删除元素</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mapStu.clear(); //删所有</span><br><span class="line">mapStu.erase(it);//删迭代器指定</span><br><span class="line">mapStu.erase(beg, end);//删key区间</span><br><span class="line">mapStu.erase(key1);  //删key对应</span><br></pre></td></tr></table></figure>
+
+<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><p>在修改里提过了，find() 方法返回要查找的键的迭代器，找不到就返回 end() 。</p>
+<p><em><strong>Tip</strong> pair 的前一个值为 first，后一个为 second。</em></p>
+<h1 id="set-功能"><a href="#set-功能" class="headerlink" title="set 功能"></a>set 功能</h1><p>set 会根据特定的排序规则自动将内部元素排序，不同于 multiset，set 不允许内部元素的重复。</p>
+<ul>
+<li><p>不能直接改变 set 中存储的值，那样会改变排序顺序，应先删除旧值再插入新值。</p>
+</li>
+<li><p>没有直接存取操作数的方法，只能使用迭代器存取</p>
+<p><strong>set 支持高效的关键字查找操作</strong>。</p>
+</li>
+</ul>
+<p>和 sort 一样，sort 可以存储自定义类型，但是必须重载 &lt; 运算符。</p>
+<h2 id="底层"><a href="#底层" class="headerlink" title="底层"></a>底层</h2><p>set 的底层是红黑树，其 key 与 value 相同。</p>
+<h2 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h2><ul>
+<li>begin</li>
+<li>end</li>
+<li>clear</li>
+<li>count ?不能重复还 count 有啥意义</li>
+<li>empty</li>
+<li>equal_range ?返回与给定值相等的两个上下限的迭代器 意义存疑</li>
+<li>erase</li>
+<li>find 返回指定元素的迭代器</li>
+<li>insert</li>
+<li>lower_bound</li>
+<li>ket_cmp 返回比较函数</li>
+<li>size</li>
+<li>swap</li>
+<li>upper_bound</li>
+<li>value_cmp 同 key</li>
+</ul>
 
       </section>
 
@@ -166,12 +199,12 @@
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://cdn.mgig.fr/2022/05/mga-493cea98-w375-w1500-w750_accroche.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="/images/thumb.jpeg"></div>
     
     <div class="card-text">
       
-        <a href="/2024/06/22/6-22/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">服务器编程概述</h2>
+        <a href="/2024/08/06/8-6-2/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法]STL map 与 set</h2>
         </a>
       
       <div class="card-text--row">Newer</div>
@@ -183,12 +216,12 @@
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://pic1.zhimg.com/v2-a1d940db08998bfaffd1e0a6c8de8de6.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="/images/7-28.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2024/03/31/3-31-music/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[音乐]OCTOPATH TRAVELER-西木康智</h2>
+        <a href="/2024/07/28/7-28-1/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法]搜索</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -257,7 +290,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%B7%E6%A0%BC"><span class="toc-number">2.</span> <span class="toc-text">价格</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E9%9F%B3"><span class="toc-number">3.</span> <span class="toc-text">声音</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#map-%E5%BA%95%E5%B1%82"><span class="toc-number">1.</span> <span class="toc-text">map 底层</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#map-%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">map 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A2%9E%E5%88%A0%E6%9F%A5%E6%94%B9"><span class="toc-number">2.1.</span> <span class="toc-text">增删查改</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E5%85%83%E7%B4%A0"><span class="toc-number">2.1.1.</span> <span class="toc-text">插入元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%85%83%E7%B4%A0"><span class="toc-number">2.1.2.</span> <span class="toc-text">修改元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%85%83%E7%B4%A0"><span class="toc-number">2.1.3.</span> <span class="toc-text">删除元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE"><span class="toc-number">2.1.4.</span> <span class="toc-text">查找</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#set-%E5%8A%9F%E8%83%BD"><span class="toc-number">3.</span> <span class="toc-text">set 功能</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%95%E5%B1%82"><span class="toc-number">3.1.</span> <span class="toc-text">底层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">3.2.</span> <span class="toc-text">常用方法</span></a></li></ol></li></ol>
   </div>
 </section>
 
