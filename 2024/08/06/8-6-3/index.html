@@ -22,7 +22,7 @@
 
   
 
-  <title>[算法]STL map 与 set | kpmark</title>
+  <title>[算法]并查集 | kpmark</title>
 
   
 
@@ -100,7 +100,7 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">[算法]STL map 与 set</h1>
+          <h1 class="title-wrap">[算法]并查集</h1>
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
@@ -139,63 +139,26 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="map-底层"><a href="#map-底层" class="headerlink" title="map 底层"></a>map 底层</h1><p>map 的底层和 set 一样，都是红黑树，即一种平衡的二叉搜索树。</p>
-<p>map 中存储的数据类型类似 pair，即存储<strong>键值对</strong> (key,value).</p>
-<p>与 unordered_map 不同，map 不仅建立了键值对之间的 hash 映射关系，还在其内部对于每个键值对以 <strong>key</strong> 的字典序进行了排列，在进行某些处理的时候相对方便。</p>
-<p>相对的，map 的搜索效率没有 unordered_map 高。</p>
-<h1 id="map-方法"><a href="#map-方法" class="headerlink" title="map 方法"></a>map 方法</h1><h2 id="增删查改"><a href="#增删查改" class="headerlink" title="增删查改"></a>增删查改</h2><h3 id="插入元素"><a href="#插入元素" class="headerlink" title="插入元素"></a>插入元素</h3><ul>
-<li><code>insert(pair/make_pair/(key, value))</code></li>
-<li><code>m[&quot;new key&quot;] = &quot;new value&quot;</code></li>
+        <h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><ul>
+<li>一开始每个元素都有自己的集合，在自己的集合里只有这个元素自己。</li>
+<li><code>find(i)</code>: 查找所在集合的代表元素，代表元素来代表 i 所在的集合。</li>
+<li><code>bool isSame(a,b)</code>: 判断 a、b 是否在同一个集合中。</li>
+<li><code>void union(a, b)</code>: a 所在的集合和 b 所在的集合中所有的元素合并成一个集合。</li>
+<li>各种操作单词调用的时间复杂度为 O(1)。</li>
 </ul>
-<h3 id="修改元素"><a href="#修改元素" class="headerlink" title="修改元素"></a>修改元素</h3><ul>
-<li>下标操作符[]</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m[3] = &quot;new value&quot;;</span><br></pre></td></tr></table></figure>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>这里使用一个<code>father[]</code>来标记每个元素所对应的父节点，相同集合公用一个相同的祖先以便查询。</p>
+<p>给出<code>find()</code>的实现：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int find(int i) &#123;</span><br><span class="line">    if (i == f[i])</span><br><span class="line">        return i;</span><br><span class="line">    f[i] = find(f[i]); // 这里可以实现路径压缩，从而优化查询时间</span><br><span class="line">    return f[i];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>若 key 存在，则更新其映射的 value，若不存在，则创建新的键值对。</p>
-<ul>
-<li>使用 find 方法和迭代器</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m.find(key)-&gt;second = &quot;new value&quot;;</span><br></pre></td></tr></table></figure>
-
-<h3 id="删除元素"><a href="#删除元素" class="headerlink" title="删除元素"></a>删除元素</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mapStu.clear(); //删所有</span><br><span class="line">mapStu.erase(it);//删迭代器指定</span><br><span class="line">mapStu.erase(beg, end);//删key区间</span><br><span class="line">mapStu.erase(key1);  //删key对应</span><br></pre></td></tr></table></figure>
-
-<h3 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h3><p>在修改里提过了，find() 方法返回要查找的键的迭代器，找不到就返回 end() 。</p>
-<p><em><strong>Tip</strong> pair 的前一个值为 first，后一个为 second。</em></p>
-<h1 id="set-功能"><a href="#set-功能" class="headerlink" title="set 功能"></a>set 功能</h1><p>set 会根据特定的排序规则自动将内部元素排序，不同于 multiset，set 不允许内部元素的重复。</p>
-<ul>
-<li><p>不能直接改变 set 中存储的值，那样会改变排序顺序，应先删除旧值再插入新值。</p>
-</li>
-<li><p>没有直接存取操作数的方法，只能使用迭代器存取</p>
-<p><strong>set 支持高效的关键字查找操作</strong>。</p>
-</li>
-</ul>
-<p>和 sort 一样，sort 可以存储自定义类型，但是必须重载 &lt; 运算符。</p>
-<h2 id="底层"><a href="#底层" class="headerlink" title="底层"></a>底层</h2><p>set 的底层是红黑树，其 key 与 value 相同。</p>
-<h2 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h2><ul>
-<li>begin</li>
-<li>end</li>
-<li>clear</li>
-<li>count ?不能重复还 count 有啥意义</li>
-<li>empty</li>
-<li>equal_range ?返回与给定值相等的两个上下限的迭代器 意义存疑</li>
-<li>erase</li>
-<li>find 返回指定元素的迭代器</li>
-<li>insert</li>
-<li>lower_bound</li>
-<li>ket_cmp 返回比较函数</li>
-<li>size</li>
-<li>swap</li>
-<li>upper_bound</li>
-<li>value_cmp 同 key</li>
-</ul>
+<p>这样，每个相同的集合的元素的父亲元素就是这个集合的祖先元素。直接判断祖先元素的异同，就是<code>isSame()</code>函数。</p>
+<p>给出<code>union(a, b)</code>的实现：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">int size[];</span><br><span class="line">void union(a, b) &#123;</span><br><span class="line">    if(size[a] &gt; size[b]) &#123;</span><br><span class="line">        int temp = a;</span><br><span class="line">        a = b;</span><br><span class="line">        b = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    f[find(a)] = find(b); // a的祖先的叠是b的祖先</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       </section>
 
       
       
         <nav class="article-nav">
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
@@ -206,6 +169,23 @@
       
         <a href="/2024/08/06/8-6-2/" itemprop="url">
           <h2 class="card-text--title text-ellipsis">[算法]树上倍增和LCA算法</h2>
+        </a>
+      
+      <div class="card-text--row">Newer</div>
+    </div>
+  </article>
+</div>
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="/images/7-28.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2024/07/28/7-28-1/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法]搜索</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -247,7 +227,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>27</span>
+        <span>28</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -274,7 +254,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#map-%E5%BA%95%E5%B1%82"><span class="toc-number">1.</span> <span class="toc-text">map 底层</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#map-%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">map 方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A2%9E%E5%88%A0%E6%9F%A5%E6%94%B9"><span class="toc-number">2.1.</span> <span class="toc-text">增删查改</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E5%85%83%E7%B4%A0"><span class="toc-number">2.1.1.</span> <span class="toc-text">插入元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%85%83%E7%B4%A0"><span class="toc-number">2.1.2.</span> <span class="toc-text">修改元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%85%83%E7%B4%A0"><span class="toc-number">2.1.3.</span> <span class="toc-text">删除元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE"><span class="toc-number">2.1.4.</span> <span class="toc-text">查找</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#set-%E5%8A%9F%E8%83%BD"><span class="toc-number">3.</span> <span class="toc-text">set 功能</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%95%E5%B1%82"><span class="toc-number">3.1.</span> <span class="toc-text">底层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">3.2.</span> <span class="toc-text">常用方法</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a></li></ol>
   </div>
 </section>
 
@@ -311,7 +291,7 @@
       
         <li class="categorys-list-item">
           <a href="/categories/%E7%AC%94%E8%AE%B0/">
-            笔记 (20)
+            笔记 (21)
           </a>
         </li>
       
