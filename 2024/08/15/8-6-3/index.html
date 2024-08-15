@@ -104,7 +104,7 @@
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-08-06T12:15:44.000Z" itemprop="datePublished">2024-08-06</time>
+            <time  class="article-date" datetime="2024-08-15T12:15:44.000Z" itemprop="datePublished">2024-08-15</time>
           </h2>
           
           
@@ -153,6 +153,26 @@
 <p>这样，每个相同的集合的元素的父亲元素就是这个集合的祖先元素。直接判断祖先元素的异同，就是<code>isSame()</code>函数。</p>
 <p>给出<code>union(a, b)</code>的实现：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">int size[];</span><br><span class="line">void union(a, b) &#123;</span><br><span class="line">    if(size[a] &gt; size[b]) &#123;</span><br><span class="line">        int temp = a;</span><br><span class="line">        a = b;</span><br><span class="line">        b = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    f[find(a)] = find(b); // a的祖先的叠是b的祖先</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="种类并查集"><a href="#种类并查集" class="headerlink" title="种类并查集"></a>种类并查集</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>将一个集合中的元素根据其不同的关系进行分类和合并。？</p>
+<p>🤓☝️</p>
+<p>人话：在普通并查集<strong>亲戚的亲戚也是亲戚</strong>的基础上有着其他关系，并非根据物品的种类来进行分类，而是类似<strong>敌人的敌人就是朋友</strong>这种微妙的关系。</p>
+<p>一般来说，种类并查集不是开多个数组来进行维护，而是<strong>扩大并查集数组的规模</strong>。</p>
+<h2 id="与普通并查集的区别"><a href="#与普通并查集的区别" class="headerlink" title="与普通并查集的区别"></a>与普通并查集的区别</h2><ul>
+<li><p><strong>普通并查集</strong>维护的是具有<strong>连通性</strong>、<strong>传递性</strong>的问题，例如<strong>亲戚的亲戚是亲戚</strong>，其三者共属于同一集合。</p>
+</li>
+<li><p><strong>种类并查集</strong>维护类似<strong>敌人的敌人就是朋友</strong>这种微妙的关系。</p>
+</li>
+</ul>
+<h2 id="使用时机"><a href="#使用时机" class="headerlink" title="使用时机"></a>使用时机</h2><p>当我们不知道哪些具体的元素应该分到一个集合时，我们无法直接构建普通并查集。若我们知道那些元素不能分为一类，我们可以使用种类并查集来构建集合关系。</p>
+<h2 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h2><p>以<strong>敌人的敌人就是朋友</strong>为例。</p>
+<h3 id="种类并查集的初始化"><a href="#种类并查集的初始化" class="headerlink" title="种类并查集的初始化"></a>种类并查集的初始化</h3><p>因为需要维护敌人和朋友两种关系，因此需要初始化两倍大小的并查集。令 1<del>n 为朋友关系，n+1</del>2n 为敌人关系。即<strong>对于任意一个 i 属于 i~n，均有敌人 i+n</strong>，此时这个敌人并不是真是存在的，只是假想出来的，为了分类使用。假设有 4 个认：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 2 3 4 | 5 6 7 8</span><br></pre></td></tr></table></figure>
+
+<h3 id="合并操作"><a href="#合并操作" class="headerlink" title="合并操作"></a>合并操作</h3><p>我们现在知道 1 和 2 是敌人关系，所以自然可以推出 2 和 1 的敌人 1+n 是朋友关系，1 应该和 2 的朋友 2+n 是朋友关系。</p>
+<p>此时我们又知道 2 和 4 是敌人关系，所以可以得到 4 和 2 的敌人 2+n 是朋友关系，2 和 4 的敌人 4+n 是朋友关系。</p>
+<p>知道谁和谁是朋友关系后所进行的合并操作与普通并查集相同。</p>
+<p>贴个链接：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2024">P2024 [NOI2001] 食物链</a></p>
 
       </section>
 
@@ -254,7 +274,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A7%8D%E7%B1%BB%E5%B9%B6%E6%9F%A5%E9%9B%86"><span class="toc-number">3.</span> <span class="toc-text">种类并查集</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">3.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8E%E6%99%AE%E9%80%9A%E5%B9%B6%E6%9F%A5%E9%9B%86%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">3.2.</span> <span class="toc-text">与普通并查集的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%97%B6%E6%9C%BA"><span class="toc-number">3.3.</span> <span class="toc-text">使用时机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-1"><span class="toc-number">3.4.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%8D%E7%B1%BB%E5%B9%B6%E6%9F%A5%E9%9B%86%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">3.4.1.</span> <span class="toc-text">种类并查集的初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E6%93%8D%E4%BD%9C"><span class="toc-number">3.4.2.</span> <span class="toc-text">合并操作</span></a></li></ol></li></ol></li></ol>
   </div>
 </section>
 
@@ -284,14 +304,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AC%94%E8%AE%B0/">
-            笔记 (23)
+          <a href="/categories/%E6%9D%82%E8%B0%88/">
+            杂谈 (7)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%9D%82%E8%B0%88/">
-            杂谈 (7)
+          <a href="/categories/%E7%AC%94%E8%AE%B0/">
+            笔记 (23)
           </a>
         </li>
       
