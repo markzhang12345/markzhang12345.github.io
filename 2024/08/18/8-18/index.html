@@ -22,7 +22,7 @@
 
   
 
-  <title>[算法]离散化 | kpmark</title>
+  <title>[算法]单调队列与单调栈 | kpmark</title>
 
   
 
@@ -100,11 +100,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">[算法]离散化</h1>
+          <h1 class="title-wrap">[算法]单调队列与单调栈</h1>
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-08-15T12:15:44.000Z" itemprop="datePublished">2024-08-15</time>
+            <time  class="article-date" datetime="2024-08-18T12:15:44.000Z" itemprop="datePublished">2024-08-18</time>
           </h2>
           
           
@@ -139,17 +139,12 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>在<strong>不改变</strong>数据<strong>相对大小</strong>的条件下，对数据进行<strong>相应的缩小</strong>。</p>
-<p>人话：面对数据比较大的情况(比如让你开 1e9 的数组)，会 mle，所以引入离散化，将大数据<strong>映射</strong>到一个较小的值域来处理。</p>
-<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><h2 id="STL"><a href="#STL" class="headerlink" title="STL"></a>STL</h2><ul>
-<li>排序 sort</li>
-<li>去重 unique</li>
-<li>二分索引 lower_bound</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 假定对一个数组去重</span><br><span class="line">int res = unique(a+1, a+1+n) - (a+1);</span><br><span class="line">// 函数返回去重之后的尾迭代器，即去重之后末尾元素的下一个位置。</span><br></pre></td></tr></table></figure>
-
-<p>这里相当于将原来的每个数映射为排序去重之后的数组中<strong>相同元素</strong>的下标，此时映射之后的数的<strong>相对大小关系</strong>不变</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;bits/stdc++.h&gt;</span><br><span class="line">using namespace sts;</span><br><span class="line">int n,res,tot,a[MAXN],b[MAXN];</span><br><span class="line">int main() &#123;</span><br><span class="line">	scanf(&quot;%d&quot;,&amp;n);</span><br><span class="line">	for(register int i=1;i&lt;=n;i++) &#123;</span><br><span class="line">		scanf(&quot;%d&quot;,&amp;a[i]);</span><br><span class="line">		b[++tot]=a[i]; //b[]是a[]的副本</span><br><span class="line">	&#125;</span><br><span class="line">	sort(b+1,b+1+tot);  //第一步：排序</span><br><span class="line">	res=unique(b+1,b+1+tot)-(b+1);  //unique函数计算出去重后的元素个数，存在res中</span><br><span class="line">	for(register int i=1;i&lt;=n;i++) &#123;</span><br><span class="line">		a[i]=lower_bound(b+1,b+1+res,a[i])-b;  //lower_bound函数进行索引</span><br><span class="line">	&#125;</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="单调队列定义"><a href="#单调队列定义" class="headerlink" title="单调队列定义"></a>单调队列定义</h1><p>维护一个队列，能像队尾存入最新的数据，也能从队首读取最旧的数据。同时，可以<em>快速访问</em>队列中的最大值或最小值。</p>
+<p>即队首或队尾始终是队列中的最值。</p>
+<p><strong>核心</strong>：得到当前某个范围内的最小值或最大值。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>保证队首的元素为队列中的最值，不妨令队首元素为最小值。若新加入的值小于队首，则入队；否则，弹出队首元素知道队首元素小于新加入的值。</p>
+<h1 id="单调栈"><a href="#单调栈" class="headerlink" title="单调栈"></a>单调栈</h1><p>与单调队列类似，使用数据结构的基本操作维护一个单调区间。</p>
+<p>二者实现起来均相当加单，但是在做优化时很多问题具有<strong>一定</strong>的<strong>思维难度</strong>。</p>
 
       </section>
 
@@ -157,22 +152,6 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="/images/8-15.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2024/08/18/8-18/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]单调队列与单调栈</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
@@ -181,8 +160,8 @@
     
     <div class="card-text">
       
-        <a href="/2024/08/15/8-15-2/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]拓扑排序</h2>
+        <a href="/2024/08/15/8-15-1/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法]离散化</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -251,7 +230,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#STL"><span class="toc-number">2.1.</span> <span class="toc-text">STL</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">单调队列定义</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.1.</span> <span class="toc-text">实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E8%B0%83%E6%A0%88"><span class="toc-number">2.</span> <span class="toc-text">单调栈</span></a></li></ol>
   </div>
 </section>
 
