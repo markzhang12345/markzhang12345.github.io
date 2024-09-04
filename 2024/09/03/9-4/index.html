@@ -22,7 +22,7 @@
 
   
 
-  <title>[音乐]OCTOPATH TRAVELER-西木康智 | kpmark</title>
+  <title>[算法] 分治排序 | kpmark</title>
 
   
 
@@ -42,9 +42,6 @@
 <link rel="stylesheet" href="/css/style.css">
 
 
-<link rel="stylesheet" href="\assets\css\APlayer.min.css" class="aplayer-style-marker">
-<script src="\assets\js\APlayer.min.js" class="aplayer-script-marker"></script>
-<script src="\assets\js\Meting.min.js" class="meting-script-marker"></script>
 </head>
 <body>
   <div class="root-container">
@@ -52,7 +49,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://pic1.zhimg.com/v2-a1d940db08998bfaffd1e0a6c8de8de6.jpg)"></div>
+    <div class="post-image" style="background-image: url(https://c-ssl.duitang.com/uploads/item/201704/02/20170402212108_Hv5ut.thumb.1000_0.jpeg)"></div>
   
 
   <!-- navbar -->
@@ -103,22 +100,27 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">[音乐]OCTOPATH TRAVELER-西木康智</h1>
+          <h1 class="title-wrap">[算法] 分治排序</h1>
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-03-31T02:49:19.000Z" itemprop="datePublished">2024-03-31</time>
+            <time  class="article-date" datetime="2024-09-03T12:15:44.000Z" itemprop="datePublished">2024-09-03</time>
           </h2>
+          
+            <h2 class="last-time">
+              <span>最后更新于</span>
+              <time  class="article-updated" datetime="2024-09-04T14:21:12.101Z" itemprop="dateUpdated">2024-09-04</time>
+            </h2>
           
           
           <ul class="wrap-list dark">
   
-    <li><a href="/categories/%E6%9D%82%E8%B0%88/">📒 杂谈</a></li>
+    <li><a href="/categories/%E7%AC%94%E8%AE%B0/">📒 笔记</a></li>
   
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/music/">🏷️ music</a></li>
+    <li><a href="/tags/%E7%AE%97%E6%B3%95/">🏷️ 算法</a></li>
   
 </ul>
         </div>
@@ -142,12 +144,20 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        
-    <div id="aplayer-ExBnuioG" class="aplayer aplayer-tag-marker meting-tag-marker"
-         data-id="865857523" data-server="netease" data-type="song" data-mode="circulation" data-autoplay="false" data-mutex="true" data-listmaxheight="340px" data-preload="auto" data-theme="#ad7a86"
-    ></div>
+        <h1 id="原理解释"><a href="#原理解释" class="headerlink" title="原理解释"></a>原理解释</h1><p>分治排序的原理很简单，运用<strong>分治</strong>的思想，先将左边部分的数组排序，再将右边部分的数组排序，再按大小<strong>归并</strong></p>
+<p>递归执行，直到二分至左右数组只含有一个数，此时视为左右数组已经排序完成，之间按照大小<strong>归并</strong>，在弹栈，完成递归，排序结束</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><h2 id="merge-归并实现"><a href="#merge-归并实现" class="headerlink" title="merge 归并实现"></a>merge 归并实现</h2><p>这里需要将左右数组中的元素按照大小合并成一个有序数组，引入两个指针，比较二者指向的元素的大小，将较小的数放进辅助数组(以升序为例)，同时该数指针向后移动一位，直到一个数组的元素全部放进辅助数组中，再将另外一个数组的元素直接放进辅助数组</p>
+<p>最后将辅助数组中的元素放进原数组对应的位置</p>
+<p>给出代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">void merge(int l, int m, int r) &#123;  // l ~ m 和 m+1 ~ r 右侧</span><br><span class="line">    int a = L;</span><br><span class="line">    int b = m + 1;</span><br><span class="line">    int index = l;</span><br><span class="line">    while (a &lt;= m &amp;&amp; b &lt;= r)</span><br><span class="line">        help[index++] = arr[a] &lt;= arr[b] ? arr[a++] : arr[b++];</span><br><span class="line"></span><br><span class="line">    // 左侧指针，右侧指针，必有一个越界，一个不越界</span><br><span class="line">    while (a &lt;= m)</span><br><span class="line">        help[index++] = arr[a++];</span><br><span class="line"></span><br><span class="line">    while (b &lt;= r)</span><br><span class="line">        help[index++] = arr[b++];</span><br><span class="line"></span><br><span class="line">    for (int i = l; i &lt;= r; i++)</span><br><span class="line">        arr[i] = help[i];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="歌曲信息"><a href="#歌曲信息" class="headerlink" title="歌曲信息"></a>歌曲信息</h2><p>Ophilia：引导（愿圣火照耀世人）Cyrus：调查（求索之路永无止境）Tressa：梦想（书写属于我的旅程）Olberic：守护（越过迷茫，守护未来）Primrose：救赎（了结恩怨，向往新生）Alfyn：济世（为了医治更多的人）Therio：信任（彼此信赖，迈过悲伤）H‘aannit：亲情（解救最重要的人</p>
+<h2 id="递归实现"><a href="#递归实现" class="headerlink" title="递归实现"></a>递归实现</h2><p>递归实现很简单，注意结束条件是<strong>区间内只剩下一个元素</strong></p>
+<p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">void mergeSort1(int l, int r) &#123;  // 在 r ~ l下标范围内排序 递归</span><br><span class="line">    if (l == r)</span><br><span class="line">        return;</span><br><span class="line">    int m = (l + r) &gt;&gt; 1;  // /2的位运算写法</span><br><span class="line">    mergeSort1(l, m);</span><br><span class="line">    mergeSort1(m + 1, r);</span><br><span class="line">    merge(l, m, r);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实际中使用递归实现较多</p>
+<h2 id="非递归实现"><a href="#非递归实现" class="headerlink" title="非递归实现"></a>非递归实现</h2><p>枚举步长划分区间，归并子区间，速度比递归实现快一点，但是实际中灵活性差一点，仅作了解</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void mergeSort2() &#123;                   // 非递归实现</span><br><span class="line">    for (int i = 1; i &lt; n; i *= 2) &#123;  // 枚举步长</span><br><span class="line">        int l = 0, m, r;</span><br><span class="line">        // 内部分组</span><br><span class="line">        while (l &lt; n) &#123;</span><br><span class="line">            m = l + i - 1;</span><br><span class="line">            if (m + 1 &gt; n - 1)</span><br><span class="line">                // 无右侧</span><br><span class="line">                break;</span><br><span class="line">            r = min(l + (i &lt;&lt; 1) - 1, n - 1);</span><br><span class="line">            merge(l, m, r);</span><br><span class="line">            l = r = 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       </section>
 
@@ -158,12 +168,12 @@
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://www.soundproofbrosaudio.com/uploads/images/2312271847129miW.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="/images/9-2.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2024/05/20/5-20/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">随缘更新-看看monk a1</h2>
+        <a href="/2024/09/03/9-3/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法] ST表解决RMQ问题</h2>
         </a>
       
       <div class="card-text--row">Newer</div>
@@ -175,12 +185,12 @@
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://cdn.thenewstack.io/media/2022/01/10b88c68-typescript-logo.png"></div>
+      <div class="card-cover" background-image-lazy data-img="/images/8-15.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2024/03/31/3-31-typescript/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">TypeScript特性</h2>
+        <a href="/2024/09/03/8-18/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法]单调队列与单调栈</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -241,6 +251,18 @@
 </section>
 
       
+<section class="widget-toc widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-toc" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M134.50666666 767.46666668H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.23999999v50.13333333c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H134.50666666c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.13333333c0.10666668-27.73333333 22.50666668-50.24000001 50.24000001-50.24000001zM84.37333332 541.65333333h326.18666669c27.73333333 0 50.24000001 22.39999999 50.23999999 50.13333334v50.24000001c0 27.73333333-22.50666668 50.24000001-50.24000002 50.23999999H84.37333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.23999999v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333334zM134.50666666 315.83999999H460.8c27.73333333 0 50.24000001 22.50666668 50.24000001 50.24000001v50.24000001c0 27.73333333-22.50666668 50.13333334-50.24000001 50.13333333H134.50666666c-27.73333333 0-50.24000001-22.39999999-50.23999999-50.13333333v-50.24000001c0.10666668-27.84000001 22.50666668-50.24000001 50.24000001-50.23999999zM209.81333332 89.91999999h326.18666671c27.73333333 0 50.24000001 22.39999999 50.23999997 50.13333335v50.23999999c0 27.73333333-22.50666668 50.24000001-50.24000001 50.24000001H209.81333332c-27.73333333 0-50.24000001-22.50666668-50.23999999-50.24000001v-50.24000001c0-27.73333333 22.50666668-50.13333334 50.24000001-50.13333333zM692.05333333 623.36l274.66666669 176.00000002c23.36000001 14.93333333 30.08 45.97333334 15.14666666 69.33333332L954.77333334 910.93333333c-14.93333333 23.25333334-45.97333334 30.08-69.33333335 15.14666667l-274.66666666-176c-23.36000001-14.93333333-30.08-45.97333334-15.14666667-69.33333333l27.09333334-42.24000001c14.93333333-23.36000001 46.08000001-30.08 69.33333333-15.14666666z" fill="currentColor"></path>
+</svg>
+    <span>TOC</span>
+  </div>
+  <div class="widget-body">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E7%90%86%E8%A7%A3%E9%87%8A"><span class="toc-number">1.</span> <span class="toc-text">原理解释</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#merge-%E5%BD%92%E5%B9%B6%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.1.</span> <span class="toc-text">merge 归并实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.2.</span> <span class="toc-text">递归实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.3.</span> <span class="toc-text">非递归实现</span></a></li></ol></li></ol>
+  </div>
+</section>
+
 
       
 <section class="widet-notice widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
