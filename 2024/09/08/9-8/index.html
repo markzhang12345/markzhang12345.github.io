@@ -22,7 +22,7 @@
 
   
 
-  <title>[算法]解决最大子矩阵的两种方法 | kpmark</title>
+  <title>[算法] 快速幂 | kpmark</title>
 
   
 
@@ -49,7 +49,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/images/9-2.jpg)"></div>
+    <div class="post-image" style="background-image: url(/images/9-4.jpeg)"></div>
   
 
   <!-- navbar -->
@@ -100,11 +100,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">[算法]解决最大子矩阵的两种方法</h1>
+          <h1 class="title-wrap">[算法] 快速幂</h1>
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-09-02T12:15:44.000Z" itemprop="datePublished">2024-09-02</time>
+            <time  class="article-date" datetime="2024-09-08T14:15:44.000Z" itemprop="datePublished">2024-09-08</time>
           </h2>
           
           
@@ -139,39 +139,13 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p><strong>文章参考[2003 年集训队论文]王知昆《浅谈用极大化思想解决最大子举证问题》</strong></p>
-<h1 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h1><p>适用于棋盘较大无法使用悬线法且障碍点较少的情况</p>
-<p>通过枚举所有的<strong>极大子矩阵</strong>找出最大子矩阵</p>
-<p>极大子矩阵：一个每条边界都不能再向外延伸的矩阵，即<strong>矩阵的每条边上均有障碍点或者与棋盘边界重合</strong></p>
-<h2 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h2><p>先枚举极大子矩阵的左边界，然后从左向右依次扫描每一个障碍点，并不断修改可行的上下边界，从而枚举出所有以这个<strong>定点</strong>为<strong>左边界</strong>的极大子矩阵。</p>
-<p>我们先确定了左边界所在的点，然后向右扫描，在扫描到每个点的时候，我们探索当前<strong>左右边界确定</strong>时的可行上下边界。</p>
-<p>需要注意的是，子矩阵内不得包含障碍点，这意味这在右边界的递推过程中会出现上下边界<strong>受之前扫描过的点影响</strong>。这里考虑<strong>保留</strong>上一次扫描所确定的上下边界，若有点在里面则更新边界，在外面的点直接忽略。</p>
-<p>以上只考虑了左边界覆盖一个点的子矩阵，我们还需要枚举<strong>左边界与棋盘边界重合</strong>而右边界覆盖一个点的情况。直接按照上方方法从右往左扫描即可。</p>
-<p>还有一种情况，是左右边界均与棋盘边界重合，我们在预处理中判断这一步：先将所有点按照<strong>纵坐标排序</strong>，然后可以得到以相邻两个点的<strong>纵坐标</strong>为上下边界，左右边界与整个棋盘的左右边界重合的矩形。</p>
-<p>以上三种情况，可以枚举到所有的极大子矩阵。</p>
-<p><em>tip:将棋盘四个顶点视作障碍点可能更加便于算法实现</em></p>
-<h1 id="悬线法"><a href="#悬线法" class="headerlink" title="悬线法"></a>悬线法</h1><p>我们不再对每一个<strong>极大子矩阵</strong>一一枚举，而是通过一些<strong>预处理</strong>试图找出可能得最大子矩阵。</p>
-<p>顾名思义，悬线法相当于在可能的地方系上一个绳子然后向下延申直到边界或障碍。然后记录每条线可以左右移动的最远距离，从而统计出最大子矩阵。</p>
-<h2 id="算法思路-1"><a href="#算法思路-1" class="headerlink" title="算法思路"></a>算法思路</h2><p>通过枚举出所有悬线，就可以枚举出所有极大子矩阵。由于每条悬线是由其底部的点为唯一确定的，所以在 N*M 的矩形中最多由(N-1)*M 条悬线。</p>
-<p>既然每条悬线都由其底部的点唯一确定，所以我们只需要枚举这个点对应的悬线长度和这个点能够往右扩展的最大长度就能求解。</p>
-<p>定义 a[i][j]为矩阵中是否有障碍点，若 a[i][j] &#x3D; 1 则有障碍点，反之则无障碍点</p>
-<p>up[i][j]为点对应的悬线长度，初始化当点非障碍点时 up[i][j] &#x3D; 1</p>
-<p>up[i][j]很容易通过递推求出，当(i, j)不是障碍点时<code>up[i][j] = up[i-1][j]+1</code></p>
-<p>重点在于如何求出悬线能够左右扩展的最大长度。一条悬线往<strong>左</strong>能扩展的最大长度一定是它所包含的所有点能往左边扩展到的做大长度的最小值，往右同理，即：我们可以通过枚举悬线上每个点往左右扩展到的最大长度来求解这条线左右扩展到的最大长度</p>
-<p>这里 l，r 代表某点所能向左右扩展的最大长度</p>
-<p>初始化</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if(a[i][j] != 1)</span><br><span class="line">    l[i][j] = r[i][j] = j;</span><br></pre></td></tr></table></figure>
-
-<p>递推时，当点(i, j)和它左边的点(i, j - 1)均不为障碍点时，l[i][j] &#x3D; l[i][j-1]。同理 r，这里需要注意递推时 l[i][j]需要从左往右推，即 j 从 2 到 m，r[i][j]需要从右往左推，即 j 从 m-1 到 1</p>
-<p>给出递推部分的代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for(register int i=1;i&lt;=n;++i)</span><br><span class="line">	for(register int j=2;j&lt;=m;++j)</span><br><span class="line">		if(!a[i][j]&amp;&amp;!a[i][j-1]) l[i][j]=l[i][j-1];</span><br><span class="line">for(register int i=1;i&lt;=n;++i)</span><br><span class="line">	for(register int j=m-1;j;--j)</span><br><span class="line">		if(!a[i][j]&amp;&amp;!a[i][j+1]) r[i][j]=r[i][j+1];</span><br><span class="line">for(register int i=1;i&lt;=n;++i)</span><br><span class="line">	for(register int j=1;j&lt;=m;++j)</span><br><span class="line">    	if(!a[i][j]&amp;&amp;!a[i-1][j]) up[i][j]=up[i-1][j]+1;</span><br></pre></td></tr></table></figure>
-
-<p>至此，我们已经预处理完了 up,l,r 三个二维数组，接下来需要求出每条悬线所能向右扩展的最大长度。</p>
-<p>一条悬线往左能够扩展到达的最大长度一定是它包含的所有的点能够向左扩展的最大长度的最小值。我们得到状态转移方程<code>l[i][j] = max(l[i][j], l[i-1][j]);</code>，往右同理，即<code>r[i][j] = min(r[i][j], r[i-1][j])。</code></p>
-<p>这里给出代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">for(register int i=1;i&lt;=n;++i)</span><br><span class="line">	for(register int j=1;j&lt;=m;++j) &#123;</span><br><span class="line">		if(i&gt;=2&amp;&amp;!a[i][j]&amp;&amp;!a[i-1][j]) &#123;</span><br><span class="line">			l[i][j]=max(l[i][j],l[i-1][j]);</span><br><span class="line">			r[i][j]=min(r[i][j],r[i-1][j]);</span><br><span class="line">        &#125;</span><br><span class="line">		ans=max(ans,up[i][j]*(r[i][j]-l[i][j]+1));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="给个玉蟾宫的代码"><a href="#给个玉蟾宫的代码" class="headerlink" title="给个玉蟾宫的代码"></a>给个玉蟾宫的代码</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;cstdio&gt;</span><br><span class="line">#include &lt;algorithm&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#define MAXN 1005</span><br><span class="line">using namespace std;</span><br><span class="line">int n,m,ans=-1;</span><br><span class="line">int a[MAXN][MAXN];</span><br><span class="line">int l[MAXN][MAXN],r[MAXN][MAXN],up[MAXN][MAXN];</span><br><span class="line">signed main() &#123;</span><br><span class="line">	scanf(&quot;%d%d&quot;,&amp;n,&amp;m);</span><br><span class="line">	char ch;</span><br><span class="line">	for(register int i=1;i&lt;=n;++i) &#123;</span><br><span class="line">		for(register int j=1;j&lt;=m;++j) &#123;</span><br><span class="line">			cin&gt;&gt;ch;</span><br><span class="line">			if(ch==&#x27;R&#x27;) a[i][j]=1;</span><br><span class="line">			else &#123;</span><br><span class="line">				l[i][j]=r[i][j]=j;</span><br><span class="line">				up[i][j]=1;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	for(register int i=1;i&lt;=n;++i)</span><br><span class="line">		for(register int j=2;j&lt;=m;++j)</span><br><span class="line">			if(!a[i][j]&amp;&amp;!a[i][j-1]) l[i][j]=l[i][j-1];</span><br><span class="line">	for(register int i=1;i&lt;=n;++i)</span><br><span class="line">		for(register int j=m-1;j;--j)</span><br><span class="line">			if(!a[i][j]&amp;&amp;!a[i][j+1]) r[i][j]=r[i][j+1];</span><br><span class="line">	for(register int i=1;i&lt;=n;++i)</span><br><span class="line">        for(register int j=1;j&lt;=m;++j)</span><br><span class="line">    		if(!a[i][j]&amp;&amp;!a[i-1][j]) up[i][j]=up[i-1][j]+1;</span><br><span class="line">	for(register int i=1;i&lt;=n;++i)</span><br><span class="line">		for(register int j=1;j&lt;=m;++j) &#123;</span><br><span class="line">			if(i&gt;=2&amp;&amp;!a[i][j]&amp;&amp;!a[i-1][j]) &#123;</span><br><span class="line">				l[i][j]=max(l[i][j],l[i-1][j]);</span><br><span class="line">				r[i][j]=min(r[i][j],r[i-1][j]);</span><br><span class="line">			&#125;</span><br><span class="line">			ans=max(ans,up[i][j]*(r[i][j]-l[i][j]+1));</span><br><span class="line">		&#125;</span><br><span class="line">	printf(&quot;%d\n&quot;,ans*3);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="快速幂"><a href="#快速幂" class="headerlink" title="快速幂"></a>快速幂</h1><p>假设我们要计算 3<sup>13</sup></p>
+<p>若直接循环 13 次进行累乘，时间复杂度为 O(n)，在进行次数较高的处理时容易 TLE</p>
+<p>这里引入<strong>倍增</strong>思想进行<strong>快速幂</strong>运算</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>13 的二进制表示为 1101,即 8+4+2，我们很容易从里面看出倍增的要素</p>
+<p>将 3<sup>13</sup>分解为 3<sup>8</sup> · 3<sup>4</sup> · 3<sup>1</sup>进行计算，而后计算的数又可以依据前面计算过的数进行计算</p>
+<p>n 有 logn+1 个二进制位，我们只需要计算 logn+1 次乘法即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int quickpow(int a, int n) &#123;</span><br><span class="line">    int res = 1;</span><br><span class="line">    while(n) &#123;</span><br><span class="line">        if(n &amp; 1) // 该位二进制是否为 1</span><br><span class="line">            res = res * a;</span><br><span class="line">        a *= a; // 位数对应的基数</span><br><span class="line">        n &gt;&gt;= 1; // n右移一位</span><br><span class="line">    &#125;</span><br><span class="line">    return res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       </section>
 
@@ -179,32 +153,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="/images/8-15.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2024/09/03/8-18/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]单调队列与单调栈</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="/images/8-15.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="/images/9-4.jpeg"></div>
     
     <div class="card-text">
       
-        <a href="/2024/08/15/8-15-1/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]离散化</h2>
+        <a href="/2024/09/04/9-4/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法] 分治排序</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -273,7 +231,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE"><span class="toc-number">1.</span> <span class="toc-text">枚举</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%80%9D%E8%B7%AF"><span class="toc-number">1.1.</span> <span class="toc-text">算法思路</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%82%AC%E7%BA%BF%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">悬线法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%80%9D%E8%B7%AF-1"><span class="toc-number">2.1.</span> <span class="toc-text">算法思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%99%E4%B8%AA%E7%8E%89%E8%9F%BE%E5%AE%AB%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-number">2.2.</span> <span class="toc-text">给个玉蟾宫的代码</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%B9%82"><span class="toc-number">1.</span> <span class="toc-text">快速幂</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">实现</span></a></li></ol>
   </div>
 </section>
 
