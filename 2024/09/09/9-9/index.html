@@ -22,7 +22,7 @@
 
   
 
-  <title>[算法]priority_queue | kpmark</title>
+  <title>[算法][题解] P7167 Fountain | kpmark</title>
 
   
 
@@ -49,7 +49,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://tse1-mm.cn.bing.net/th/id/OIP-C.cguPHWIeh1rf23UZLCC3nwHaHT?rs=1&amp;pid=ImgDetMain)"></div>
+    <div class="post-image" style="background-image: url(/images/East.jpg)"></div>
   
 
   <!-- navbar -->
@@ -100,11 +100,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">[算法]priority_queue</h1>
+          <h1 class="title-wrap">[算法][题解] P7167 Fountain</h1>
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-07-27T08:20:44.000Z" itemprop="datePublished">2024-07-27</time>
+            <time  class="article-date" datetime="2024-09-09T14:15:44.000Z" itemprop="datePublished">2024-09-09</time>
           </h2>
           
           
@@ -139,21 +139,23 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>队列的一种特殊形式，我们可以自定义该队列中数据的优先级，并且没有<code>front()</code>和<code>back()</code>函数，只使用<code>top()</code>访问头文件。(有点像栈？)</p>
-<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><ul>
-<li>top</li>
-<li>empty 队列是否为空</li>
-<li>size</li>
-<li>push</li>
-<li>emplace 构造一个元素插入队列</li>
-<li>pop</li>
-</ul>
-<h1 id="原型定义"><a href="#原型定义" class="headerlink" title="原型定义"></a>原型定义</h1><p><code>priority_queue&lt;Type, Container, Functional&gt; </code></p>
-<p>Type 是数据类型，Container 是容器类型(Container 必须是用数组实现的容器，比如 vector, deque 等，不能使用 list，默认 vector)，Function 是比较方法。</p>
-<h1 id="使用例"><a href="#使用例" class="headerlink" title="使用例"></a>使用例</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//greater和less是std实现的两个仿函数</span><br><span class="line">//就是使一个类的使用看上去像一个函数，其实现就是类中实现一个operator()</span><br><span class="line">//这个类就有了类似函数的行为，就是一个仿函数类了</span><br><span class="line"></span><br><span class="line">//降序队列(默认大根堆)</span><br><span class="line">priority_queue &lt;int,vector&lt;int&gt;,less&lt;int&gt; &gt;q;</span><br><span class="line">//升序队列(小根堆)</span><br><span class="line">priority_queue &lt;int,vector&lt;int&gt;,greater&lt;int&gt; &gt; q;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P7167">luogu P7167 Fountain</a></p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>分析题目，我们发现需要找到某一圆盘之后第一个比该圆盘大的圆盘，那么我们可以维护一个单调栈来进行预处理，保存每个圆盘对应的下一个圆盘</p>
+<p>我们维护一个递减序列，在进行<strong>弹栈</strong>时，记录下<strong>弹出</strong>的元素对应的<strong>当前即将入栈元素</strong>，即<strong>弹栈元素</strong>对应的<strong>第一大圆盘</strong></p>
+<p>最后，将栈里剩下的元素对应第一大元素设定为<strong>地盘</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">void find_max() &#123;  // 递减序列</span><br><span class="line">    for (int i = 1; i &lt;= N; i++) &#123;</span><br><span class="line">        while (!stk.empty() &amp;&amp; D[i] &gt; D[stk.back()]) &#123;</span><br><span class="line">            st[stk.back()][0] = i;</span><br><span class="line">            sum[stk.back()][0] = C[i];</span><br><span class="line">            stk.pop_back();</span><br><span class="line">        &#125;</span><br><span class="line">        stk.push_back(i);</span><br><span class="line">    &#125;</span><br><span class="line">    while (!stk.empty()) &#123;</span><br><span class="line">        st[stk.back()][0] = 0;  // 0 代表水池</span><br><span class="line">        stk.pop_back();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><em>头文件使用<code>queue</code>即可</em></p>
-<h1 id="重写仿函数"><a href="#重写仿函数" class="headerlink" title="重写仿函数"></a>重写仿函数</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class cmp&#123;</span><br><span class="line">public:</span><br><span class="line">    bool operator () (fruit f1,fruit f2)&#123;</span><br><span class="line">        return f1.price&gt;f2.price; //相当于小根堆，就是改变&lt;的含义，那就相当于改变优先队列默认模式那就是小根堆</span><br><span class="line">        return f1.price&lt;f2.price; //相当于默认大根堆，就是没改变&lt;的含义，那就相当于是优先队列默认模式那就是大根堆</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>同时，我们最后需要进行批量的<strong>查询</strong>操作，联想到<strong>RMQ</strong>问题，我们使用<strong>st 表</strong>将查询操作的时间复杂度降至<strong>O(1)</strong></p>
+<p><code> st[stk.back()][0] = i;</code>和<code>st[stk.back()][0] = 0;  // 0 代表水池</code>将 st 表初始化，<code>st[i][j]</code>表示第 i 个圆盘跳 1 &gt;&gt; j 步后盘子的编号</p>
+<p>这里 1 &gt;&gt; j 步指有效步数，即直接跳至下一个下一个水流流到的圆盘</p>
+<p>自然而然，得到 st 表的递推公式<code>st[i][j] = st[st[i][j - 1]][j - 1];</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">void pre_rmq() &#123;</span><br><span class="line">    for (int j = 1; (1 &lt;&lt; j) &lt;= N; j++)</span><br><span class="line">        for (int i = 1; i + (1 &lt;&lt; j) &lt;= N; i++) &#123;</span><br><span class="line">            st[i][j] = st[st[i][j - 1]][j - 1];</span><br><span class="line">            sum[i][j] = sum[i][j - 1] + sum[st[i][j - 1]][j - 1];</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后处理查询，根据水量来一步步跳到正确的位置，区别于模板的<strong>RMQ</strong>问题，这里的查询时间复杂度会略大于 O(1)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">int query(int r, int val) &#123;  // query是查询的意思</span><br><span class="line">    if (C[r] &gt;= val)</span><br><span class="line">        return r;</span><br><span class="line"></span><br><span class="line">    val -= C[r];</span><br><span class="line">    for (int i = 18; i &gt;= 0; i--)</span><br><span class="line">        if (st[r][i] != 0 &amp;&amp; val &gt; sum[r][i]) &#123;</span><br><span class="line">            val -= sum[r][i];</span><br><span class="line">            r = st[r][i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    return st[r][0];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看出，为了根据水量查询，我们定义了 sum 数组来统计区间内的出水总量</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;algorithm&gt;</span><br><span class="line">#include &lt;cmath&gt;</span><br><span class="line">#include &lt;cstring&gt;</span><br><span class="line">#include &lt;deque&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;vector&gt;</span><br><span class="line">#define ll long long</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">// 单调栈+st表</span><br><span class="line"></span><br><span class="line">int N, Q;</span><br><span class="line">int D[100005], C[100005];</span><br><span class="line">int st[100005][30], sum[100005][30];</span><br><span class="line">// sum是区间水量 st是从i跳1&gt;&gt;j步后盘子的编号</span><br><span class="line">vector&lt;int&gt; stk;</span><br><span class="line"></span><br><span class="line">void find_max() &#123;  // 递减序列</span><br><span class="line">    for (int i = 1; i &lt;= N; i++) &#123;</span><br><span class="line">        while (!stk.empty() &amp;&amp; D[i] &gt; D[stk.back()]) &#123;</span><br><span class="line">            st[stk.back()][0] = i;</span><br><span class="line">            sum[stk.back()][0] = C[i];</span><br><span class="line">            stk.pop_back();</span><br><span class="line">        &#125;</span><br><span class="line">        stk.push_back(i);</span><br><span class="line">    &#125;</span><br><span class="line">    while (!stk.empty()) &#123;</span><br><span class="line">        st[stk.back()][0] = 0;  // 0 代表水池</span><br><span class="line">        stk.pop_back();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void pre_rmq() &#123;</span><br><span class="line">    for (int j = 1; (1 &lt;&lt; j) &lt;= N; j++)</span><br><span class="line">        for (int i = 1; i + (1 &lt;&lt; j) &lt;= N; i++) &#123;</span><br><span class="line">            st[i][j] = st[st[i][j - 1]][j - 1];</span><br><span class="line">            sum[i][j] = sum[i][j - 1] + sum[st[i][j - 1]][j - 1];</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int query(int r, int val) &#123;  // query是查询的意思</span><br><span class="line">    if (C[r] &gt;= val)</span><br><span class="line">        return r;</span><br><span class="line"></span><br><span class="line">    val -= C[r];</span><br><span class="line">    for (int i = 18; i &gt;= 0; i--)</span><br><span class="line">        if (st[r][i] != 0 &amp;&amp; val &gt; sum[r][i]) &#123;</span><br><span class="line">            val -= sum[r][i];</span><br><span class="line">            r = st[r][i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    return st[r][0];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    ios::sync_with_stdio(0);</span><br><span class="line">    ios_base::sync_with_stdio(0);</span><br><span class="line">    cin.tie(0);</span><br><span class="line">    cout.tie(0);</span><br><span class="line"></span><br><span class="line">    cin &gt;&gt; N &gt;&gt; Q;</span><br><span class="line">    for (int i = 1; i &lt;= N; i++)</span><br><span class="line">        cin &gt;&gt; D[i] &gt;&gt; C[i];</span><br><span class="line"></span><br><span class="line">    find_max();</span><br><span class="line">    pre_rmq();</span><br><span class="line">    for (int i = 1; i &lt;= Q; i++) &#123;</span><br><span class="line">        int r, v;</span><br><span class="line">        cin &gt;&gt; r &gt;&gt; v;</span><br><span class="line">        cout &lt;&lt; query(r, v) &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       </section>
 
@@ -161,32 +163,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="https://tse1-mm.cn.bing.net/th/id/OIP-C.cguPHWIeh1rf23UZLCC3nwHaHT?rs=1&amp;pid=ImgDetMain"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2024/07/27/7-27-2/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]全排列STL-next_permutation</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://tse1-mm.cn.bing.net/th/id/OIP-C.cguPHWIeh1rf23UZLCC3nwHaHT?rs=1&amp;pid=ImgDetMain"></div>
+      <div class="card-cover" background-image-lazy data-img="/images/9-4.jpeg"></div>
     
     <div class="card-text">
       
-        <a href="/2024/07/27/7-27-4/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]背包算法</h2>
+        <a href="/2024/09/08/9-8/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法] 快速幂</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -255,7 +241,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">定义</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-number">1.1.</span> <span class="toc-text">基本操作</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E5%AE%9A%E4%B9%89"><span class="toc-number">2.</span> <span class="toc-text">原型定义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E4%BE%8B"><span class="toc-number">3.</span> <span class="toc-text">使用例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%87%8D%E5%86%99%E4%BB%BF%E5%87%BD%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">重写仿函数</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">实现</span></a></li></ol>
   </div>
 </section>
 
