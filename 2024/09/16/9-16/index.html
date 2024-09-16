@@ -22,7 +22,7 @@
 
   
 
-  <title>[算法]递推与递归与高精度 | kpmark</title>
+  <title>[算法][题解] CCF 十滴水 | kpmark</title>
 
   
 
@@ -49,7 +49,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://tse1-mm.cn.bing.net/th/id/OIP-C.cguPHWIeh1rf23UZLCC3nwHaHT?rs=1&amp;pid=ImgDetMain)"></div>
+    <div class="post-image" style="background-image: url(/images/East.jpg)"></div>
   
 
   <!-- navbar -->
@@ -100,11 +100,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">[算法]递推与递归与高精度</h1>
+          <h1 class="title-wrap">[算法][题解] CCF 十滴水</h1>
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-07-27T08:20:44.000Z" itemprop="datePublished">2024-07-27</time>
+            <time  class="article-date" datetime="2024-09-16T05:15:44.000Z" itemprop="datePublished">2024-09-16</time>
           </h2>
           
           
@@ -115,7 +115,7 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/%E7%AE%97%E6%B3%95/">🏷️ 算法</a></li>
+    <li><a href="/tags/%E7%AE%97%E6%B3%95%EF%BC%8CCSP/">🏷️ 算法，CSP</a></li>
   
 </ul>
         </div>
@@ -139,12 +139,28 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="概念区别"><a href="#概念区别" class="headerlink" title="概念区别"></a>概念区别</h1><ul>
-<li>递推：数学上的概念，主要指<strong>递推式、递推数列或递推函数</strong>。例如：<em>a[n] &#x3D; a[n-1] + a[n-2]</em></li>
-<li>递归：在一个函数的定义中<strong>直接或间接地调用本身</strong>。</li>
+        <p><strong>首先感谢 guoliu 大佬的点拨</strong></p>
+<h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p><a target="_blank" rel="noopener" href="https://sim.csp.thusaac.com/contest/33/problem/3"> CCF 十滴水</a></p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>首先分析题目，这里让我们在一维数组内实现十滴水游戏。考虑到一次操作可能会引发<strong>多次反应</strong>，容易想到使用<strong>队列</strong>存储<strong>待引发的反应</strong></p>
+<p>因为这里一位棋盘的范围给的非常大，无法直接使用数组模拟表示，考虑使用<strong>离散化</strong>或者<strong>unordered_map</strong>进行映射(写题解的时候想到直接离散化或许能更简洁的解决问题，奈何本人对离散化不熟，这里只写 map 的思路)</p>
+<p>使用 unordered_map 维护格子编号与水滴数的映射关系，这样我们只需要将待处理的格子编号推入队列即可轻松维护待处理队列</p>
+<p>这个思路的难点有两个：</p>
+<ul>
+<li>如何查找当前格子左右两侧最近的<strong>有水滴的</strong>格子编号</li>
+<li>如何在多个格子同时满足反应条件时使<strong>最靠左的</strong>的格子优先反应</li>
 </ul>
-<h1 id="联系"><a href="#联系" class="headerlink" title="联系"></a>联系</h1><p>数学上的<strong>递推</strong>可以使用<strong>递归</strong>来实现，也可以<strong>不通过</strong>递归来实现。</p>
-<h1 id="高精度算法"><a href="#高精度算法" class="headerlink" title="高精度算法"></a>高精度算法</h1><h2 id="高精度加法"><a href="#高精度加法" class="headerlink" title="高精度加法"></a>高精度加法</h2><p>用字符串输入两个数，再导入数组，然后每位相加，若某位数字大于 0，则此位模 10，次位进 1，最后使用 while 循环取出前导 0(进位用)再输出。</p>
+<h2 id="第一点"><a href="#第一点" class="headerlink" title="第一点"></a>第一点</h2><p>如果使用离散化的话似乎可以很简单的维护这段关系，下标移动一下就好了</p>
+<p>然而 unordered_map 并没有下标这个概念，这个容器的底层是<strong>红黑树</strong>，本质上维护的是<strong>格子编号</strong>与<strong>水滴数</strong>的<strong>哈希关系</strong></p>
+<p>考虑将有水滴的格子单独列成一个线性表进行维护，由于其<strong>有序性</strong>，并且考虑到我们需要对内容进行<strong>查找</strong>，使用<strong>set</strong>容器较为合适，在最后统计结果的时候也更加方便</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">set&lt;int&gt; ind;                // 存储有水的格子的编号</span><br><span class="line"></span><br><span class="line"> ind.erase(u);</span><br><span class="line">                auto it = ind.lower_bound(u);  // 查找左右相邻的格子</span><br><span class="line">                auto iter = it;</span><br><span class="line">                if (it != ind.begin()) &#123;</span><br><span class="line">                    it--;</span><br><span class="line">                    q.push(*it);</span><br><span class="line">                &#125;</span><br><span class="line">                if (iter != ind.end())</span><br><span class="line">                    q.push(*iter);</span><br></pre></td></tr></table></figure>
+
+<p>以上，已经可以拿到 45 分了</p>
+<h2 id="第二点"><a href="#第二点" class="headerlink" title="第二点"></a>第二点</h2><p>这个点我一开始死活想不出来，后来经过大佬的点拨才想起了<strong>优先队列</strong>这个东西<br>详细了解这玩意请移步<a href="https://markzhang12345.github.io/2024/07/27/7-27-3/">[算法]priority_queue</a></p>
+<p>简单来说，这个队列从使用上来说更像<strong>栈</strong>，将元素推入队列后，会自动将<strong>最值</strong>送至队首，正好符合我们先处理<strong>最左边</strong>格子反应的需求</p>
+<h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>还有一点容易忽略，较早发生的<strong>连锁反应</strong>可能将之后进行操作的点<strong>水滴清零</strong>，所以要带上一个判断</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (ma[u] == 0)</span><br><span class="line">                // 可能有无水滴格子加入队列的情况</span><br><span class="line">                // 因为左侧先进行操作 可能有后进入队列的点中水滴已经消失</span><br><span class="line">                continue;</span><br></pre></td></tr></table></figure>
+
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;algorithm&gt;</span><br><span class="line">#include &lt;cmath&gt;</span><br><span class="line">#include &lt;cstring&gt;</span><br><span class="line">#include &lt;deque&gt;</span><br><span class="line">#include &lt;iomanip&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;map&gt;</span><br><span class="line">#include &lt;queue&gt;</span><br><span class="line">#include &lt;set&gt;</span><br><span class="line">#include &lt;string&gt;</span><br><span class="line">#include &lt;unordered_map&gt;</span><br><span class="line">#include &lt;unordered_set&gt;</span><br><span class="line">#include &lt;vector&gt;</span><br><span class="line">#define int long long</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">int c, m, n;</span><br><span class="line">unordered_map&lt;int, int&gt; ma;  // 棋盘</span><br><span class="line">set&lt;int&gt; ind;                // 存储有水的格子的编号</span><br><span class="line"></span><br><span class="line">int ans = 0;</span><br><span class="line">priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; q;</span><br><span class="line">// 优先队列，自动将较小的元素放至队首</span><br><span class="line"></span><br><span class="line">signed main() &#123;</span><br><span class="line">    ios::sync_with_stdio(0);</span><br><span class="line">    ios_base::sync_with_stdio(0);</span><br><span class="line">    cin.tie(0);</span><br><span class="line">    cout.tie(0);</span><br><span class="line"></span><br><span class="line">    cin &gt;&gt; c &gt;&gt; m &gt;&gt; n;</span><br><span class="line"></span><br><span class="line">    for (int i = 1; i &lt;= m; i++) &#123;</span><br><span class="line">        int x, w;</span><br><span class="line">        cin &gt;&gt; x &gt;&gt; w;</span><br><span class="line">        ma[x] = w;  // x格有w滴水</span><br><span class="line">        ind.insert(x);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 有积累的多任务处理，容易想到使用队列存放待处理事项</span><br><span class="line"></span><br><span class="line">    for (int i = 1; i &lt;= n; i++) &#123;</span><br><span class="line">        int p;</span><br><span class="line">        cin &gt;&gt; p;</span><br><span class="line">        q.push(p);</span><br><span class="line">        while (!q.empty()) &#123;</span><br><span class="line">            int u = q.top();  // u是当前水滴的格数</span><br><span class="line">            q.pop();</span><br><span class="line"></span><br><span class="line">            if (ma[u] == 0)</span><br><span class="line">                // 可能有无水滴格子加入队列的情况</span><br><span class="line">                // 因为左侧先进行操作 可能有后进入队列的点中水滴已经消失</span><br><span class="line">                continue;</span><br><span class="line"></span><br><span class="line">            ma[u]++;</span><br><span class="line">            if (ma[u] &gt;= 5) &#123;</span><br><span class="line">                // 此时第u格中的水大于5</span><br><span class="line">                // 应将u左边和右边的各自依次加入队列</span><br><span class="line">                // 难点在于如何设计查找两边的格子</span><br><span class="line">                // 一直当前点为第u格，要找到u格是第几滴水</span><br><span class="line">                ma[u] = 0;</span><br><span class="line">                ind.erase(u);</span><br><span class="line">                auto it = ind.lower_bound(u);  // 查找左右相邻的格子</span><br><span class="line">                auto iter = it;</span><br><span class="line">                if (it != ind.begin()) &#123;</span><br><span class="line">                    it--;</span><br><span class="line">                    q.push(*it);</span><br><span class="line">                &#125;</span><br><span class="line">                if (iter != ind.end())</span><br><span class="line">                    q.push(*iter);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 统计有水的格子的数量 遍历ma</span><br><span class="line">        ans = ind.size();</span><br><span class="line">        cout &lt;&lt; ans &lt;&lt; &#x27;\n&#x27;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
       </section>
 
@@ -152,32 +168,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="https://tse1-mm.cn.bing.net/th/id/OIP-C.cguPHWIeh1rf23UZLCC3nwHaHT?rs=1&amp;pid=ImgDetMain"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2024/07/27/7-27-7/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]二分查找STL</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://tse1-mm.cn.bing.net/th/id/OIP-C.cguPHWIeh1rf23UZLCC3nwHaHT?rs=1&amp;pid=ImgDetMain"></div>
+      <div class="card-cover" background-image-lazy data-img="/images/East.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2024/07/27/7-27-4/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]背包算法</h2>
+        <a href="/2024/09/10/9-10/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法][题解] P1433 吃奶酪</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -246,7 +246,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%E5%8C%BA%E5%88%AB"><span class="toc-number">1.</span> <span class="toc-text">概念区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%81%94%E7%B3%BB"><span class="toc-number">2.</span> <span class="toc-text">联系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%AB%98%E7%B2%BE%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">高精度算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E7%B2%BE%E5%BA%A6%E5%8A%A0%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text">高精度加法</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">1.</span> <span class="toc-text">题目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">2.</span> <span class="toc-text">思路</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%82%B9"><span class="toc-number">2.1.</span> <span class="toc-text">第一点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%82%B9"><span class="toc-number">2.2.</span> <span class="toc-text">第二点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tips"><span class="toc-number">2.2.1.</span> <span class="toc-text">tips</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">实现</span></a></li></ol>
   </div>
 </section>
 
