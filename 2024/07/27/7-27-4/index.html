@@ -107,6 +107,11 @@
             <time  class="article-date" datetime="2024-07-27T08:20:44.000Z" itemprop="datePublished">2024-07-27</time>
           </h2>
           
+            <h2 class="last-time">
+              <span>最后更新于</span>
+              <time  class="article-updated" datetime="2024-09-21T02:55:09.189Z" itemprop="dateUpdated">2024-09-21</time>
+            </h2>
+          
           
           <ul class="wrap-list dark">
   
@@ -169,7 +174,14 @@
 <p>在此之上还有针对背包容量升级的二维背包(两个不同的容量限制)、针对物品种类升级的混合背包、有存在依赖关系的背包。</p>
 <p>所有背包类型都是<strong>01 背包</strong>的扩展。</p>
 <h1 id="01-背包"><a href="#01-背包" class="headerlink" title="01 背包"></a>01 背包</h1><p>在此算法中，我们对每一件物品只有两种操作，即：选择与不选择。</p>
-<p>每一次循环完成一个物品的计算工作，用二维数组 dp[i][j]表示拿完第 i 件物品时 j 背包容量的最大值或方案数</p>
+<p>考虑一个表格，其行标 i 表示当前考虑到的物品个数，列标 j 表示当前考虑到的物品容量，最后，这个表格最<strong>右下角</strong>的值就是我们想要的答案</p>
+<p>状态有了，现在的重点是状态转移方程</p>
+<p><code>dp[i][j] = max(dp[i-1][j], dp[i-1][j-cost[i]] + val[i])</code></p>
+<h1 id="完全背包"><a href="#完全背包" class="headerlink" title="完全背包"></a>完全背包</h1><p>与 01 背包的区别在于<strong>每种物品可以选取无限次</strong>，既然可以选择无限次，那么我们一次一次处理就行</p>
+<p>状态表示**dp[i][j]**表示 1~i 号商品可以无限拿，容量不超过 j 的最大价值</p>
+<p>那么状态转移方程为<code>dp[i][j] = max(dp[i-1][j], dp[i][j-weight[i]]+value[i])</code></p>
+<p><strong>空间压缩</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">// 完全背包+空间压缩</span><br><span class="line"></span><br><span class="line">int t, m;</span><br><span class="line">struct Node &#123;</span><br><span class="line">    int a, b;</span><br><span class="line">&#125; node[10005];</span><br><span class="line"></span><br><span class="line">// int dp[10005][1000];</span><br><span class="line">int dp[10000005];  // 表示容量c下的最大收益</span><br><span class="line"></span><br><span class="line">signed main() &#123;</span><br><span class="line">    ios::sync_with_stdio(0);</span><br><span class="line">    ios_base::sync_with_stdio(0);</span><br><span class="line">    cin.tie(0);</span><br><span class="line">    cout.tie(0);</span><br><span class="line"></span><br><span class="line">    cin &gt;&gt; t &gt;&gt; m;</span><br><span class="line"></span><br><span class="line">    for (int i = 1; i &lt;= m; i++)</span><br><span class="line">        cin &gt;&gt; node[i].a &gt;&gt; node[i].b;</span><br><span class="line"></span><br><span class="line">    for (int i = 1; i &lt;= m; i++)</span><br><span class="line">        for (int c = node[i].a; c &lt;= t; c++) &#123;  // c</span><br><span class="line">            // 这里因为容量c从小往大枚举，所以物品i的次数必然依次增加，不会遗漏</span><br><span class="line">            dp[c] = max(dp[c], dp[c - node[i].a] + node[i].b);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    cout &lt;&lt; dp[t];</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
       </section>
 
@@ -184,8 +196,8 @@
     
     <div class="card-text">
       
-        <a href="/2024/07/27/7-27-5/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]递推与递归与高精度</h2>
+        <a href="/2024/07/27/7-27-1/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法]高精度计算</h2>
         </a>
       
       <div class="card-text--row">Newer</div>
@@ -197,12 +209,12 @@
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="https://cdn.mgig.fr/2022/05/mga-493cea98-w375-w1500-w750_accroche.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="https://tse1-mm.cn.bing.net/th/id/OIP-C.cguPHWIeh1rf23UZLCC3nwHaHT?rs=1&amp;pid=ImgDetMain"></div>
     
     <div class="card-text">
       
-        <a href="/2024/06/22/6-22/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">服务器编程概述</h2>
+        <a href="/2024/07/27/7-27-3/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法]priority_queue</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -271,7 +283,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#01-%E8%83%8C%E5%8C%85"><span class="toc-number">2.</span> <span class="toc-text">01 背包</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#01-%E8%83%8C%E5%8C%85"><span class="toc-number">2.</span> <span class="toc-text">01 背包</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%8C%E5%85%A8%E8%83%8C%E5%8C%85"><span class="toc-number">3.</span> <span class="toc-text">完全背包</span></a></li></ol>
   </div>
 </section>
 
