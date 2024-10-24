@@ -49,7 +49,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(https://tse1-mm.cn.bing.net/th/id/OIP-C.cguPHWIeh1rf23UZLCC3nwHaHT?rs=1&amp;pid=ImgDetMain)"></div>
+    <div class="post-image" style="background-image: url(/images/East.jpg)"></div>
   
 
   <!-- navbar -->
@@ -107,6 +107,11 @@
             <time  class="article-date" datetime="2024-07-27T08:20:44.000Z" itemprop="datePublished">2024-07-27</time>
           </h2>
           
+            <h2 class="last-time">
+              <span>最后更新于</span>
+              <time  class="article-updated" datetime="2024-09-23T11:59:55.421Z" itemprop="dateUpdated">2024-09-23</time>
+            </h2>
+          
           
           <ul class="wrap-list dark">
   
@@ -139,28 +144,13 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>记忆化搜索(Memoization Search)是一种通过存储已经遍历过的状态信息，从而避免对同一状态重复遍历的<strong>搜索算法</strong></p>
-<p>听上去和<strong>dp</strong>很像？没错，记忆化搜索正是<strong>动态规划</strong>的一种实现方式。</p>
-<p>在记忆化搜索中，当算法需要计算某个子问题的结果时，它首先检查是否已经计算过该问题。如果已经计算过，则直接返回已经储存的结果；否则，计算该问题并存下来备用。</p>
-<p>为了避免重复计算，我们在递归的同时使用一个缓存(数组或哈希)来保存已经求解过的问题结果。</p>
-<p>使用<strong>记忆化搜索</strong>解决斐波那契数列的代码如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">待写</span><br></pre></td></tr></table></figure>
-
-<h1 id="与递推的区别"><a href="#与递推的区别" class="headerlink" title="与递推的区别"></a>与递推的区别</h1><p><strong>记忆化搜索</strong>与<strong>递推</strong>都是实现动态规划的方式，但其中也有区别。</p>
+        <h1 id="记忆化搜索-定义"><a href="#记忆化搜索-定义" class="headerlink" title="记忆化搜索 定义"></a>记忆化搜索 定义</h1><p><strong>记忆化搜索</strong>是一种存储已经遍历过的状态信息，从而避免对同一状态重复遍历的搜索算法</p>
+<p>记忆化搜索是动态规划的一种方式，当我们需要计算某一问题时，首先检查是否已经计算过该问题。如果已经计算过，则直接返回已经存储的结果，否则继续计算该问题，并将结果储存下来备用</p>
+<h2 id="记忆化搜索和递推的区别"><a href="#记忆化搜索和递推的区别" class="headerlink" title="记忆化搜索和递推的区别"></a>记忆化搜索和递推的区别</h2><p><strong>记忆化搜索</strong>和<strong>递推</strong>都是动态规划的实现方式，这里是二者的区别：</p>
 <ul>
-<li><p><strong>自顶向下</strong>的解决问题，采用自然的递归方式编写过程，在过程中会保存每个子问题的解（通常保存在一个数组或哈希表中）来避免重复计算。</p>
+<li><p>记忆化搜索<strong>自顶向下</strong>解决问题，采用递归方式编程，在过程中保存每个问题的解来避免重复计算</p>
 </li>
-<li><p><strong>自底向上</strong>的解决问题，采用循环的方式编写过程，在过程中通过保存每个子问题的解（通常保存在一个数组或哈希表中）来避免重复计算。</p>
-</li>
-</ul>
-<h1 id="记忆化搜索解题步骤"><a href="#记忆化搜索解题步骤" class="headerlink" title="记忆化搜索解题步骤"></a>记忆化搜索解题步骤</h1><ul>
-<li><p>写出问题的动态规划<strong>状态</strong>和<strong>状态转移方程</strong></p>
-</li>
-<li><p>定义一个<strong>缓存</strong>用于保存子问题的解</p>
-</li>
-<li><p>定义一个递归函数，用于解决问题。在递归函数中，<strong>首先</strong>检查缓存中是否已经存在需要计算的结果，如果存在则直接返回结果，否则进行计算，并将结果存储导缓存中，再返回结果</p>
-</li>
-<li><p>再主函数中调用递归函数并返回结果</p>
+<li><p><strong>自底向下</strong>解决问题，采用循环的方式编写过程，逻辑难度和代码实现较为困难</p>
 </li>
 </ul>
 
@@ -177,8 +167,8 @@
     
     <div class="card-text">
       
-        <a href="/2024/07/27/7-27-5/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]递推与递归与高精度</h2>
+        <a href="/2024/07/27/7-27-7/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法]二分查找STL</h2>
         </a>
       
       <div class="card-text--row">Newer</div>
@@ -237,7 +227,7 @@
         <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
 </svg>
-        <span>38</span>
+        <span>39</span>
       </div>
       <div class="count-box--item">
         <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -264,7 +254,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8E%E9%80%92%E6%8E%A8%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.</span> <span class="toc-text">与递推的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2%E8%A7%A3%E9%A2%98%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.</span> <span class="toc-text">记忆化搜索解题步骤</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2-%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">记忆化搜索 定义</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2%E5%92%8C%E9%80%92%E6%8E%A8%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.1.</span> <span class="toc-text">记忆化搜索和递推的区别</span></a></li></ol></li></ol>
   </div>
 </section>
 
@@ -301,7 +291,7 @@
       
         <li class="categorys-list-item">
           <a href="/categories/%E7%AC%94%E8%AE%B0/">
-            笔记 (31)
+            笔记 (32)
           </a>
         </li>
       

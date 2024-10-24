@@ -22,7 +22,7 @@
 
   
 
-  <title>[算法]解决最大子矩阵的两种方法 | kpmark</title>
+  <title>[算法] Dijkstra | kpmark</title>
 
   
 
@@ -49,7 +49,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/images/9-2.jpg)"></div>
+    <div class="post-image" style="background-image: url(/images/East.jpg)"></div>
   
 
   <!-- navbar -->
@@ -100,12 +100,17 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">[算法]解决最大子矩阵的两种方法</h1>
+          <h1 class="title-wrap">[算法] Dijkstra</h1>
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-09-02T12:15:44.000Z" itemprop="datePublished">2024-09-02</time>
+            <time  class="article-date" datetime="2024-09-16T05:15:44.000Z" itemprop="datePublished">2024-09-16</time>
           </h2>
+          
+            <h2 class="last-time">
+              <span>最后更新于</span>
+              <time  class="article-updated" datetime="2024-09-24T11:10:36.142Z" itemprop="dateUpdated">2024-09-24</time>
+            </h2>
           
           
           <ul class="wrap-list dark">
@@ -139,39 +144,29 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p><strong>文章参考[2003 年集训队论文]王知昆《浅谈用极大化思想解决最大子举证问题》</strong></p>
-<h1 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h1><p>适用于棋盘较大无法使用悬线法且障碍点较少的情况</p>
-<p>通过枚举所有的<strong>极大子矩阵</strong>找出最大子矩阵</p>
-<p>极大子矩阵：一个每条边界都不能再向外延伸的矩阵，即<strong>矩阵的每条边上均有障碍点或者与棋盘边界重合</strong></p>
-<h2 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h2><p>先枚举极大子矩阵的左边界，然后从左向右依次扫描每一个障碍点，并不断修改可行的上下边界，从而枚举出所有以这个<strong>定点</strong>为<strong>左边界</strong>的极大子矩阵。</p>
-<p>我们先确定了左边界所在的点，然后向右扫描，在扫描到每个点的时候，我们探索当前<strong>左右边界确定</strong>时的可行上下边界。</p>
-<p>需要注意的是，子矩阵内不得包含障碍点，这意味这在右边界的递推过程中会出现上下边界<strong>受之前扫描过的点影响</strong>。这里考虑<strong>保留</strong>上一次扫描所确定的上下边界，若有点在里面则更新边界，在外面的点直接忽略。</p>
-<p>以上只考虑了左边界覆盖一个点的子矩阵，我们还需要枚举<strong>左边界与棋盘边界重合</strong>而右边界覆盖一个点的情况。直接按照上方方法从右往左扫描即可。</p>
-<p>还有一种情况，是左右边界均与棋盘边界重合，我们在预处理中判断这一步：先将所有点按照<strong>纵坐标排序</strong>，然后可以得到以相邻两个点的<strong>纵坐标</strong>为上下边界，左右边界与整个棋盘的左右边界重合的矩形。</p>
-<p>以上三种情况，可以枚举到所有的极大子矩阵。</p>
-<p><em>tip:将棋盘四个顶点视作障碍点可能更加便于算法实现</em></p>
-<h1 id="悬线法"><a href="#悬线法" class="headerlink" title="悬线法"></a>悬线法</h1><p>我们不再对每一个<strong>极大子矩阵</strong>一一枚举，而是通过一些<strong>预处理</strong>试图找出可能得最大子矩阵。</p>
-<p>顾名思义，悬线法相当于在可能的地方系上一个绳子然后向下延申直到边界或障碍。然后记录每条线可以左右移动的最远距离，从而统计出最大子矩阵。</p>
-<h2 id="算法思路-1"><a href="#算法思路-1" class="headerlink" title="算法思路"></a>算法思路</h2><p>通过枚举出所有悬线，就可以枚举出所有极大子矩阵。由于每条悬线是由其底部的点为唯一确定的，所以在 N*M 的矩形中最多由(N-1)*M 条悬线。</p>
-<p>既然每条悬线都由其底部的点唯一确定，所以我们只需要枚举这个点对应的悬线长度和这个点能够往右扩展的最大长度就能求解。</p>
-<p>定义 a[i][j]为矩阵中是否有障碍点，若 a[i][j] &#x3D; 1 则有障碍点，反之则无障碍点</p>
-<p>up[i][j]为点对应的悬线长度，初始化当点非障碍点时 up[i][j] &#x3D; 1</p>
-<p>up[i][j]很容易通过递推求出，当(i, j)不是障碍点时<code>up[i][j] = up[i-1][j]+1</code></p>
-<p>重点在于如何求出悬线能够左右扩展的最大长度。一条悬线往<strong>左</strong>能扩展的最大长度一定是它所包含的所有点能往左边扩展到的做大长度的最小值，往右同理，即：我们可以通过枚举悬线上每个点往左右扩展到的最大长度来求解这条线左右扩展到的最大长度</p>
-<p>这里 l，r 代表某点所能向左右扩展的最大长度</p>
-<p>初始化</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if(a[i][j] != 1)</span><br><span class="line">    l[i][j] = r[i][j] = j;</span><br></pre></td></tr></table></figure>
+        <h1 id="最短路解决-Dijkstra"><a href="#最短路解决-Dijkstra" class="headerlink" title="最短路解决 Dijkstra"></a>最短路解决 Dijkstra</h1><h2 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h2><p>该算法可以算出从一个顶点到其余各顶点的最短路径，解决的是<strong>非负</strong>权图中最短路径问题</p>
+<p>该算法的复杂度为 O(n)</p>
+<h2 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h2><p>设定一些记号：</p>
+<ul>
+<li>n 为图上点的数目，m 为图上边的数目</li>
+<li>s 为最短路的源点</li>
+<li>D(u)为 s 点到 u 点的<strong>实际</strong>长度</li>
+<li>dis(u)为 s 点到 u 点的<strong>估计</strong>最短路长度 任何时候都有 dis(u) &gt;&#x3D; D(u) 当最短路算法终止时，应该有 dis(u) &#x3D; D(u)</li>
+<li>w(u,v)为(u,v)这一条边的边权</li>
+</ul>
+<p>将节点分为两个集合：<strong>已确定最短路径</strong>的点集(记作 S 集合)和<strong>未确定最短路长度</strong>的点集(记作 T 集合)</p>
+<p>一开始所有的点都属于 T 集合 初始化 dis[s] &#x3D; 0，其余点的 dis 均为 INF</p>
+<p>然后重复操作：</p>
+<ol>
+<li>从 T 集合中，选取一个最短路长度最小的结点，移动到 S 集合中</li>
+<li>对那些刚刚被加入 S 集合的结点的所有出边执行松弛操作</li>
+</ol>
+<p>直到 T 集合为空，算法结束</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="暴力实现"><a href="#暴力实现" class="headerlink" title="暴力实现"></a>暴力实现</h3><p>时间复杂度 O(n<sup>2</sup>)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">// 定义边的结构体</span><br><span class="line">struct edge &#123;</span><br><span class="line">  int v, w;  // 目标顶点v，边的权重w</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">vector&lt;edge&gt; e[maxn];  // 邻接表，用于存储每个顶点的边</span><br><span class="line">int dis[maxn];         // 存储从起点到每个顶点的最短距离</span><br><span class="line">int vis[maxn];         // 标记顶点是否已被访问</span><br><span class="line"></span><br><span class="line">void dijkstra(int n, int s) &#123;</span><br><span class="line">  // 将dis数组初始化为一个很大的值0x3f3f3f3f，表示所有顶点初始时的距离为无穷大</span><br><span class="line">  memset(dis, 0x3f, (n + 1) * sizeof(int));</span><br><span class="line">  dis[s] = 0;  // 起点s到自身的距离为0</span><br><span class="line"></span><br><span class="line">  // 遍历所有顶点</span><br><span class="line">  for (int i = 1; i &lt;= n; i++) &#123;</span><br><span class="line">    int u = 0, mind = 0x3f3f3f3f;  // 初始化当前顶点u和最小距离mind</span><br><span class="line"></span><br><span class="line">    // 查找未访问且距离最小的顶点 注意未访问这一点很关键 确保不会遗漏</span><br><span class="line">    for (int j = 1; j &lt;= n; j++)</span><br><span class="line">      if (!vis[j] &amp;&amp; dis[j] &lt; mind) &#123;</span><br><span class="line">        u = j;</span><br><span class="line">        mind = dis[j];</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    vis[u] = true;  // 标记顶点u为已访问</span><br><span class="line"></span><br><span class="line">    // 遍历顶点u的所有邻接边</span><br><span class="line">    for (auto ed : e[u]) &#123;</span><br><span class="line">      int v = ed.v, w = ed.w;  // 获取邻接顶点v和边的权重w</span><br><span class="line"></span><br><span class="line">      // 如果通过顶点u到顶点v的路径更短，则更新dis[v]</span><br><span class="line">      if (dis[v] &gt; dis[u] + w) &#123;</span><br><span class="line">        dis[v] = dis[u] + w;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>递推时，当点(i, j)和它左边的点(i, j - 1)均不为障碍点时，l[i][j] &#x3D; l[i][j-1]。同理 r，这里需要注意递推时 l[i][j]需要从左往右推，即 j 从 2 到 m，r[i][j]需要从右往左推，即 j 从 m-1 到 1</p>
-<p>给出递推部分的代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for(register int i=1;i&lt;=n;++i)</span><br><span class="line">	for(register int j=2;j&lt;=m;++j)</span><br><span class="line">		if(!a[i][j]&amp;&amp;!a[i][j-1]) l[i][j]=l[i][j-1];</span><br><span class="line">for(register int i=1;i&lt;=n;++i)</span><br><span class="line">	for(register int j=m-1;j;--j)</span><br><span class="line">		if(!a[i][j]&amp;&amp;!a[i][j+1]) r[i][j]=r[i][j+1];</span><br><span class="line">for(register int i=1;i&lt;=n;++i)</span><br><span class="line">	for(register int j=1;j&lt;=m;++j)</span><br><span class="line">    	if(!a[i][j]&amp;&amp;!a[i-1][j]) up[i][j]=up[i-1][j]+1;</span><br></pre></td></tr></table></figure>
-
-<p>至此，我们已经预处理完了 up,l,r 三个二维数组，接下来需要求出每条悬线所能向右扩展的最大长度。</p>
-<p>一条悬线往左能够扩展到达的最大长度一定是它包含的所有的点能够向左扩展的最大长度的最小值。我们得到状态转移方程<code>l[i][j] = max(l[i][j], l[i-1][j]);</code>，往右同理，即<code>r[i][j] = min(r[i][j], r[i-1][j])。</code></p>
-<p>这里给出代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">for(register int i=1;i&lt;=n;++i)</span><br><span class="line">	for(register int j=1;j&lt;=m;++j) &#123;</span><br><span class="line">		if(i&gt;=2&amp;&amp;!a[i][j]&amp;&amp;!a[i-1][j]) &#123;</span><br><span class="line">			l[i][j]=max(l[i][j],l[i-1][j]);</span><br><span class="line">			r[i][j]=min(r[i][j],r[i-1][j]);</span><br><span class="line">        &#125;</span><br><span class="line">		ans=max(ans,up[i][j]*(r[i][j]-l[i][j]+1));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="给个玉蟾宫的代码"><a href="#给个玉蟾宫的代码" class="headerlink" title="给个玉蟾宫的代码"></a>给个玉蟾宫的代码</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;cstdio&gt;</span><br><span class="line">#include &lt;algorithm&gt;</span><br><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#define MAXN 1005</span><br><span class="line">using namespace std;</span><br><span class="line">int n,m,ans=-1;</span><br><span class="line">int a[MAXN][MAXN];</span><br><span class="line">int l[MAXN][MAXN],r[MAXN][MAXN],up[MAXN][MAXN];</span><br><span class="line">signed main() &#123;</span><br><span class="line">	scanf(&quot;%d%d&quot;,&amp;n,&amp;m);</span><br><span class="line">	char ch;</span><br><span class="line">	for(register int i=1;i&lt;=n;++i) &#123;</span><br><span class="line">		for(register int j=1;j&lt;=m;++j) &#123;</span><br><span class="line">			cin&gt;&gt;ch;</span><br><span class="line">			if(ch==&#x27;R&#x27;) a[i][j]=1;</span><br><span class="line">			else &#123;</span><br><span class="line">				l[i][j]=r[i][j]=j;</span><br><span class="line">				up[i][j]=1;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	for(register int i=1;i&lt;=n;++i)</span><br><span class="line">		for(register int j=2;j&lt;=m;++j)</span><br><span class="line">			if(!a[i][j]&amp;&amp;!a[i][j-1]) l[i][j]=l[i][j-1];</span><br><span class="line">	for(register int i=1;i&lt;=n;++i)</span><br><span class="line">		for(register int j=m-1;j;--j)</span><br><span class="line">			if(!a[i][j]&amp;&amp;!a[i][j+1]) r[i][j]=r[i][j+1];</span><br><span class="line">	for(register int i=1;i&lt;=n;++i)</span><br><span class="line">        for(register int j=1;j&lt;=m;++j)</span><br><span class="line">    		if(!a[i][j]&amp;&amp;!a[i-1][j]) up[i][j]=up[i-1][j]+1;</span><br><span class="line">	for(register int i=1;i&lt;=n;++i)</span><br><span class="line">		for(register int j=1;j&lt;=m;++j) &#123;</span><br><span class="line">			if(i&gt;=2&amp;&amp;!a[i][j]&amp;&amp;!a[i-1][j]) &#123;</span><br><span class="line">				l[i][j]=max(l[i][j],l[i-1][j]);</span><br><span class="line">				r[i][j]=min(r[i][j],r[i-1][j]);</span><br><span class="line">			&#125;</span><br><span class="line">			ans=max(ans,up[i][j]*(r[i][j]-l[i][j]+1));</span><br><span class="line">		&#125;</span><br><span class="line">	printf(&quot;%d\n&quot;,ans*3);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="优先队列实现"><a href="#优先队列实现" class="headerlink" title="优先队列实现"></a>优先队列实现</h3><p>时间复杂度 O(mlogm)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 定义节点结构体</span><br><span class="line">struct node &#123;</span><br><span class="line">  int dis, u; // dis 是从源点到该节点的距离，u 是节点编号</span><br><span class="line"></span><br><span class="line">  // 重载比较运算符，用于优先队列对节点进行排序</span><br><span class="line">  bool operator&gt;(const node&amp; a) const &#123; return dis &gt; a.dis; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">vector&lt;edge&gt; e[maxn]; // 邻接表 e，存储图的边</span><br><span class="line">int dis[maxn], vis[maxn]; // dis: 存储从源点到每个节点的最短距离; vis: 标记节点是否已访问</span><br><span class="line">priority_queue&lt;node, vector&lt;node&gt;, greater&lt;node&gt;&gt; q; // 优先队列，节点按距离升序排列</span><br><span class="line"></span><br><span class="line">// Dijkstra 算法函数，计算从源点 s 到其他节点的最短路径</span><br><span class="line">void dijkstra(int n, int s) &#123;</span><br><span class="line">  memset(dis, 0x3f, (n + 1) * sizeof(int)); // 初始化 dis 数组，设为无穷大（0x3f3f3f3f）</span><br><span class="line">  dis[s] = 0; // 源点到自身的距离为 0</span><br><span class="line">  q.push(&#123;0, s&#125;); // 将源点推入优先队列</span><br><span class="line"></span><br><span class="line">  while (!q.empty()) &#123; // 当优先队列不为空时</span><br><span class="line">    int u = q.top().u; // 取出堆顶元素的节点编号</span><br><span class="line">    q.pop(); // 弹出堆顶元素</span><br><span class="line">    if (vis[u]) continue; // 如果该节点已被访问过，跳过</span><br><span class="line">    vis[u] = 1; // 标记该节点已被访问</span><br><span class="line"></span><br><span class="line">    for (auto ed : e[u]) &#123; // 遍历与节点 u 相邻的所有边</span><br><span class="line">      int v = ed.v, w = ed.w; // 获取边的终点和权重</span><br><span class="line">      if (dis[v] &gt; dis[u] + w) &#123; // 如果从源点到 v 的距离大于从源点通过 u 到 v 的距离</span><br><span class="line">        dis[v] = dis[u] + w; // 更新最短距离</span><br><span class="line">        q.push(&#123;dis[v], v&#125;); // 将更新后的节点推入优先队列</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       </section>
 
@@ -179,32 +174,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="/images/8-15.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2024/09/03/8-18/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]单调队列与单调栈</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="/images/8-15.jpg"></div>
+      <div class="card-cover" background-image-lazy data-img="/images/East.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2024/08/15/8-15-2/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]拓扑排序</h2>
+        <a href="/2024/09/16/9-16/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法][题解] CCF 十滴水</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -273,7 +252,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%9A%E4%B8%BE"><span class="toc-number">1.</span> <span class="toc-text">枚举</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%80%9D%E8%B7%AF"><span class="toc-number">1.1.</span> <span class="toc-text">算法思路</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%82%AC%E7%BA%BF%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">悬线法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%80%9D%E8%B7%AF-1"><span class="toc-number">2.1.</span> <span class="toc-text">算法思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%99%E4%B8%AA%E7%8E%89%E8%9F%BE%E5%AE%AB%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-number">2.2.</span> <span class="toc-text">给个玉蟾宫的代码</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%80%E7%9F%AD%E8%B7%AF%E8%A7%A3%E5%86%B3-Dijkstra"><span class="toc-number">1.</span> <span class="toc-text">最短路解决 Dijkstra</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E9%80%94"><span class="toc-number">1.1.</span> <span class="toc-text">用途</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3"><span class="toc-number">1.2.</span> <span class="toc-text">核心思想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9A%B4%E5%8A%9B%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.1.</span> <span class="toc-text">暴力实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.2.</span> <span class="toc-text">优先队列实现</span></a></li></ol></li></ol></li></ol>
   </div>
 </section>
 
