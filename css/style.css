@@ -40,7 +40,7 @@
   --soft-shadow: 3px;
 }
 :root.theme-light {
-  --theme-bg-primary: #f5f8fa;
+  --theme-bg-primary: rgba(245,255,250,0.3);
   --theme-bg-high: #fff;
   --theme-bg-shadow: #dddfe1;
   --theme-bg-actvie1: #dddfe1;
@@ -54,7 +54,7 @@
   --theme-border-secondary: #ebedef;
 }
 :root.theme-dark {
-  --theme-bg-primary: #1e2428;
+  --theme-bg-primary: $dark-bg-primary;
   --theme-bg-high: #303a40;
   --theme-bg-shadow: #0c0e10;
   --theme-bg-actvie1: #1b2024;
@@ -69,7 +69,7 @@
 }
 @media (prefers-color-scheme: light) {
   :root {
-    --theme-bg-primary: #f5f8fa;
+    --theme-bg-primary: rgba(245,255,250,0.3);
     --theme-bg-high: #fff;
     --theme-bg-shadow: #dddfe1;
     --theme-bg-actvie1: #dddfe1;
@@ -85,7 +85,7 @@
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --theme-bg-primary: #1e2428;
+    --theme-bg-primary: $dark-bg-primary;
     --theme-bg-high: #303a40;
     --theme-bg-shadow: #0c0e10;
     --theme-bg-actvie1: #1b2024;
@@ -98,6 +98,13 @@
     --theme-border-primary: #444c56;
     --theme-border-secondary: #373e47;
   }
+}
+.root-container {
+  background-color: var(--theme-bg-primary);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 100% 100%;
+  background-size: cover;
 }
 ::-webkit-scrollbar {
   display: none;
