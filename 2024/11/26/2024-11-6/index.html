@@ -22,7 +22,7 @@
 
   
 
-  <title>[算法]拓扑排序 | kpmark</title>
+  <title>Tauri 初体验 | kpmark</title>
 
   
 
@@ -49,7 +49,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/images/8-15.jpg)"></div>
+    <div class="post-image" style="background-image: url(/images/tarui.jpeg)"></div>
   
 
   <!-- navbar -->
@@ -100,11 +100,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">[算法]拓扑排序</h1>
+          <h1 class="title-wrap">Tauri 初体验</h1>
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-08-15T12:15:44.000Z" itemprop="datePublished">2024-08-15</time>
+            <time  class="article-date" datetime="2024-11-26T12:43:47.000Z" itemprop="datePublished">2024-11-26</time>
           </h2>
           
           
@@ -115,7 +115,7 @@
 </ul>
           <ul class="wrap-list dark">
   
-    <li><a href="/tags/%E7%AE%97%E6%B3%95/">🏷️ 算法</a></li>
+    <li><a href="/tags/web/">🏷️ web</a></li>
   
 </ul>
         </div>
@@ -139,18 +139,7 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><p>在图论中，拓扑排序是一个<strong>有向无环图（DAG, Directed Acyclic Graph）</strong>的所有顶点的线性序列。且该序列必须满足以下两个条件：</p>
-<ol>
-<li>每个顶点出现且仅出现一次。</li>
-<li>若存在一条从顶点 A 到顶点 B 的路径，那么在序列中顶点 A 必然出现在顶点 B 之前。</li>
-</ol>
-<p>只有 DAG 才存在拓扑排序。</p>
-<h1 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h1><p>可以很方便的遍历存在多个根节点的 DAG，且每个节点遍历且仅遍历一次。</p>
-<p>可以方便的找到最长路径，用个 dp 数组即可。</p>
-<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>类似于 bfs 的实现方式？也可以看作一种特殊的 bfs。使用 queue 将所有入度为 0 的节点加入队列并更新入度，保证每次加入队列的节点的入度均为 0。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">// 建图，同时注意入度的统计</span><br><span class="line">void add(int u, int v) &#123;</span><br><span class="line">    ind[v]++;</span><br><span class="line">    Next[cnt] = head[u];</span><br><span class="line">    head[u] = cnt;</span><br><span class="line">    to[cnt] = v;</span><br><span class="line">    cnt++;</span><br><span class="line">&#125;</span><br><span class="line">// 根据入度将根节点加入队列</span><br><span class="line">for (int i = 1; i &lt;= n; i++) &#123;</span><br><span class="line">        if (ind[i] == 0) &#123;</span><br><span class="line">            q.push(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">// bfs遍历</span><br><span class="line"> while (!q.empty()) &#123;</span><br><span class="line">        int u = q.front();</span><br><span class="line">        q.pop();</span><br><span class="line">        for (int e = head[u]; e &gt; 0; e = Next[e]) &#123;</span><br><span class="line">            int v = to[e];</span><br><span class="line">            ind[v]--;</span><br><span class="line">            if (ind[v] == 0)</span><br><span class="line">                q.push(v);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>……还算简单？</p>
+        <p>占个位，之后写</p>
 
       </section>
 
@@ -158,32 +147,16 @@
       
         <nav class="article-nav">
           
-            <div class="article-nav-item layout-padding">
-  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
-    
-      <div class="card-cover" background-image-lazy data-img="/images/8-15.jpg"></div>
-    
-    <div class="card-text">
-      
-        <a href="/2024/08/15/8-15-1/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]离散化</h2>
-        </a>
-      
-      <div class="card-text--row">Newer</div>
-    </div>
-  </article>
-</div>
-          
           
             <div class="article-nav-item layout-padding">
   <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
     
-      <div class="card-cover" background-image-lazy data-img="/images/thumb.jpeg"></div>
+      <div class="card-cover" background-image-lazy data-img="/images/East.jpg"></div>
     
     <div class="card-text">
       
-        <a href="/2024/08/15/8-6-3/" itemprop="url">
-          <h2 class="card-text--title text-ellipsis">[算法]并查集</h2>
+        <a href="/2024/09/16/9-16/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">[算法][题解] CCF 十滴水</h2>
         </a>
       
       <div class="card-text--row">Older</div>
@@ -252,7 +225,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">应用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">实现</span></a></li></ol>
+    
   </div>
 </section>
 
