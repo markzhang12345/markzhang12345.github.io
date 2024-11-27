@@ -32,11 +32,11 @@ window.addEventListener("DOMContentLoaded", function() {
   toggleBackToTopBtn()
 
   // theme light click
-  document.querySelector('#theme-light').addEventListener('click', function () {
-    html.classList.remove('theme-dark')
-    html.classList.add('theme-light')
-    window.localStorage.setItem('theme', 'theme-light')
-  })
+  // document.querySelector('#theme-light').addEventListener('click', function () {
+  //   html.classList.remove('theme-dark')
+  //   html.classList.add('theme-light')
+  //   window.localStorage.setItem('theme', 'theme-light')
+  // })
 
   // // theme dark click
   // document.querySelector('#theme-dark').addEventListener('click', function () {
