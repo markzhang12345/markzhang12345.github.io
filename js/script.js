@@ -38,19 +38,19 @@ window.addEventListener("DOMContentLoaded", function() {
     window.localStorage.setItem('theme', 'theme-light')
   })
 
-  // theme dark click
-  document.querySelector('#theme-dark').addEventListener('click', function () {
-    html.classList.remove('theme-light')
-    html.classList.add('theme-dark')
-    window.localStorage.setItem('theme', 'theme-dark')
-  })
+  // // theme dark click
+  // document.querySelector('#theme-dark').addEventListener('click', function () {
+  //   html.classList.remove('theme-light')
+  //   html.classList.add('theme-dark')
+  //   window.localStorage.setItem('theme', 'theme-dark')
+  // })
 
-  // theme auto click
-  document.querySelector('#theme-auto').addEventListener('click', function() {
-    html.classList.remove('theme-light')
-    html.classList.remove('theme-dark')
-    window.localStorage.setItem('theme', '')
-  })
+  // // theme auto click
+  // document.querySelector('#theme-auto').addEventListener('click', function() {
+  //   html.classList.remove('theme-light')
+  //   html.classList.remove('theme-dark')
+  //   window.localStorage.setItem('theme', '')
+  // })
 
   // mobile nav click
   navBtn.addEventListener("click", function () {
