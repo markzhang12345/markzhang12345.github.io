@@ -22,7 +22,7 @@
 
   
 
-  <title>Tauri 初体验 | kpmark</title>
+  <title>搭建自己的 web 服务器 | kpmark</title>
 
   
 
@@ -50,7 +50,7 @@
 <!-- header container -->
 <header class="header-container post">
   
-    <div class="post-image" style="background-image: url(/images/tauri.jpeg); opacity: 0.8; "></div>
+    <div class="post-image" style="background-image: url(/images/raspberrypi.jpg); opacity: 0.8; "></div>
   
 
   <!-- navbar -->
@@ -101,11 +101,11 @@
     <div class="header-content">
       <div class="post-text layout-block">
         <div class="layout-margin">
-          <h1 class="title-wrap">Tauri 初体验</h1>
+          <h1 class="title-wrap">搭建自己的 web 服务器</h1>
           <h2 class="title-sub-wrap">
             <strong>kpmark</strong>
             <span>发布于</span>
-            <time  class="article-date" datetime="2024-11-26T12:43:47.000Z" itemprop="datePublished">2024-11-26</time>
+            <time  class="article-date" datetime="2025-01-13T12:43:47.000Z" itemprop="datePublished">2025-01-13</time>
           </h2>
           
           
@@ -144,7 +144,91 @@
       
       
       <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
-        <p>占个位，之后写</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>正好手头有一个树莓派，想着加一个 web 服务器的功能就折腾了一下，如果只是想搭载自己的博客建议还是使用云服务器，毕竟树莓派确实不便宜(</p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><ul>
+<li>树莓派（我用的型号是 4b）</li>
+<li>sd 卡（建议 32G 以上）</li>
+<li>读卡器</li>
+<li>一台能正常工作的电脑</li>
+</ul>
+<p>这里 web 服务器中搭载的内容是简单的静态博客页面，使用 hexo 搭建博客网站的方法这里不再赘述，可以在本站的<strong>关于</strong>中查看相关教程</p>
+<p>如果使用树莓派等本地 linux 服务器进行配置，可以跳过<strong>树莓派</strong>配置部分</p>
+<h1 id="树莓派配置"><a href="#树莓派配置" class="headerlink" title="树莓派配置"></a>树莓派配置</h1><h2 id="系统烧录"><a href="#系统烧录" class="headerlink" title="系统烧录"></a>系统烧录</h2><p>我们拿到树莓派时是一个空板，所以我们需要自行烧录系统</p>
+<p>理论上可以烧录任何你喜欢的系统，这里我们为了配置方便与以后的其他用途选择树莓派官方的 RaspberryPi OS ——一个基于 debian 的 linux 系统</p>
+<p>进入<a target="_blank" rel="noopener" href="https://www.raspberrypi.com/">树莓派官网</a>，下载烧录工具，我们在 windows 设备上进行烧录</p>
+<p><img src="/images/rasb1.png" alt="图片" title="烧录工具"></p>
+<p>按照引导一路安装，完成后打开烧录程序<br><img src="/images/rasb2.png" alt="图片" title="烧录程序"></p>
+<p>在 CHOOSE DECVICE 中选择自己的树莓派型号，这里选择<strong>Raspberry Pi 4</strong></p>
+<p>然后选择你需要的操作系统，这里一般为 Raspberry Pi OS(64 bit)，若不需要图形界面的话可以选择对用的 lite 版本</p>
+<p>这里我觉得命令行很帅，所以使用的 lite 版本，后续内容均基于命令行操作演示</p>
+<p>由于我手边并没有显示器，因此选择在自己的 windows 系统上使用 ssh 进行连接，在烧录系统时注意设置自己的用户名、密码与 wifi，方便使用在终端使用 ssh 进行连接</p>
+<p>然后选择你自己的 sd 卡，进行烧录即可</p>
+<h2 id="ssh-连接"><a href="#ssh-连接" class="headerlink" title="ssh 连接"></a>ssh 连接</h2><p>首先确认你的电脑上有 ssh.exe 这个文件，一般电脑上有 git，文件中是自带 ssh.exe 的，关于 git 的使用请参考<strong>关于</strong>中的教程</p>
+<p>这里为了方便我们使用 cmd 或者 powershell 进行命令行操作（git bash 确实不太方便），我们将 git 文件夹中的 ssh.exe 加入环境变量</p>
+<p><img src="/images/rasb3.png" alt="图片" title="ssh位置"><br><img src="/images/rasb4.png" alt="图片" title="环境变量"></p>
+<p>然后，打开你的终端，输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh &lt;树莓派的ip&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果不知道 ip 是什么，可以输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping 主机名 // 未修改默认raspberrypi</span><br></pre></td></tr></table></figure>
+
+<p>然后输入你烧录系统时设定的密码，注意输入的密码不会显示在终端中</p>
+<p>出现以下提示</p>
+<p><img src="/images/rasb5.png" alt="图片" title="提示"></p>
+<p>表示你已经成功通过 ssh 连接至你的树莓派了</p>
+<h1 id="配置-Ningx"><a href="#配置-Ningx" class="headerlink" title="配置 Ningx"></a>配置 Ningx</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>将自己的服务器用作 web 服务器，我们需要对其进行反向代理，这里我们使用 Ningx 来进行配置</p>
+<p>首先在服务器中下载 Nginx</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt -y Nginx // -y表示自动确认</span><br></pre></td></tr></table></figure>
+
+<p>然后启动</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start nginx</span><br></pre></td></tr></table></figure>
+
+<p>现在你通过同局域网的设备访问树莓派 ip,可以看到如下页面<br><img src="/images/rasb6.png" alt="图片" title="成功页面"></p>
+<p>代表 Nginx 下载成功</p>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>这里假设我要将我的博客文件放在<code>/home/username/hexo</code>中，我需要将对应监听的端口指向<code>blog</code>中的<code>index.html</code>文件</p>
+<p>这里我们在<code>etc/nginx</code>文件夹下新建一个<code>vhost</code>文件夹来存放我们自定义的配置信息，例如，我想将 3000 端口对应至我的博客页面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 3000;</span><br><span class="line">    location / &#123;</span><br><span class="line">            root /home/yourname/hexo; //注意将yourname换成自己的用户名</span><br><span class="line">            index index.html;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后，我们需要在<code>/etc/nginx/nginx.conf</code>文件中的 http 代码块内加入<code>include /etc/nginx/vhost/*.conf;</code>来添加所有 vhost 下的配置文件</p>
+<p>此外，我们将需要将<code>nginx.conf</code>文件中的<code>user</code>字段设为自己的用户名，以解决访问限制问题</p>
+<p>使用<code>sudo nginx -t</code>来检测是否有语法错误，无误后使用<code>sudo systemctl restart nginx</code>重启 nginx 代理</p>
+<p>现在访问你树莓派对应的端口，就可以定向至树莓派内文件所在的位置，接下来我们将 windows 上的静态博客页面迁移至树莓派</p>
+<h1 id="博客迁移"><a href="#博客迁移" class="headerlink" title="博客迁移"></a>博客迁移</h1><p>这里埋个坑，目前我直接将 hexo 的静态文件手动转移至树莓派，实际使用 git 进行管理会更加方便</p>
+<p>在电脑中的 hexo 文件架内，使用<code>hexo generate</code>在<code>public</code>中生成对应的静态文件，运行以下命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd public</span><br><span class="line">tar -czvf hexo-blog.tar.gz *</span><br></pre></td></tr></table></figure>
+
+<p>将对应的静态文件打包</p>
+<p>然后，使用 ssh 自带的 scp 工具将压缩包转移至树莓派。假设树莓派 ip 为<code>192.168.1.100</code>，目标目录是 &#x2F;home&#x2F;kpmark&#x2F;hexo:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp hexo-blog.tar.gz kpmark@192.168.1.100:/home/kpmark/hexo</span><br></pre></td></tr></table></figure>
+
+<p>然后，在树莓派中运行以下命令解压文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /home/kpmark/hexo</span><br><span class="line">tar -xzvf hexo-blog.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>此时通过局域网访问树莓派对应的端口，即可看见你的博客页面</p>
+<h1 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h1><p>为了在公网中能够访问自己的博客，我们需要一个公网 ip 以及对应的域名</p>
+<p>然而目前国内公网 ip 的获取较为麻烦，我们可以采用内网穿透式服务器能够面向公网，这里我选择<code>Sakura Frp</code></p>
+<p>首先，进入官网，注册账号，进行实名认证（需要一元巨款）<br><img src="/images/rasb7.png" alt="图片" title="注册账号"></p>
+<p>然后点击<strong>服务</strong>，进入软件下载</p>
+<p>这里我们跳过启动器，直接安装<code>frpc</code>使用命令行进行操作<br><img src="/images/rasb8.png" alt="图片" title="下载"></p>
+<p>找到你服务器设备架构对应的软件版本，如若不确定可以在服务器端输入<code>uname -u</code>来进行确认</p>
+<p>这里我的树莓派是<code>Linux AArch64(arm64)</code>版本，注意不要和<code>amd64</code>搞混</p>
+<p>不想折腾也可以使用<code>Docker</code>进行部署，但是我比较喜欢手操的感觉<br><img src="/images/rasb9.png" alt="图片" title="版本"></p>
+<p>以下操作需要取得<code>root</code>权限，请使用<code>sudo -s</code>命令进行切换</p>
+<p>对照官方文档，我们使用<code>cd /usr/local/bin</code>进入对应的文件夹，然后使用以下命令进行下载:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 一般来说只需要使用这条命令:</span><br><span class="line">wget -O frpc &lt;下载地址&gt;</span><br><span class="line"></span><br><span class="line"># 如果上面的命令报错，请尝试这条:</span><br><span class="line">curl -Lo frpc &lt;下载地址&gt;</span><br><span class="line"></span><br><span class="line"># Linux frpc 通常已经过 UPX 压缩，如需下载未压缩的版本请在下载地址尾部加上 _noupx</span><br></pre></td></tr></table></figure>
+
+<p>下载地址直接在版本页面复制连接即可</p>
+<p>然后设置权限并校验文件完整性</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">chmod 755 frpc</span><br><span class="line">ls -ls frpc</span><br><span class="line">md5sum frpc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/rasb10.png" alt="图片" title="完整性"></p>
+<p>如果操作全部正确，此时可以运行<code>frpc -v</code>来查看版本</p>
+<p>在服务页面的隧道列表中新建列表，注意输入你服务器的 ip 和要监听的端口号<br><img src="/images/rasb11.png" alt="图片" title="隧道"></p>
+<p>再右侧操作中找到配置文件，复制密钥即可，然后再服务器中运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">frpc &lt;复制内容&gt;</span><br></pre></td></tr></table></figure>
+
+<p>即可开启隧道，此时可直接通过隧道给出的 ip 或域名从公网访问网站</p>
+<h1 id="https-与-http"><a href="#https-与-http" class="headerlink" title="https 与 http"></a>https 与 http</h1><p>如果你的网站申请过 https，那应该是可有照常访问的，如若没有，请在隧道设置中开启自动 https 选项</p>
 
       </section>
 
@@ -230,7 +314,7 @@
     <span>TOC</span>
   </div>
   <div class="widget-body">
-    
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%91%E8%8E%93%E6%B4%BE%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">树莓派配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%83%A7%E5%BD%95"><span class="toc-number">3.1.</span> <span class="toc-text">系统烧录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssh-%E8%BF%9E%E6%8E%A5"><span class="toc-number">3.2.</span> <span class="toc-text">ssh 连接</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Ningx"><span class="toc-number">4.</span> <span class="toc-text">配置 Ningx</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD"><span class="toc-number">4.1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">4.2.</span> <span class="toc-text">配置文件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%9A%E5%AE%A2%E8%BF%81%E7%A7%BB"><span class="toc-number">5.</span> <span class="toc-text">博客迁移</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="toc-number">6.</span> <span class="toc-text">内网穿透</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#https-%E4%B8%8E-http"><span class="toc-number">7.</span> <span class="toc-text">https 与 http</span></a></li></ol>
   </div>
 </section>
 
@@ -260,14 +344,14 @@
     <ul class="categorys-list">
       
         <li class="categorys-list-item">
-          <a href="/categories/%E6%9D%82%E8%B0%88/">
-            杂谈 (7)
+          <a href="/categories/%E7%AC%94%E8%AE%B0/">
+            笔记 (33)
           </a>
         </li>
       
         <li class="categorys-list-item">
-          <a href="/categories/%E7%AC%94%E8%AE%B0/">
-            笔记 (33)
+          <a href="/categories/%E6%9D%82%E8%B0%88/">
+            杂谈 (7)
           </a>
         </li>
       
@@ -316,7 +400,7 @@
       
     </div>
      
-    <p>&copy; 2024 <a href="/" target="_blank">kpmark</a></p>
+    <p>&copy; 2025 <a href="/" target="_blank">kpmark</a></p>
 
     
 
